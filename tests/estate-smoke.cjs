@@ -87,7 +87,7 @@ const run=promisify(execFile);
  const twinRail=await page.evaluate(()=>{
   const H=HQ,T=H.transport;H.reduced=false;H.setSpeed(1);
   const stats=T.services.map(s=>({name:s.name,coaches:s.coaches.length,speed:s.speed,direction:s.direction,lane:s.lane,color:s.color,visited:new Set(),maxGap:0}));
-  for(let i=0;i<230;i++){
+  for(let i=0;i<400;i++){
    H.updateWorld(.6,i*.6);
    T.services.forEach((s,j)=>{stats[j].visited.add(s.realm);for(let k=1;k<s.coaches.length;k++)stats[j].maxGap=Math.max(stats[j].maxGap,s.coaches[k].position.distanceTo(s.coaches[k-1].position));});
   }

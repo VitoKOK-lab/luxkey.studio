@@ -116,10 +116,22 @@ const airCurve=rectangularLoop(68,64,6,10);
 const airLength=airCurve.getLength();
 const route=t=>airCurve.getPointAt(wrap(t));
 let elapsed=0;
+for(const service of services){service.distance=service.phase*journeyLength;service.dwell=0;}
+function advanceTrains(dt){
+ for(const s of services){
+  if(s.dwell>0){s.dwell=Math.max(0,s.dwell-dt);if(!s.dwell){if(H.festival&&!H.festival.canDepart(s))s.dwell=1;else H.festival?.depart(s);}continue;}
+  const travel=s.speed*dt;
+  if(s.stopDistance!==undefined){
+   const remaining=wrap((s.stopDistance-s.distance)*s.direction/journeyLength)*journeyLength;
+   if(remaining>1e-5&&remaining<=travel){s.distance=s.stopDistance;s.dwell=45;s.justDocked=true;continue;}
+  }
+  s.distance+=s.direction*travel;
+ }
+}
 function placeTransport(){
   for(const service of services){
    service.coaches.forEach((c,i)=>{
-    const u=wrap(service.phase+service.direction*(elapsed*service.speed-i*4.15)/journeyLength);
+    const u=wrap((service.distance-service.direction*i*4.15)/journeyLength);
     const p=journeyPoint(u,service.lane),next=journeyPoint(u+service.direction*.00002,service.lane);
     c.position.copy(p);c.lookAt(next);
    });
@@ -130,12 +142,13 @@ function placeTransport(){
   propellers.forEach(p=>p.rotation.z=elapsed*8);
 }
 placeTransport();
-H.transport={train,ship,group,railway,railCurve,railLength,railPoint,stations,airCurve,services,journeyCurve,journeyLength,journeyPoint,outerRealm};
+H.transport={train,ship,group,railway,railCurve,railLength,railPoint,stations,airCurve,services,journeyCurve,journeyLength,journeyPoint,outerRealm,place:placeTransport};
 H.focusOuterRealm=()=>{H.focusOn(153,0,105);H.goal.ty=3;H.railFocus=true;};
 H.focusWorldRail=()=>{H.follow=null;H.moved=true;H.setEstateRoofs(true);Object.assign(H.goal,{tx:48,ty:2.5,tz:0,theta:.15,phi:.72,radius:Math.max(305,305/(innerWidth/innerHeight))});};
 const prev=H.updateWorld;
 H.updateWorld=(dt,t)=>{
- prev(dt,t);if(H.state.speed>0&&!H.reduced){elapsed+=dt*Math.min(H.state.speed,3);placeTransport();}
+ prev(dt,t);if(H.state.speed>0&&!H.reduced){const step=dt*Math.min(H.state.speed,3);elapsed+=step;advanceTrains(step);placeTransport();
+ for(const s of services)if(s.justDocked){s.justDocked=false;H.festival?.dock(s);}}
  const wide=!!H.cam&&H.cam.radius>=150;
  railway.visible=wide||!!H.railFocus;ship.visible=wide||!!H.airshipFocus;
  for(const s of stations)if(s.label)s.label.hidden=!railway.visible;

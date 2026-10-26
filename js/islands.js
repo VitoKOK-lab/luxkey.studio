@@ -23,7 +23,7 @@ for (const k in ISL){
   const I = ISL[k]; I.key = k; I.y = I.c[1] - .06; I.g = new THREE.Group(); I.g.position.set(...I.c); scene.add(I.g);
   const m = new THREE.Mesh(K.islandGeo(I.ax, I.az, Math.max(I.ax, I.az) * 1.25, 1.1), K.rockM); m.receiveShadow = true; I.g.add(m);
   I.W = (x, z) => new V3(I.c[0] + x, I.y, I.c[2] + z);
-  I.rim = th => { const c = Math.cos(th), s = Math.sin(th); return [I.ax * Math.sign(c) * Math.sqrt(Math.abs(c)), I.az * Math.sign(s) * Math.sqrt(Math.abs(s))]; };
+  I.rim = th => { const c = Math.cos(th), s = Math.sin(th); return [I.ax * c / Math.max(Math.abs(c),Math.abs(s)), I.az * s / Math.max(Math.abs(c),Math.abs(s))]; };
 }
 const bushAt = (I, x, z, s = 1) => { const b = mk(new THREE.IcosahedronGeometry(.6 * s, 0), K.leafM[(K.rnd() * 3) | 0], I.g, x, .2 * s, z); b.scale.y = .7; };
 const flowersAt = (I, x, z, n = 6) => { const cols = ['#f37021', '#ffd54f', '#ffffff', '#e57399']; for (let i = 0; i < n; i++) mk(new THREE.SphereGeometry(.09, 6, 4), flat(cols[i % 4]), I.g, x + (K.rnd() - .5) * 1.4, .08, z + (K.rnd() - .5) * 1.4); };

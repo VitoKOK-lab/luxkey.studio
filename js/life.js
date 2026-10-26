@@ -121,18 +121,22 @@ const meiBrain = n => {
 mei.brain = meiBrain;
 
 /* ---------- tennis rally ---------- */
-const rally = {t:0, dir:1};
+const sparring = npc('小夏', 'character-female-f', F, F.court.B.p, '固定陪打');
+sparring.g.rotation.y=sparring.rotGoal=PI;sparring.c={g:sparring.g};
+const rally = {t:0, dir:1, hits:0};
+H.tennis={coach,sparring,rally,ball:F.ball};
 function tennisTick(dt){
-  const b = F.court.B, partner = b.ready && b.who, ball = F.ball;
+  const b = F.court.B, partner = b.ready && b.who || sparring, ball = F.ball;
+  sparring.g.visible = partner === sparring;
   if (!partner || coach.path.length || !coach.rig || dt <= 0){ ball.visible = false; return; }
   const pa = coach.g.position, pb = partner.c.g.position, [from, to] = rally.dir > 0 ? [pa, pb] : [pb, pa];
   rally.t += dt / 1.15; const k = Math.min(1, rally.t);
   ball.visible = true; ball.position.set(from.x + (to.x - from.x) * k + .3, from.y + 1.1 + Math.sin(PI * k) * 2.3, from.z + (to.z - from.z) * k);
-  if (k >= 1){ rally.t = 0; rally.dir *= -1; const now = performance.now(); if (rally.dir < 0) partner.swingUntil = now + 520; else coach.swingUntil = now + 520; }
+  if (k >= 1){ rally.t = 0; rally.dir *= -1; rally.hits++; const now = performance.now(); if (rally.dir < 0) partner.swingUntil = now + 520; else coach.swingUntil = now + 520; }
 }
 
 /* ---------- UFO 公車：牧場島 ⇄ 草原島 載牛，偶爾來辦公室 ---------- */
-const ufo = new THREE.Group();
+const ufo = new THREE.Group(); H.ufo = ufo;
 {
   const hull = new THREE.Mesh(new THREE.SphereGeometry(2.2, 32, 14), new THREE.MeshStandardMaterial({color:0xcfd8de, metalness:.85, roughness:.22, envMapIntensity:1.2})); hull.scale.y = .26; ufo.add(hull);
   const rim = new THREE.Mesh(new THREE.TorusGeometry(2.15, .09, 8, 40), flat('#17363c', {flatShading:false, metalness:.6, roughness:.3})); rim.rotation.x = PI / 2; ufo.add(rim);
@@ -306,7 +310,7 @@ H.updateWorld = (dt, t) => {
   for (const A of animals) animalTick(A, dw, t);
   for (const n of npcs) npcTick(n, dw, now);
   tennisTick(dw);
-  ufoTick(dt * Math.max(.6, k || .6), t);
+  ufoTick(dw, t);
   const showUfo=!!H.cam&&H.cam.radius>=150;ufo.visible=showUfo;beam.visible=beam.visible&&showUfo;ufoLight.intensity*=showUfo?1:0;
 };
 })();

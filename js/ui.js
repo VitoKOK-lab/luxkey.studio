@@ -47,6 +47,8 @@ const HOME = () => {
 const cam = H.cam = HOME(), goal = H.goal = HOME();
 H.follow = null;
 function placeCam(dt){
+  H.updateIdleOrbit?.(dt,performance.now());
+  if(H.view){H.updateView(dt);return;}
   if (H.follow){ const p = H.follow.c.g.position; goal.tx = p.x; goal.tz = p.z; goal.ty = 1; }
   const a = H.reduced ? 1 : 1 - Math.pow(.0015, dt);
   for (const k in goal){ if (!Number.isFinite(goal[k])) goal[k] = HOME()[k]; cam[k] = Number.isFinite(cam[k]) ? cam[k] + (goal[k] - cam[k]) * a : goal[k]; }
@@ -54,7 +56,7 @@ function placeCam(dt){
   camera.position.set(cam.tx + cam.radius * sp * Math.sin(cam.theta), cam.ty + cam.radius * Math.cos(cam.phi), cam.tz + cam.radius * sp * Math.cos(cam.theta));
   camera.lookAt(cam.tx, cam.ty, cam.tz);
 }
-const clampGoal = () => { H.moved = true; goal.phi = H.clamp(goal.phi, .3, 1.32); goal.radius = H.clamp(goal.radius, 6, 650); goal.tx = H.clamp(goal.tx, -85, 200); goal.tz = H.clamp(goal.tz, -80, 80); };
+const clampGoal = () => { H.moved = true; goal.phi = H.clamp(goal.phi, .3, 1.32); goal.radius = H.clamp(goal.radius, 6, 650); goal.tx = H.clamp(goal.tx, -150, 210); goal.tz = H.clamp(goal.tz, -125, 90); };
 H.focusOn = (x, z, radius = 12) => { H.setEstateRoofs(false); H.airshipFocus=false; H.railFocus=false; H.follow = null; Object.assign(goal, {tx:x, ty:1, tz:z, radius:narrow() ? radius * 1.6 : radius}); };
 H.resetView = () => { H.airshipFocus=false; H.railFocus=false; H.follow = null; Object.assign(goal, HOME()); H.moved = false; };
 H.setFollow = a => { if (a) H.setEstateRoofs(false); H.follow = a; $('#c-follow').classList.toggle('on', !!a); if (a) goal.radius = Math.min(goal.radius, 11); };
@@ -66,6 +68,7 @@ el.addEventListener('pointermove', e => {
   const p = ptrs.get(e.pointerId); if (!p){ hover(e); return; }
   const dx = e.clientX - p.x, dy = e.clientY - p.y; p.x = e.clientX; p.y = e.clientY;
   if (Math.hypot(e.clientX - p.sx, e.clientY - p.sy) > 5) dragged = true;
+  if(H.view){H.view.yaw-=dx*.004;H.view.pitch=H.clamp(H.view.pitch-dy*.004,-1.2,1.2);return;}
   if (ptrs.size === 2){ const [a, b] = [...ptrs.values()], d = Math.hypot(a.x - b.x, a.y - b.y); if (pinch0){ goal.radius *= pinch0 / d; pinch0 = d; } dragged = true; pan(dx / 2, dy / 2); clampGoal(); return; }
   if (!dragged) return;
   if (panMode) pan(dx, dy);
@@ -74,7 +77,7 @@ el.addEventListener('pointermove', e => {
 });
 el.addEventListener('pointerup', e => { const p = ptrs.get(e.pointerId); ptrs.delete(e.pointerId); if (ptrs.size < 2) pinch0 = 0; if (p && !dragged && !ptrs.size && e.button === 0) click(e); });
 el.addEventListener('pointercancel', e => ptrs.delete(e.pointerId));
-el.addEventListener('wheel', e => { e.preventDefault(); goal.radius *= Math.exp(e.deltaY * .0012); clampGoal(); }, {passive:false});
+el.addEventListener('wheel', e => { e.preventDefault(); if(H.view)return; goal.radius *= Math.exp(e.deltaY * .0012); clampGoal(); }, {passive:false});
 const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
 function hit(e){ const r = el.getBoundingClientRect(); ndc.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1); ray.setFromCamera(ndc, camera); const h = ray.intersectObjects(H.pickables, false)[0]; return h ? h.object.userData.agent : null; }
 let hoverT = 0, hovered = null, lastClick = 0;
@@ -88,7 +91,8 @@ function hover(e){
 }
 function click(e){
   const r = hit(e), n = performance.now(), dbl = n - lastClick < 320; lastClick = n;
-  if (r === 'broadcast') H.openBroadcast();
+  if (r === 'festival') H.openFestival();
+  else if (r === 'broadcast') H.openBroadcast();
   else if (r === 'neon') H.openChat();
   else if (typeof r === 'number'){ H.openCard(r); if (dbl) H.setFollow(H.agents[r]); }
   else if (dbl){ const p = floorPoint(e); if (p) H.focusOn(p.x, p.z, Math.max(9, goal.radius * .6)); }
@@ -105,6 +109,7 @@ addEventListener('pointerdown', e => { if (!e.target.closest('#ctx')) $('#ctx').
 /* keyboard: WASD / arrows pan, Q E rotate, + - zoom, F follow, Esc close */
 addEventListener('keydown', e => {
   if (e.target.matches('input,textarea,select')) return;
+  if(H.view)return;
   const k = e.key.toLowerCase(), s = goal.radius * .06, c = Math.cos(goal.theta), sn = Math.sin(goal.theta);
   const pan = (dx, dz) => { H.follow = null; goal.tx += dx * c + dz * sn; goal.tz += -dx * sn + dz * c; };
   if (k === 'w' || k === 'arrowup') pan(0, -s); else if (k === 's' || k === 'arrowdown') pan(0, s); else if (k === 'a' || k === 'arrowleft') pan(-s, 0); else if (k === 'd' || k === 'arrowright') pan(s, 0);
@@ -289,7 +294,7 @@ function frame(now){
   const dt = Math.min(.05, (now - last) / 1000); last = now; const t = now / 1000;
   if (Math.abs(offWant - viewOff) > .5){ viewOff += (offWant - viewOff) * Math.min(1, dt * 8); applyOffset(); }
   placeCam(dt); H.advance(dt); H.updateSim(dt); H.updateAgents(dt, t, now); H.updateWorld(dt, t); H.updateFx && H.updateFx(dt, t); H.setDaylight(S.simMin);
-  renderer.render(scene, camera);
+  H.hideViewBody?.(true);renderer.render(scene, camera);H.hideViewBody?.(false);
   const W = stage.clientWidth, Hh = stage.clientHeight;
   document.body.classList.toggle('far', cam.radius > 62);
   for (const a of H.agents){
