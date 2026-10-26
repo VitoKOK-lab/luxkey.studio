@@ -6,7 +6,7 @@ renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
 renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.outputEncoding = THREE.sRGBEncoding;
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 400);
+const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 1200);
 Object.assign(H, {renderer, scene, camera});
 const FW = H.FLOOR.w, FD = H.FLOOR.d;
 
@@ -86,8 +86,8 @@ H.findPath = (sx, sz, tx, tz) => {
 
 /* floor: wide pale oak planks + big woven rug areas */
 const oak = canvasTex(512, 512, g => {
-  const tones = ['#e4cfb2', '#dcc4a4', '#e9d6bb', '#d7bd9c', '#e1caa9'];
-  for (let i = 0; i < 6; i++){ const y = i * 86; for (let x = -(i % 3) * 120; x < 512; x += 300){ g.fillStyle = pick(tones); g.fillRect(x, y, 300, 86); g.fillStyle = 'rgba(120,80,40,.18)'; g.fillRect(x, y, 2, 86); for (let s = 0; s < 5; s++){ g.fillStyle = 'rgba(140,95,50,.06)'; g.fillRect(x, y + 10 + Math.random() * 66, 300, 1.2); } } g.fillStyle = 'rgba(120,80,40,.22)'; g.fillRect(0, y, 512, 2); }
+  const tones = ['#e5e4df', '#deddd7', '#eeece6', '#e8e6df', '#e4e2db'];
+  for(let y=0;y<512;y+=128)for(let x=0;x<512;x+=128){g.fillStyle=pick(tones);g.fillRect(x,y,128,128);g.strokeStyle='rgba(90,90,80,.12)';g.strokeRect(x,y,128,128);}
 }, 5, 3.7);
 const side = mat(0xf3ece4);
 const floor = new THREE.Mesh(box(FW, .5, FD), [side, side, new THREE.MeshStandardMaterial({map:oak, roughness:.62}), side, side, side]);
@@ -261,17 +261,11 @@ plant(8.6, 1.2, 1.1, 2); plant(-5.6, 9.8, 1.0, 0); plant(-5.8, -10.0, .9, 1); pl
 mesh(cyl(.5, .5, .05, 28), mat(0xf6f1ea), proc, -8.0, .44, 8.6); mesh(cyl(.06, .06, .42, 10), legM, proc, -8.0, .21, 8.6);
 for (const [x, z, r] of [[-9.3, 8.6, Math.PI / 2], [-6.7, 8.6, -Math.PI / 2]]){ const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = r; proc.add(g); mesh(box(.8, .4, .8), mat(0xc9a27a), g, 0, .3, 0); mesh(box(.8, .5, .2), mat(0xc9a27a), g, 0, .7, -.3); }
 block(-9.8, 8.1, -6.2, 9.1, .1);
-const rc = new THREE.Group(); rc.position.set(-3.6, 0, 9.8); scene.add(rc);
-mesh(box(2.6, 1.0, .7), mat(0x17363c, {roughness:.6}), rc, 0, .5, 0); mesh(box(2.7, .06, .8), mat(0xf6f1ea), rc, 0, 1.03, 0);
-{ const c = canvasTex(256, 96, g => { g.clearRect(0, 0, 256, 96); g.fillStyle = '#f37021'; g.font = '700 54px Georgia,serif'; g.textBaseline = 'middle'; g.fillText('A.C.E.', 20, 48); g.fillStyle = '#fbf6f2'; g.font = '500 22px "Noto Sans TC",sans-serif'; g.fillText('LUXKEY', 170, 50); }); c.wrapS = c.wrapT = THREE.ClampToEdgeWrapping; c.repeat.set(1, 1); const p = new THREE.Mesh(new THREE.PlaneGeometry(2.2, .8), new THREE.MeshStandardMaterial({map:c, transparent:true, emissive:0xffffff, emissiveMap:c, emissiveIntensity:.6})); p.position.set(0, .55, .36); rc.add(p); }
-mesh(cyl(.16, .12, .3, 14), mat(0xffffff), rc, 1.0, 1.2, -.1); mesh(new THREE.SphereGeometry(.12, 10, 8), mat(0x3a7d44, {flatShading:true}), rc, 1.0, 1.45, -.1);
-block(-5.0, 9.4, -2.2, 10.3, .2);
-
 /* gathering spots */
 H.ATRIUM = {x:0, z:-1.5};
 H.allHands = [];
 for (let i = 0; i < 12; i++){ const a = i / 12 * Math.PI * 2; H.allHands.push({x:H.ATRIUM.x + Math.cos(a) * 2.8, z:H.ATRIUM.z + Math.sin(a) * 1.4, face:Math.atan2(-Math.cos(a), -Math.sin(a))}); }
-H.breakSpots = [{x:.3, z:3.6, face:0}, {x:1.4, z:3.6, face:0}, {x:2.5, z:3.6, face:0}, {x:3.6, z:3.6, face:0}, {x:7, z:5.8, face:-Math.PI / 2, sit:true}, {x:7, z:8.3, face:-Math.PI / 2, sit:true}, {x:-1, z:6.5, face:Math.PI / 2, sit:true}].map(s => Object.assign(s, {taken:null}));
+H.breakSpots = [{x:.3, z:3.6, face:0}, {x:1.4, z:3.6, face:0}, {x:2.5, z:3.6, face:0}, {x:3.6, z:3.6, face:0}, {x:7.8, z:5.6, face:-Math.PI / 2, sit:true}, {x:7.8, z:8.3, face:-Math.PI / 2, sit:true}, {x:-6, z:5.6, face:Math.PI / 2, sit:true}].map(s => Object.assign(s, {taken:null}));
 H.clientSpots = [{x:-8.0, z:7.5, face:Math.PI}];
 
 H.updateWorld = (dt, t) => {};

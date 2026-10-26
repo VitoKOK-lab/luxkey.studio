@@ -1,25 +1,45 @@
-/* Sightseeing transport: raised rail around the residential island and a sky boat. */
+/* Sightseeing transport: one railway around all five islands and a sky boat. */
 (() => {
 const H=HQ,{scene,mat,mesh,box}=H,PI=Math.PI;
 const group=new THREE.Group();group.name='estate-transport';scene.add(group);
 const teal=mat(0x235259),cream=mat(0xffe8bd),orange=mat(0xf37021),metal=mat(0x566d7a),glass=mat(0x76bbcf,{roughness:.25});
 const rect=(w,h,d,x,y,z,m=teal,p=group)=>mesh(box(w,h,d),m,p,x,y,z);
-// Track loops outside the residential buildings; no change to employee bridge routes.
-const island=H.ISL.res,rx=16,rz=13,railY=2.4;
-const railPoint=(a,r=0)=>new THREE.Vector3(island.c[0]+(rx+r)*Math.cos(a),railY,island.c[2]+(rz+r)*Math.sin(a));
+// One continuous outer loop encompasses the whole archipelago, with a main-island inlet.
+const island=H.ISL.res;
+const railCurve=new THREE.CatmullRomCurve3([
+ [0,4,18],[-17,4,22],[-31,4,49],[-51,4,36],[-57,5,0],[-53,7,-35],[-37,8,-49],
+ [0,8,-54],[39,7,-47],[56,6,-31],[58,4,4],[54,4,34],[34,4,51],[17,4,22]
+].map(p=>new THREE.Vector3(...p)),true,'centripetal');
+railCurve.arcLengthDivisions=1200;railCurve.updateArcLengths();
+const railLength=railCurve.getLength(),wrap=u=>(u%1+1)%1;
+const railPoint=(u,offset=0)=>{const p=railCurve.getPointAt(wrap(u)),t=railCurve.getTangentAt(wrap(u));return p.add(new THREE.Vector3(t.z,0,-t.x).normalize().multiplyScalar(offset));};
 for(const offset of [-.55,.55]){
-  const points=Array.from({length:97},(_,i)=>railPoint(i/96*PI*2,offset));
-  mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points),96,.07,4,false),metal,group);
+ const points=Array.from({length:601},(_,i)=>railPoint(i/600,offset));
+ mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points),600,.065,5,false),metal,group);
 }
-for(let i=0;i<96;i++){
-  const a=i/96*PI*2,p=railPoint(a),sleeper=rect(1.5,.12,.18,p.x,railY-.1,p.z,cream);
-  sleeper.rotation.y=-a;
-  if(i%8===0){const support=rect(.4,3.8,.4,p.x,railY-2,p.z,teal);support.name='rail-pier';}
+// Instanced sleepers keep a world-sized railway inexpensive to render.
+const ties=Math.ceil(railLength/.72),sleepers=new THREE.InstancedMesh(box(1.65,.12,.18),cream,ties),dummy=new THREE.Object3D();
+sleepers.name='world-rail-sleepers';sleepers.receiveShadow=true;group.add(sleepers);
+for(let i=0;i<ties;i++){
+ const u=i/ties,p=railPoint(u),t=railCurve.getTangentAt(u);dummy.position.copy(p);dummy.position.y-=.13;dummy.rotation.set(0,Math.atan2(t.x,t.z),0);dummy.updateMatrix();sleepers.setMatrixAt(i,dummy.matrix);
 }
-const station=new THREE.Group();station.name='skyrail-station';group.add(station);
-rect(5,.35,2.4,island.c[0],railY-.3,island.c[2]+rz+1.5,cream,station);
-for(const x of [-2,2])rect(.18,2.6,.18,island.c[0]+x,railY+1,island.c[2]+rz+2,teal,station);
-rect(5.6,.24,2.8,island.c[0],railY+2.3,island.c[2]+rz+1.5,orange,station);
+sleepers.instanceMatrix.needsUpdate=true;
+const stations=[];
+for(const [id,name,target] of [
+ ['main','莊園中央站',[0,4,18]],['res','住宅島站',[-31,4,49]],['farm','牧場島站',[-37,8,-49]],
+ ['pasture','草原島站',[39,7,-47]],['fun','娛樂島站',[34,4,51]]
+]){
+ const v=new THREE.Vector3(...target);let u=0,best=Infinity;
+ for(let i=0;i<1000;i++){const d=railPoint(i/1000).distanceToSquared(v);if(d<best){best=d;u=i/1000;}}
+ const p=railPoint(u,2.0),t=railCurve.getTangentAt(u),station=new THREE.Group();station.name='world-station-'+id;station.position.copy(p);station.rotation.y=Math.atan2(t.x,t.z);group.add(station);
+ rect(2.4,.3,7,0,-.25,0,cream,station);
+ for(const z of [-2.7,2.7])rect(.13,2.7,.13,.9,1.2,z,metal,station);
+ rect(2.7,.16,7.6,0,2.5,0,teal,station);
+ rect(2.0,6,.6,0,-3.3,-2.7,metal,station);rect(2.0,6,.6,0,-3.3,2.7,metal,station);
+ stations.push({id,name,u,position:p});
+ const label=document.createElement('button');label.className='zone';label.textContent=name;label.style.setProperty('--dc','#477a80');
+ label.onclick=()=>{H.focusOn(p.x,p.z,32);H.goal.ty=p.y;};document.getElementById('overlay').append(label);H.zoneTags.push({el:label,x:p.x,z:p.z,y:p.y+3});
+}
 function carriage(engine){
   const c=new THREE.Group();c.name=engine?'skyrail-locomotive':'skyrail-carriage';group.add(c);
   rect(1.25,.4,2.3,0,.35,0,teal,c);rect(1.15,1.1,1.9,0,1.05,0,engine?orange:cream,c);
@@ -30,7 +50,7 @@ function carriage(engine){
   if(engine){rect(.95,.35,.55,0,.7,1.2,orange,c);mesh(new THREE.SphereGeometry(.13,8,6),cream,c,0,.9,1.49);}
   return c;
 }
-const train=[carriage(true),carriage(false),carriage(false)];
+const train=[carriage(true),carriage(false),carriage(false),carriage(false),carriage(false)];
 const ship=new THREE.Group();ship.name='sky-boat';group.add(ship);
 const boatBody=new THREE.Group();ship.add(boatBody);
 // Boat hull fallback is replaced when the Kenney Watercraft model is ready.
@@ -46,18 +66,19 @@ for(const x of [-1.8,1.8]){const p=new THREE.Group();p.position.set(x,.95,-1.6);
 const route=t=>new THREE.Vector3(Math.cos(t)*27,9+Math.sin(t*.7)*1.2,Math.sin(t)*23);
 let elapsed=0;
 function placeTransport(){
-  train.forEach((c,i)=>{const a=elapsed*.075-i*.19,p=railPoint(a),next=railPoint(a+.01);c.position.copy(p);c.rotation.y=Math.atan2(next.x-p.x,next.z-p.z);});
+  train.forEach((c,i)=>{const u=wrap((elapsed*5.2-i*2.9)/railLength),p=railPoint(u),next=railPoint(u+.0002);c.position.copy(p);c.lookAt(next);});
   const a=elapsed*.035+.6,p=route(a),next=route(a+.01);ship.position.copy(p);ship.rotation.y=Math.atan2(next.x-p.x,next.z-p.z);
   propellers.forEach(p=>p.rotation.z=elapsed*8);
 }
 placeTransport();
-H.transport={train,ship,group};
+H.transport={train,ship,group,railCurve,railLength,railPoint,stations};
+H.focusWorldRail=()=>{H.follow=null;H.moved=true;H.setEstateRoofs(true);Object.assign(H.goal,{tx:0,ty:2.5,tz:0,theta:.25,phi:.72,radius:Math.max(235,235/(innerWidth/innerHeight))});};
 const prev=H.updateWorld;
 H.updateWorld=(dt,t)=>{prev(dt,t);if(H.state.speed>0&&!H.reduced){elapsed+=dt*Math.min(H.state.speed,3);placeTransport();}};
 // Buttons focus actual moving objects; returning to the estate uses the existing reset.
 const rail=document.querySelector('.rail');
 for(const [id,label,svg,focus] of [
- ['v-train','空島列車','<rect x="5" y="3" width="14" height="15" rx="3"/><path d="M5 11h14M8 21l2-3m6 3-2-3M9 6h6"/>',()=>{const p=train[0].position;H.focusOn(p.x,p.z,29);H.goal.ty=3;}],
+ ['v-train','世界環線','<rect x="5" y="3" width="14" height="15" rx="3"/><path d="M5 11h14M8 21l2-3m6 3-2-3M9 6h6"/>',()=>H.focusWorldRail()],
  ['v-airship','空船航線','<ellipse cx="12" cy="8" rx="10" ry="5"/><path d="M7 12l2 5h6l2-5M8 18h8"/>',()=>{const p=ship.position;H.focusOn(p.x,p.z,24);H.goal.ty=p.y+2;}]
 ]){const b=document.createElement('button');b.id=id;b.title=b.ariaLabel=label;b.innerHTML=`<svg class="i" viewBox="0 0 24 24">${svg}</svg>`;b.onclick=focus;rail.append(b);}
 // Official Kenney CC0 forest and delivery vehicle, with local texture dependencies.
@@ -81,7 +102,8 @@ if(THREE.GLTFLoader){
  const models=[
   ...['a','b','c'].map((part,i)=>load('train-kit','train-electric-bullet-'+part,model=>{
     // Keep animated parent transforms and replace only the carriage geometry.
-    train[i].clear();train[i].add(model);model.scale.setScalar(.95);
+    const targets=i===0?[0]:i===1?[1,2,3]:[4];
+    for(const target of targets){const coach=model.clone(true);train[target].clear();train[target].add(coach);coach.scale.setScalar(.95);}
   })),
   load('watercraft-kit','boat-tug-a',model=>{ship.remove(boatBody);model.scale.setScalar(1.25);ship.add(model);}),
   load('mini-forest','tree',model=>{

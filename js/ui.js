@@ -17,7 +17,7 @@ function freeBand(){
 const fitCam = new THREE.PerspectiveCamera(), FIT = [];
 { const w = H.FLOOR.w / 2, d = H.FLOOR.d / 2; for (const x of [-w, w]) for (const z of [-d, d]) FIT.push(new THREE.Vector3(x, 0, z)); FIT.push(new THREE.Vector3(-w, 3.4, -d), new THREE.Vector3(w, 3.4, -d), new THREE.Vector3(-w, 3.4, d));
   /* sky island: keep its grass rim and a slice of the rock underside in frame */
-  for (const [x, z] of [[w + 3.4, 0], [-w - 3.4, 0], [0, d + 3.4], [0, -d - 3.4], [w + .9, d + 1.4], [w + .9, -d - 1.4], [-w - .9, d + 1.4], [-w - .9, -d - 1.4]]) FIT.push(new THREE.Vector3(x, -1, z)); FIT.push(new THREE.Vector3(0, -11, 0), new THREE.Vector3(12.4, 9, -4), new THREE.Vector3(-5, 7, -8)); }
+  for (const [x, z] of [[w + 3.4, 0], [-w - 3.4, 0], [0, d + 3.4], [0, -d - 3.4], [w + .9, d + 1.4], [w + .9, -d - 1.4], [-w - .9, d + 1.4], [-w - .9, -d - 1.4]]) FIT.push(new THREE.Vector3(x, -1, z)); FIT.push(new THREE.Vector3(0, -11, 0), new THREE.Vector3(15.6, 13.5, -3), new THREE.Vector3(-15.6, 13.5, -11)); }
 /* smallest orbit radius that keeps the floor + back walls inside the free band (fill > 1 allows a slight side crop) */
 function fitRadius(v, fill){
   const b = freeBand(), fh = b.bot - b.top, q = new THREE.Vector3();
@@ -39,7 +39,7 @@ function fitRadius(v, fill){
   return r;
 }
 const HOME = () => {
-  if ((!phone() && !narrow()) || innerHeight < 200 || innerWidth < 100) return {theta:.3, phi:1.0, radius:86, tx:0, ty:5.5, tz:.5};
+  if ((!phone() && !narrow()) || innerHeight < 200 || innerWidth < 100) return {theta:.38, phi:1.06, radius:91, tx:0, ty:6, tz:.5};
   const v = {theta:1.42, phi:.7, radius:0, tx:0, ty:0, tz:0}; /* portrait: look along the long axis so the loft fills the tall screen */
   v.radius = fitRadius(v, .9);
   return [v.radius, v.tx, v.tz].every(Number.isFinite) ? v : {theta:1.42, phi:.62, radius:90, tx:0, ty:0, tz:0};
@@ -54,7 +54,7 @@ function placeCam(dt){
   camera.position.set(cam.tx + cam.radius * sp * Math.sin(cam.theta), cam.ty + cam.radius * Math.cos(cam.phi), cam.tz + cam.radius * sp * Math.cos(cam.theta));
   camera.lookAt(cam.tx, cam.ty, cam.tz);
 }
-const clampGoal = () => { H.moved = true; goal.phi = H.clamp(goal.phi, .3, 1.32); goal.radius = H.clamp(goal.radius, 6, 250); goal.tx = H.clamp(goal.tx, -46, 46); goal.tz = H.clamp(goal.tz, -44, 44); };
+const clampGoal = () => { H.moved = true; goal.phi = H.clamp(goal.phi, .3, 1.32); goal.radius = H.clamp(goal.radius, 6, 650); goal.tx = H.clamp(goal.tx, -46, 46); goal.tz = H.clamp(goal.tz, -44, 44); };
 H.focusOn = (x, z, radius = 12) => { H.setEstateRoofs(false); H.follow = null; Object.assign(goal, {tx:x, ty:1, tz:z, radius:narrow() ? radius * 1.6 : radius}); };
 H.resetView = () => { H.follow = null; Object.assign(goal, HOME()); H.moved = false; };
 H.setFollow = a => { if (a) H.setEstateRoofs(false); H.follow = a; $('#c-follow').classList.toggle('on', !!a); if (a) goal.radius = Math.min(goal.radius, 11); };

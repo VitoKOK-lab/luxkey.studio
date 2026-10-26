@@ -28,13 +28,24 @@ const run=promisify(execFile);
     const n=Math.max(1,Math.ceil(Math.hypot(p.x-previous.x,p.z-previous.z)/.1));
     for(let i=0;i<=n;i++){
      const x=previous.x+(p.x-previous.x)*i/n,z=previous.z+(p.z-previous.z)*i/n;
-     if(x>.1&&x<5.9&&z>4.7&&z<9.3){failures.push({kind:'pool crossing',a,b,x,z});break;}
+     if(x>-4.8&&x<6.8&&z>4.1&&z<10.1){failures.push({kind:'pool crossing',a,b,x,z});break;}
      if(x>9.45&&x<15.15&&z>-5.125&&z<-4.875){failures.push({kind:'hall wall crossing',a,b,x,z});break;}
     }previous=p;
    }
   }
   return {checked,failures};
  });
+ const architecture=await page.evaluate(()=>{
+  const H=HQ,curve=H.transport.railCurve,points=Array.from({length:720},(_,i)=>curve.getPointAt(i/720));
+  const inside=(x,z)=>{let hit=false;for(let i=0,j=points.length-1;i<points.length;j=i++){
+   const a=points[i],b=points[j];if((a.z>z)!==(b.z>z)&&x<(b.x-a.x)*(z-a.z)/(b.z-a.z)+a.x)hit=!hit;
+  }return hit;};
+  return {levels:H.estate.levels,height:H.estate.height,glass:H.estate.glassPanels.length,poolArea:(H.estate.pool.x1-H.estate.pool.x0)*(H.estate.pool.z1-H.estate.pool.z0),
+   encloses:[inside(0,0),...Object.values(H.ISL).map(i=>inside(i.c[0],i.c[2]))],
+   railLength:H.transport.railLength,closed:curve.getPoint(0).distanceTo(curve.getPoint(1)),stations:H.transport.stations.map(s=>s.id),coaches:H.transport.train.length};
+ });
+ assert.deepEqual(architecture.levels,[0,4.4,8.8]);assert.ok(architecture.height>=13&&architecture.glass>=50&&architecture.poolArea>=69);
+ assert.ok(architecture.encloses.every(Boolean));assert.ok(architecture.railLength>350&&architecture.closed<.001);assert.equal(architecture.stations.length,5);assert.equal(architecture.coaches,5);
  assert.equal(routes.failures.length,0,JSON.stringify(routes.failures.slice(0,5)));
  assert.equal(await page.evaluate(()=>HQ.estate.roofs.visible),true);
  await page.locator('#v-roof').click();assert.equal(await page.evaluate(()=>HQ.estate.roofs.visible),false);
@@ -53,15 +64,16 @@ const run=promisify(execFile);
  assert.ok(moving.moved&&moving.paused);
  // Exercise an actual character walking a detour around the pool.
  const walk=await page.evaluate(()=>{
-  const H=HQ,a=H.agents[0];a.c.g.position.set(-1,0,6.5);H.setSpeed(1);H.goTo(a,{x:7,z:8.3});
+  const H=HQ,a=H.agents[0];a.c.g.position.set(-6,0,5.6);H.setSpeed(1);H.goTo(a,{x:7.8,z:8.3});
   let crossed=false;
-  for(let i=0;i<800&&a.path.length;i++){H.updateAgents(.05,i*.05,performance.now());const p=a.c.g.position;if(p.x>.1&&p.x<5.9&&p.z>4.7&&p.z<9.3)crossed=true;}
-  H.setSpeed(0);return {crossed,arrived:a.path.length===0,distance:Math.hypot(a.c.g.position.x-7,a.c.g.position.z-8.3)};
+  for(let i=0;i<800&&a.path.length;i++){H.updateAgents(.05,i*.05,performance.now());const p=a.c.g.position;if(p.x>-4.8&&p.x<6.8&&p.z>4.1&&p.z<10.1)crossed=true;}
+  H.setSpeed(0);return {crossed,arrived:a.path.length===0,distance:Math.hypot(a.c.g.position.x-7.8,a.c.g.position.z-8.3)};
  });
  assert.ok(!walk.crossed&&walk.arrived&&walk.distance<.1,JSON.stringify(walk));
- await page.waitForTimeout(700);await page.screenshot({path:'/tmp/estate-desktop.png'});
+ await page.evaluate(()=>{HQ.setDept('all');HQ.setEstateRoofs(true);});await page.waitForTimeout(700);await page.screenshot({path:'/tmp/estate-desktop.png'});
+ await page.locator('#v-train').click();await page.waitForTimeout(700);await page.screenshot({path:'/tmp/estate-world.png'});
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>{HQ.resetView();});await page.waitForTimeout(700);
- await page.locator('#v-train').click();assert.ok(await page.evaluate(()=>HQ.goal.ty===3));
+ await page.locator('#v-train').click();assert.ok(await page.evaluate(()=>HQ.goal.radius>=215));
  await page.locator('#v-airship').click();assert.ok(await page.evaluate(()=>HQ.goal.ty>8));
  await page.locator('#v-roof').click();
  await page.evaluate(()=>{HQ.resetView();HQ.setEstateRoofs(true);document.querySelector('.rail').scrollLeft=0;});await page.waitForTimeout(700);
@@ -69,6 +81,6 @@ const run=promisify(execFile);
  assert.ok(mobile.document<=mobile.width);assert.ok(mobile.buttons.every(w=>w>=44));
  await page.screenshot({path:'/tmp/estate-mobile.png'});
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({routes:routes.checked,models:8,agents:8,transport:moving,walk,mobile,errors},null,2));
+ console.log(JSON.stringify({architecture,routes:routes.checked,models:8,agents:8,transport:moving,walk,mobile,errors},null,2));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

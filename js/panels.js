@@ -102,13 +102,13 @@ mm.addEventListener('click', e => { const r = mm.getBoundingClientRect(); H.focu
 /* zone labels */
 H.zoneTags = [];
 const zl = (text, x, z, dept) => {
-  const el = document.createElement('button'); el.className = 'zone'; el.textContent = text;
+  const el = document.createElement('button'); el.className = 'zone estate-room-label'; el.textContent = text;
   el.style.setProperty('--dc', dept ? dvar(dept) : 'var(--accent)');
   el.addEventListener('click', () => dept ? H.setDept(dept) : H.focusOn(x, z - 2, 20));
   $('#overlay').append(el); H.zoneTags.push({el, x, z});
 };
 for (const id of H.DEPT_IDS){ const z = H.DEPTS[id].zone; zl(`${H.DEPTS[id].name} · ${H.agentsBy(id).length}`, z.x0 + 2.2, z.z1 - .3, id); }
-zl('Ace 王牌室', 12.6, -6.0); zl('哥德會議廳', 12.4, .8); zl('無邊際泳池', 3.0, 10.0); zl('超跑車庫', 11.8, 9.8); zl('枯山水庭院', -9.6, 1.5); zl('數字人攝影棚', 7.0, -6.4); zl('客戶接待', -8.0, 10.0);
+zl('Ace 王牌室', 12.6, -6.0); zl('玻璃會議廳', 12.4, .8); zl('無邊際泳池', 1.0, 10.5); zl('超跑車庫', 11.8, 9.8); zl('雕塑庭院', -9.6, 1.5); zl('數字人攝影棚', 7.0, -6.4); zl('客戶接待', -8.0, 10.0);
 
 /* wall screens */
 const F = H.screenFont;

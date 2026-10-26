@@ -28,8 +28,6 @@ add('loungeChair', -9.3, 8.6, PI / 2, 2.2, 0, {carpet:TAN, wood:WALNUT}); add('l
 add('tableCoffeeGlass', -8.0, 8.6, PI / 2, 1.9, 0, {metal:INK}); add('cup-coffee', -8.1, 8.5, 0, .6, .5); add('cookie', -7.8, 8.8, 0, .9, .5);
 add('rugRound', -8.0, 8.6, 0, 3.4, 0, {carpet:CREAM, carpetDarker:'#d7bea0'});
 add('lampRoundFloor', -10.4, 9.8, 0, 2.3, 0, {metal:INK}, [-10.7, 9.5, -10.1, 10.1]);
-add('coatRackStanding', -4.9, 10.3, 0, 2, 0, {wood:WALNUT}, [-5.2, 10.0, -4.6, 10.6]);
-add('plantSmall2', -2.6, 9.7, 0, 1.6, 1.03, {wood:'#f6f1ea'});
 /* Ace office + meeting */
 add('bookcaseClosedWide', 12.3, -10.6, 0, 2.2, 0, {wood:WALNUT}, [11.4, -10.9, 13.2, -10.3]); add('books', 11.9, -10.55, 0, 2, 1.0); add('books', 12.6, -10.55, 0, 2, .25);
 add('loungeDesignChair', 14.1, -7.4, -PI / 2, 2, 0, {carpetBlue:TEAL, metal:INK}, [13.6, -8.2, 14.6, -6.6]);

@@ -3,107 +3,116 @@
 const H = HQ, {scene, mesh, mat, box} = H, PI = Math.PI;
 const estate = new THREE.Group(); estate.name = 'ace-estate'; scene.add(estate);
 const roofs = new THREE.Group(); roofs.name = 'estate-roofs'; estate.add(roofs);
-const wood = mat(0x956b47), dark = mat(0x17363c), tile = mat(0x28565b, {flatShading:true});
-const stone = mat(0xf2e7ce), paper = mat(0xffedc8, {emissive:0xffd58a, emissiveIntensity:.12});
-const orange = mat(0xf37021), grass = mat(0x8cba80, {flatShading:true});
+const wood = mat(0x856a50), dark = mat(0x183039), stone = mat(0xe8e5dc, {roughness:.36});
+const bronze = mat(0xb49a6b, {metalness:.65, roughness:.3});
+const paper = mat(0xffeed5, {emissive:0xffd59a, emissiveIntensity:.35});
+const orange = mat(0xf37021);
+for(const finish of [wood,dark,stone,bronze])finish.color.convertSRGBToLinear();
+const glass = new THREE.MeshPhysicalMaterial({color:0xb0dbe2, transparent:true, opacity:.17, roughness:.06, metalness:.05, clearcoat:1, envMapIntensity:.8, side:THREE.DoubleSide, depthWrite:false});
 const rect = (w,h,d,x,y,z,m=stone,parent=estate) => mesh(box(w,h,d),m,parent,x,y,z);
-const cylinder = (r,h,x,y,z,m=stone,n=8,parent=estate) => mesh(new THREE.CylinderGeometry(r,r,h,n),m,parent,x,y,z);
+const cylinder = (r,h,x,y,z,m=stone,n=12,parent=estate) => mesh(new THREE.CylinderGeometry(r,r,h,n),m,parent,x,y,z);
 const obstacle = (x,z,w,d) => H.block(x-w/2,z-d/2,x+w/2,z+d/2,.15);
-// A hipped lower roof plus a gabled upper roof: all surfaces have volume.
-function hip(w,d,height,x,y,z,parent=roofs){
-  const vertices = [-w/2,0,-d/2, w/2,0,-d/2, w/2,0,d/2, -w/2,0,d/2, -w*.28,height,0, w*.28,height,0];
-  const g = new THREE.BufferGeometry(); g.setAttribute('position',new THREE.Float32BufferAttribute(vertices,3));
-  g.setIndex([0,4,5,0,5,1,1,5,2,2,5,4,2,4,3,3,4,0,0,1,2,0,2,3]); g.computeVertexNormals();
-  const roof = mesh(g,tile,parent,x,y,z);
-  rect(w,.18,.2,x,y,z-d/2,dark,parent); rect(w,.18,.2,x,y,z+d/2,dark,parent);
-  rect(.2,.18,d,x-w/2,y,z,dark,parent); rect(.2,.18,d,x+w/2,y,z,dark,parent);
-  rect(w*.58,.22,.24,x,y+height,z,dark,parent);
-  // Tile seams describe the slope without adding hundreds of draw calls.
-  const seams=[];
-  for(let px=-w*.27;px<=w*.27;px+=.38)for(const side of [-1,1])seams.push(px,.035,side*d/2,px,height+.035,0);
-  const lines=new THREE.LineSegments(new THREE.BufferGeometry().setAttribute('position',new THREE.Float32BufferAttribute(seams,3)),new THREE.LineBasicMaterial({color:0x17363c,transparent:true,opacity:.65}));
-  lines.position.set(x,y,z);parent.add(lines);
-  return roof;
+const glassPanels=[];
+function glazing(w,h,x,y,z,rotation=0,parent=roofs){
+  const g=new THREE.Group();g.position.set(x,y,z);g.rotation.y=rotation;parent.add(g);
+  const pane=mesh(new THREE.PlaneGeometry(w,h),glass,g);pane.castShadow=false;pane.renderOrder=2;glassPanels.push(pane);
+  for(const side of [-1,1])rect(.045,h,.055,side*w/2,0,0,dark,g);
+  for(const side of [-1,1])rect(w,.045,.055,0,side*h/2,0,dark,g);
+  return g;
 }
-function pavilion(x,z,w,d){
-  // Floor remains at y=0, so seats and bridge heights keep working.
-  rect(w,.06,d,x,.015,z,mat(0xc69d6b));
-  for(const px of [x-w/2+.3,x+w/2-.3]) for(const pz of [z-d/2+.3,z+d/2-.3]){
-    rect(.2,3.5,.2,px,1.75,pz,wood); obstacle(px,pz,.2,.2);
-  }
-  rect(w, .24, .25,x,3.4,z+d/2-.3,wood);
-  rect(w, .24, .25,x,3.4,z-d/2+.3,wood);
-  hip(w+1,d+1,1.65,x,3.55,z);
-  hip(w*.65,d*.55,1.8,x,4.85,z);
+function rail(w,x,y,z,rotation=0){glazing(w,1.05,x,y+.525,z,rotation);const cap=rect(w,.035,.05,x,y+1.06,z,bronze,roofs);cap.rotation.y=rotation;}
+function slab(w,d,x,y,z){
+  rect(w,.22,d,x,y,z,stone,roofs);
+  // Recessed bronze shadow gap gives the cantilevered slabs a thin edge.
+  rect(w+.04,.055,d+.04,x,y-.07,z,bronze,roofs);
 }
-// Shoji rear wall and west wing; front and cross-court corridors stay open.
-for(let x=-14; x<=14; x+=2){
-  rect(1.95,3.2,.15,x,1.6,-11,paper);
-  for(const dx of [-.95,0,.95]) rect(.055,3.25,.19,x+dx,1.62,-10.99,wood);
-  for(const y of [.45,1.2,1.95,2.7,3.22]) rect(2,.05,.2,x,y,-10.98,wood);
+function lounge(x,y,z,parent=roofs){
+  rect(2.6,.36,.95,x,y+.32,z,mat(0xd0c4b3),parent);rect(2.6,.55,.16,x,y+.68,z-.42,stone,parent);
+  rect(.7,.14,.65,x+.8,y+.58,z,mat(0x355658),parent);
+  rect(1.3,.06,.7,x,y+.35,z+1.3,mat(0x6b655d,{roughness:.25}),parent);
+  for(const dx of [-.5,.5])rect(.05,.32,.5,x+dx,y+.16,z+1.3,bronze,parent);
 }
-for(let z=-9;z<=9;z+=2){
-  rect(.15,3.2,1.95,-15,1.6,z,paper);
-  for(const dz of [-.95,0,.95]) rect(.19,3.25,.055,-14.99,1.62,z+dz,wood);
-  for(const y of [.45,1.2,1.95,2.7,3.22]) rect(.2,.05,2,-14.98,y,z,wood);
+function planter(x,y,z,parent=roofs){
+  rect(.7,.5,.7,x,y+.25,z,stone,parent);
+  cylinder(.04,.8,x,y+.8,z,wood,8,parent);
+  const crown=mesh(new THREE.IcosahedronGeometry(.48,1),mat(0x487267,{flatShading:true}),parent,x,y+1.25,z);crown.scale.y=1.25;
 }
-pavilion(-10.3,-7.5,9,6.6); pavilion(1.7,-7.5,14,6.6);
-pavilion(-10.3,5,8.8,6.8); pavilion(12.5,-8.7,4.6,4.6);
-// Wood slats along the engawa; no raised edge across the walking routes.
-for(let x=-14;x<9;x+=.45) rect(.025,.012,1.15,x,.07,-3.4,dark);
-for(let z=1.6;z<9;z+=.4) rect(1,.012,.025,-5.5,.07,z,dark);
-
-// A Gothic conference pavilion around the original meeting seats.
-const hall = new THREE.Group(); hall.name='gothic-hall'; estate.add(hall);
-rect(5.7,.08,6.0,12.3,.03,-2,stone,hall);
-rect(5.7,4.4,.25,12.3,2.2,-5,stone,hall); obstacle(12.3,-5,5.7,.25);
-function pointedArch(x,y,z,w,h,parent){
-  const curve=new THREE.CurvePath();
-  curve.add(new THREE.LineCurve3(new THREE.Vector3(-w/2,0,0),new THREE.Vector3(-w/2,h*.5,0)));
-  curve.add(new THREE.QuadraticBezierCurve3(new THREE.Vector3(-w/2,h*.5,0),new THREE.Vector3(-w/2,h*.8,0),new THREE.Vector3(0,h,0)));
-  curve.add(new THREE.QuadraticBezierCurve3(new THREE.Vector3(0,h,0),new THREE.Vector3(w/2,h*.8,0),new THREE.Vector3(w/2,h*.5,0)));
-  curve.add(new THREE.LineCurve3(new THREE.Vector3(w/2,h*.5,0),new THREE.Vector3(w/2,0,0)));
-  return mesh(new THREE.TubeGeometry(curve,16,.10,5,false),stone,parent,x,y,z);
+// Three actual levels and a 13.2 m atrium. Upper galleries frame an open void.
+const levels=[0,4.4,8.8],top=13.2;
+for(const x of [-14.8,-6.2,8.8,14.8]){
+  rect(.22,4.4,.22,x,2.2,-10.8,dark);rect(.22,8.8,.22,x,8.8,-10.8,dark,roofs);obstacle(x,-10.8,.22,.22);
 }
-// Open arches allow entry from the central court and the south.
-for(const z of [-3.8,-.4]){
-  for(const x of [8.9,15]){ rect(.24,4.2,.24,x,2.1,z,stone,hall); obstacle(x,z,.24,.24); }
+for(const x of [-14.8,14.8]){
+  rect(.22,4.4,.22,x,2.2,-3.7,dark);rect(.22,8.8,.22,x,8.8,-3.7,dark,roofs);obstacle(x,-3.7,.22,.22);
 }
-pointedArch(12.3,0,1,5.2,5.6,hall);
-for(const x of [9.7,14.9]){
-  rect(.5,4.8,.5,x,2.4,-4.8,stone,hall);
-  mesh(new THREE.ConeGeometry(.65,2.2,4),tile,roofs,x,6,-4.8).rotation.y=PI/4;
-  cylinder(.07,.7,x,7.4,-4.8,orange,6,roofs);
+for(const y of levels.slice(1)){
+  // Rear gallery and two side wings leave the centre open through all three floors.
+  slab(30.6,2.9,0,y,-9.65);
+  slab(7.3,5.1,-11.65,y,-5.65);slab(5.5,5.1,12.55,y,-5.65);
+  rail(15.5,0,y+.12,-8.16);
+  rail(5.0,-8.02,y+.12,-5.65,PI/2);rail(5.0,9.78,y+.12,-5.65,PI/2);
+  lounge(-11.5,y+.12,-6.5);lounge(12.4,y+.12,-6.5);
+  for(const x of [-13,-5,5,13])planter(x,y+.12,-10.1);
 }
-hip(6.0,6.4,2.2,12.3,4.5,-2);
-const rose = new THREE.Group(); rose.position.set(12.3,4.15,1.02); hall.add(rose);
-mesh(new THREE.TorusGeometry(.85,.12,6,24),wood,rose);
-mesh(new THREE.CircleGeometry(.76,24),mat(0xf7b863,{emissive:0xf37021,emissiveIntensity:.5}),rose,0,0,-.015);
-for(let i=0;i<8;i++){ const spoke=rect(.06,1.6,.07,0,0,.02,dark,rose);spoke.rotation.z=i*PI/4; }
-// The existing dynamic meeting screen is now the hall's large projection screen.
-H.screens.meet.g.position.set(12.3,1.65,-4.58); H.screens.meet.g.rotation.y=0; H.screens.meet.g.scale.setScalar(1.65);
-
+// Perimeter roof frames a transparent skylight over the three-storey void.
+slab(31.2,2.8,0,top,-9.95);slab(31.2,.85,0,top,-3.075);
+for(const x of [-10.8,10.8])slab(9.6,5.05,x,top,-6.025);
+const skylight=glazing(12,5.05,0,top+.13,-6.025);skylight.rotation.x=-PI/2;
+for(const x of [-13.2,13.2]){
+ rect(1.2,.35,3.8,x,top+.29,-9.2,stone,roofs);
+ rect(1,.3,3.6,x,top+.6,-9.2,mat(0x416a58),roofs);
+}
+// Broad full-height curtain walls, with open ground-floor entrances toward the pool.
+for(let x=-13.5;x<=13.5;x+=3){
+  for(const y of levels){glazing(3,4.18,x,y+2.2,-11.15);}
+  for(const y of [4.4,8.8])glazing(3,4.18,x,y+2.2,-3.02);
+}
+for(const x of [-15.18,15.18])for(const y of levels)glazing(8.1,4.18,x,y+2.2,-7.05,PI/2);
+// The west salon is a lower glass volume, leaving the three-storey main atrium legible.
+slab(9.7,9.2,-10.35,4.4,4.8);
+for(const z of [1.5,4.5,7.5])glazing(3,4.15,-15.18,2.2,z,PI/2);
+for(const x of [-14.8,-6]){rect(.18,4.4,.18,x,2.2,9.1,dark);obstacle(x,9.1,.18,.18);}
+for(const x of [-13.5,-10.5])glazing(3,3.95,x,2.2,9.3);
+// A visible staircase joins the upper galleries; it does not obstruct ground-floor workstations.
+for(let flight=0;flight<2;flight++){
+ const y=4.4+flight*2.2;
+ for(let i=0;i<11;i++)rect(1.45,.16,.30,flight?6.5:4.8,y+i*.2,-10.5+i*.26,stone,roofs);
+}
+// Double-height glass boardroom; preserve the tested entrance and meeting seats.
+const hall=new THREE.Group();hall.name='glass-boardroom';estate.add(hall);
+rect(5.7,.08,6,12.3,.03,-2,stone,hall);
+rect(5.7,3.1,.2,12.3,1.55,-5,dark,hall);obstacle(12.3,-5,5.7,.2);
+for(const z of [-3.8,-.4])for(const x of [8.9,15]){rect(.18,7.4,.18,x,3.7,z,bronze,hall);obstacle(x,z,.18,.18);}
+slab(6.3,6.5,12.2,7.4,-1.8);
+for(const x of [9,15.15])glazing(5.9,3.95,x,5.25,-1.85,PI/2);
+glazing(5.9,3.95,12.1,5.25,1.15);
+H.screens.meet.g.position.set(12.3,1.65,-4.58);H.screens.meet.g.rotation.y=0;H.screens.meet.g.scale.setScalar(1.65);
+// Suspended brass rings mark the tall atrium, without opaque decorative roof masses.
+for(const [y,r] of [[7.2,1.6],[8.4,2.3],[10.0,1.1]]){
+ const light=mesh(new THREE.TorusGeometry(r,.045,6,40),paper,roofs,0,y,-5.8);light.rotation.x=PI/2;
+}
 // Infinity pool: animated vertex displacement and water caustics; no image plane backdrop.
-rect(5.8,.16,4.6,3,.04,7,stone);
+const pool={x0:-4.8,x1:6.8,z0:4.1,z1:10.1};
+rect(12.0,.16,6.4,1,.04,7.1,stone);
 const waterUniforms={time:{value:0},day:{value:1}};
 const waterMaterial = new THREE.ShaderMaterial({uniforms:waterUniforms,side:THREE.DoubleSide,
   vertexShader:`uniform float time; varying vec2 uvWater; void main(){uvWater=uv;vec3 p=position;p.z+=sin(p.x*3.0+time)*cos(p.y*2.5+time*.7)*.025;gl_Position=projectionMatrix*modelViewMatrix*vec4(p,1.0);}`,
   fragmentShader:`uniform float time;uniform float day;varying vec2 uvWater;void main(){float c=pow(max(0.0,sin(uvWater.x*60.0+sin(uvWater.y*35.0+time)*2.0+time)),14.0);vec3 col=mix(vec3(.04,.40,.47),vec3(.23,.77,.78),uvWater.y);col+=c*.15;gl_FragColor=vec4(col*(.40+.60*day),1.0);}`});
-const water=mesh(new THREE.PlaneGeometry(5.25,4.05,16,12),waterMaterial,estate,3,.16,7);water.rotation.x=-PI/2;water.castShadow=false;
-obstacle(3,7,5.8,4.6);
+const water=mesh(new THREE.PlaneGeometry(11.6,6.0,24,16),waterMaterial,estate,1,.16,7.1);water.rotation.x=-PI/2;water.castShadow=false;
+obstacle(1,7.1,11.6,6.0);
 // Spill lip and narrow cascade down the front edge, clear of the walking surface.
-rect(5.25,.12,.12,3,.17,9.16,mat(0x76e0d5));
-for(let i=0;i<12;i++) rect(.2,.7,.08,.55+i*.44,-.26,9.21,mat(0x70cec8,{transparent:true,opacity:.65}));
-const loungerSpots = [[7,5.8],[7,8.3],[-1,6.5]];
+rect(11.6,.10,.12,1,.17,10.17,mat(0x76e0d5));
+rect(11.6,1.0,.04,1,-.4,10.23,mat(0x65bec7,{transparent:true,opacity:.5}));
+const loungerSpots=[[7.8,5.6],[7.8,8.3],[-6,5.6],[-6,7.9]];
 for(const [x,z] of loungerSpots){
-  const chair=new THREE.Group();chair.position.set(x,0,z);chair.rotation.y=x>3?-PI/2:PI/2;estate.add(chair);
-  rect(1.1,.3,1.5,0,.2,0,wood,chair);rect(.95,.12,1.35,0,.41,0,mat(0xfff1dc),chair);
-  const back=rect(.95,.6,.12,0,.68,-.58,mat(0xfff1dc),chair);back.rotation.x=.25;
+  const chair=new THREE.Group();chair.position.set(x,0,z);chair.rotation.y=x>1?-PI/2:PI/2;estate.add(chair);
+  rect(1.1,.3,1.5,0,.2,0,wood,chair);rect(.95,.12,1.35,0,.41,0,stone,chair);
+  const back=rect(.95,.6,.12,0,.68,-.58,stone,chair);back.rotation.x=.25;
 }
-cylinder(.04,2.8,7.8,1.4,7,dark);
-mesh(new THREE.ConeGeometry(1.6,.65,8),mat(0xf37021),estate,7.8,3,7);
-obstacle(7.8,7,.15,.15);
-
+for(const x of [-6.8,7.8]){
+ cylinder(.035,2.6,x,1.3,9.7,bronze);mesh(new THREE.ConeGeometry(1.4,.30,8),stone,estate,x,2.7,9.7);
+ obstacle(x,9.7,.15,.15);
+}
 // Car court: roads are geometry, with edge paint and parking bays.
 rect(6.2,.06,5.6,11.6,.02,8,mat(0x636e76));
 for(const x of [8.6,14.6]) rect(.07,.012,5.5,x,.06,8,stone);
@@ -126,28 +135,18 @@ for(const [i,x] of [10.4,12.7].entries()){
   obstacle(x,6.6,1.85,2.8);
 }
 
-// Pocket zen garden, stones, koi pond and stone lanterns.
-rect(4.6,.08,2.6,-10,.025,-.4,mat(0xd5d6ad));obstacle(-10,-.4,4.6,2.6);
-for(let i=0;i<6;i++){
-  const ring=mesh(new THREE.RingGeometry(.25+i*.12,.27+i*.12,32),mat(0xb5b996),estate,-10,.072,-.5);ring.rotation.x=-PI/2;
-}
-for(const [x,z,s] of [[-10.4,-.5,.5],[-9.4,-.2,.35],[-11,0,.25]]){const rock=mesh(new THREE.DodecahedronGeometry(s,0),mat(0x7b8d8d,{flatShading:true}),estate,x,s*.5,z);rock.scale.y=.75;}
-const pond=mesh(new THREE.CylinderGeometry(.7,.8,.06,20),mat(0x56a8a6),estate,-8.5,.10,-.5);pond.scale.z=1.2;
-for(const x of [-13.6,-6.5]){
-  cylinder(.16,.6,x,.3,.1,stone);rect(.46,.38,.46,x,.8,.1,paper);hip(.7,.7,.3,x,1.02,.1,estate);obstacle(x,.1,.5,.5);
-}
-// Low-poly maples frame the estate, leaving all bridge exits free.
-for(const [x,z] of [[-13.6,-1.8],[-5.4,7.8],[8.6,-2.4]]){
-  cylinder(.1,1.8,x,.9,z,wood,6);
-  for(const [dx,dy,dz,r] of [[0,2,0,.8],[-.45,1.7,.1,.55],[.45,1.8,-.1,.55]])mesh(new THREE.IcosahedronGeometry(r,0),mat(0xe69c48,{flatShading:true}),estate,x+dx,dy,z+dz);
-  obstacle(x,z,.35,.35);
-}
-H.estate={group:estate,roofs,pool:{x0:.1,x1:5.9,z0:4.7,z1:9.3},waterUniforms};
+// Minimal sculpture garden, pale stone and sculpted evergreen planting.
+rect(4.6,.08,2.6,-10,.025,-.4,mat(0x9cae9b));obstacle(-10,-.4,4.6,2.6);
+const sculpture=mesh(new THREE.TorusKnotGeometry(.45,.09,48,6),bronze,estate,-10,1.05,-.4);
+rect(.85,.45,.85,-10,.225,-.4,stone);
+for(const [x,z] of [[-13.6,-1.8],[-5.8,1],[8.6,-2.4]]){planter(x,0,z,estate);obstacle(x,z,.7,.7);}
+H.estate={group:estate,roofs,pool,waterUniforms,levels,height:top,glassPanels};
 H.setEstateRoofs=visible=>{
   roofs.visible=!!visible;
+  document.body.classList.toggle("estate-exterior",roofs.visible);
   const button=document.getElementById('v-roof');
   button.setAttribute('aria-pressed',String(roofs.visible));button.classList.toggle('act',roofs.visible);
-  button.setAttribute('aria-label',roofs.visible?'隱藏屋頂，查看室內':'顯示莊園屋頂');
+  button.setAttribute('aria-label',roofs.visible?'剖開上層，查看室內':'顯示完整玻璃莊園');
   button.title=button.getAttribute('aria-label');
 };
 document.getElementById('v-roof').addEventListener('click',()=>H.setEstateRoofs(!roofs.visible));
