@@ -113,43 +113,11 @@ for (const [x, y, z, s] of [[-82, -8, 4, .2], [84, -12, -6, .16], [-4, -16, -74,
 const shards = [];
 for (let i = 0; i < 9; i++){ const a = rnd() * PI * 2, r = 16 + rnd() * 9; const s = stone(Math.cos(a) * r, Math.sin(a) * r, 1.5 + rnd() * 2.5, scene, -4 - rnd() * 12); shards.push({s, y:s.position.y, k:rnd() * 6}); }
 
-/* ---------- sun, moon, stars ---------- */
-function glowTex(inner, outer, disc){
-  const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
-  const grd = g.createRadialGradient(128, 128, 0, 128, 128, 128);
-  grd.addColorStop(0, inner); grd.addColorStop(disc, inner); grd.addColorStop(disc + .04, outer); grd.addColorStop(1, 'rgba(0,0,0,0)');
-  g.fillStyle = grd; g.fillRect(0, 0, 256, 256);
-  if (disc < .3){ g.fillStyle = 'rgba(160,160,190,.35)'; for (const [x, y, r] of [[112, 118, 9], [142, 136, 6], [124, 146, 5], [140, 110, 4]]){ g.beginPath(); g.arc(x, y, r, 0, PI * 2); g.fill(); } }
-  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
-}
-const sunS = new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex('#fff6d8', 'rgba(255,190,90,.45)', .36), transparent:true, depthWrite:false, toneMapped:false}));
-const moonS = new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex('#f4f1e6', 'rgba(170,200,255,.28)', .22), transparent:true, depthWrite:false, toneMapped:false}));
-sunS.scale.setScalar(24); moonS.scale.setScalar(19); sunS.renderOrder = moonS.renderOrder = 10; scene.add(sunS, moonS);
+/* ---------- stars (day/night lighting is handled separately) ---------- */
 const starPos = []; for (let i = 0; i < 700; i++){ const v = new THREE.Vector3(rnd() - .5, rnd() - .5, rnd() - .5).normalize().multiplyScalar(300); starPos.push(v.x, v.y, v.z); }
 const starGeo = new THREE.BufferGeometry(); starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starPos, 3));
 const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({color:0xffffff, size:2, sizeAttenuation:false, transparent:true, opacity:0, depthWrite:false, toneMapped:false}));
 scene.add(stars);
-/* sun and moon ride an arc across the strip of sky between the top HUD and the island's top edge, following the sim clock */
-const TOPS = [[-FW / 2, 3.7, -FD / 2], [FW / 2, 3.7, -FD / 2], [-FW / 2, 3.7, FD / 2], [0, 3.7, -FD / 2], [-FW / 2 - 2, 6, -FD / 2 - 2], [0, 6, -FD / 2 - 2.4], [FW / 2, 6, -FD / 2 - 2]].map(v => new THREE.Vector3(...v));
-const tmp = new THREE.Vector3(), dir = new THREE.Vector3();
-let skyBand = {top:60, bot:200}, bandT = 0;
-function measureBand(){
-  const W = innerWidth, Hh = innerHeight; let top = 0;
-  for (const sel of ['.top', '#kpis', '.actions']){ const n = document.querySelector(sel), r = n && n.getBoundingClientRect(); if (r && r.height && r.bottom < Hh * .5) top = Math.max(top, r.bottom); }
-  camera.updateMatrixWorld(); let isl = Hh;
-  for (const v of TOPS){ tmp.copy(v).project(camera); if (tmp.z < 1) isl = Math.min(isl, (-tmp.y * .5 + .5) * Hh); }
-  skyBand = {top, bot:isl, W, Hh};
-}
-function placeBody(sprite, p){
-  const {top, bot, W, Hh} = skyBand, gap = bot - top;
-  const base = gap > 50 ? top + gap * .62 : bot - 30, bump = gap > 50 ? Math.min(gap * .3, 60) : 8;
-  const sx = W * (.1 + .8 * p), sy = Math.max(12, base - bump * Math.sin(PI * p));
-  tmp.set(sx / W * 2 - 1, -(sy / Hh) * 2 + 1, .5).unproject(camera);
-  dir.copy(tmp).sub(camera.position).normalize();
-  sprite.position.copy(camera.position).addScaledVector(dir, 160);
-  const k = 160 * Math.tan(camera.fov * PI / 360) * 2 / Hh; sprite.scale.setScalar(sprite.userData.px * k); /* constant pixel size */
-}
-sunS.userData.px = 130; moonS.userData.px = 104;
 
 /* ---------- birds ---------- */
 const birdBody = flat('#f6f1ea'), birdWing = new THREE.MeshStandardMaterial({color:'#ffffff', roughness:.9, flatShading:true, side:THREE.DoubleSide});
@@ -171,13 +139,8 @@ H.SKY = {islandGeo, rockM, tree, bush, stone, flowers, flat, rnd, leafM, trunkM}
 const prev = H.updateWorld;
 H.updateWorld = (dt, t) => {
   prev && prev(dt, t);
-  const h = (H.state.simMin / 60) % 24, d = H.daylight, tw = d > 0 && d < 1 ? 1 - Math.abs(d - .5) * 2 : 0;
+  const d = H.daylight, tw = d > 0 && d < 1 ? 1 - Math.abs(d - .5) * 2 : 0;
   paintSky(d, tw);
-  if ((bandT -= dt) <= 0){ bandT = .25; measureBand(); }
-  /* sun 06–19, moon 18–07 */
-  const ps = (h - 6) / 13, pm = ((h - 18 + 24) % 24) / 13;
-  sunS.visible = ps > -.05 && ps < 1.05; if (sunS.visible){ placeBody(sunS, H.clamp(ps, 0, 1)); sunS.material.opacity = H.clamp(Math.min(ps, 1 - ps) * 8 + .2, 0, 1); sunS.material.color.setRGB(1, .78 + d * .22, .6 + d * .4); }
-  moonS.visible = pm >= 0 && pm <= 1; if (moonS.visible){ placeBody(moonS, pm); moonS.material.opacity = H.clamp((1 - d) * 1.2, 0, 1); }
   stars.position.copy(camera.position); stars.material.opacity = Math.pow(1 - d, 1.5) * .9;
   cloudM.color.copy(mix('#4c5b80', '#ffffff', d).lerp(new THREE.Color('#ffd2b8'), tw * .6)); cloudM.emissiveIntensity = .08 + d * .2;
   birdWing.color.copy(mix('#38425c', '#ffffff', d)); birdBody.color.copy(birdWing.color);
