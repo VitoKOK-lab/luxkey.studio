@@ -101,8 +101,8 @@ svg.i{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke
 .al-run{margin-top:8px;font-size:11.5px;font-weight:600;color:var(--good)}
 
 /* rail + zoom + minimap */
-.rail{position:fixed;left:var(--gl);top:calc(var(--st) + 68px);display:flex;flex-direction:column;gap:4px;padding:5px;z-index:6}
-.rail button{width:36px;height:36px;border-radius:10px;border:0;background:transparent;display:grid;place-items:center;color:var(--muted)}
+.rail{max-height:calc(100dvh - 80px);overflow-y:auto;position:fixed;left:var(--gl);top:calc(var(--st) + 68px);display:flex;flex-direction:column;gap:4px;padding:5px;z-index:6}
+.rail button{flex-shrink:0;width:36px;height:36px;border-radius:10px;border:0;background:transparent;display:grid;place-items:center;color:var(--muted)}
 .rail button.act{background:var(--ink);color:var(--ink-fg)}
 .rail button:hover:not(.act){background:var(--panel-2);color:var(--fg)}
 .mapbox{position:fixed;right:var(--gr);bottom:calc(var(--sb) + 16px);display:flex;align-items:flex-end;gap:8px;z-index:4}
@@ -447,19 +447,20 @@ button.li:hover{background:var(--panel-2)}
 <script charset="utf-8" src="js/core.js?v=34"></script>
 <script charset="utf-8" src="js/world.js?v=34"></script>
 <script charset="utf-8" src="js/estate.js?v=34"></script>
-<script charset="utf-8" src="js/sky.js?v=34"></script>
+<script charset="utf-8" src="js/sky.js?v=36"></script>
 <script charset="utf-8" src="js/agents.js?v=34"></script>
 <script charset="utf-8" src="js/sim.js?v=34"></script>
 <script charset="utf-8" src="js/panels.js?v=34"></script>
 <script charset="utf-8" src="js/assets.js?v=34"></script>
 <script charset="utf-8" src="js/chars.js?v=34"></script>
-<script charset="utf-8" src="js/islands.js?v=34"></script>
+<script charset="utf-8" src="js/islands.js?v=36"></script>
 <script charset="utf-8" src="js/life.js?v=34"></script>
 <script charset="utf-8" src="js/transport.js?v=34"></script>
-<script charset="utf-8" src="js/festival.js?v=34"></script>
+<script charset="utf-8" src="js/festival.js?v=36"></script>
 <script charset="utf-8" src="js/experiences.js?v=35"></script>
 <script charset="utf-8" src="js/pool.js?v=34"></script>
 <script charset="utf-8" src="js/spacewalkers.js?v=34"></script>
+<script charset="utf-8" src="js/rides.js?v=36"></script>
 <script charset="utf-8" src="js/fx.js?v=34"></script>
 <script charset="utf-8" src="js/workbench.js?v=34"></script>
 <script charset="utf-8" src="js/neon.js?v=34"></script>

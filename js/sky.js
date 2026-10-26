@@ -23,7 +23,7 @@ function paintSky(d, tw){
 }
 
 /* ---------- the floating island ---------- */
-function islandGeo(ax, az, depth, rough, grass = '#6fa83e'){
+function islandGeo(ax, az, depth, rough, grass = '#16883d'){
   const N = 48, rings = [[-.06, 1, 0], [-.85, 1.03, 1], [-1.6, .98, 2], [-.24, .86, 3], [-.44, .7, 3], [-.62, .52, 3], [-.8, .32, 3], [-.93, .14, 3]];
   const pts = rings.map(([y, s, kind], k) => {
     const yy = k < 3 ? y : -1.9 - (-y - .24) / .69 * (depth - 1.9), row = [];
@@ -36,7 +36,7 @@ function islandGeo(ax, az, depth, rough, grass = '#6fa83e'){
     return {row, kind};
   });
   const tip = new THREE.Vector3((rnd() - .5) * ax * .2, -depth * 1.12 - 1, (rnd() - .5) * az * .2);
-  const pos = [], col = [], C = [new THREE.Color(grass), new THREE.Color('#6f9c3e'), new THREE.Color('#8a6a4a'), new THREE.Color('#7b6d63')];
+  const pos = [], col = [], C = [new THREE.Color(grass), new THREE.Color('#146c32'), new THREE.Color('#8a6a4a'), new THREE.Color('#7b6d63')];
   const tri = (a, b, c, color) => { for (const v of [a, b, c]){ pos.push(v.x, v.y, v.z); col.push(color.r, color.g, color.b); } };
   const shade = (c, k) => c.clone().multiplyScalar(.82 + rnd() * .3 - k * .035);
   const center = new THREE.Vector3(0, -.06, 0);

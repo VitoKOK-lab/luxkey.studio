@@ -14,7 +14,7 @@ const board = (tex, w, h, parent, x, y, z, ry = 0, emissive = 0) => { const m = 
 
 /* ---------- islands ---------- */
 const ISL = H.ISL = {
-  res:{name:'住宅島', sub:'A.C.E. 員工村', c:[-31, -1.6, 34], ax:14, az:11, dc:'var(--d-growth)'},
+  res:{name:'住宅島', sub:'雙層泳池豪宅社區', c:[-31, -1.6, 34], ax:14, az:11, dc:'var(--d-growth)'},
   fun:{name:'娛樂島', sub:'7-11・GYM・電影院・網球', c:[34, -2.4, 34], ax:16, az:12.5, dc:'var(--accent)'},
   farm:{name:'牧場島', c:[-37, 4, -35], ax:11, az:9, dc:'#6f9c3e'},
   pasture:{name:'草原島', sub:'UFO 公車站', c:[39, 2.6, -33], ax:10, az:8, dc:'#8b5cf6'},
@@ -64,15 +64,29 @@ const DEPT_ROOF = {sales:'#c9560f', creative:'#17363c', production:'#f37021', gr
 const R = ISL.res; R.houses = {};
 function house(I, ang, who, roof, wall){
   const lx = Math.cos(ang) * 9.6, lz = Math.sin(ang) * 7.4, g = new THREE.Group(); g.position.set(lx, 0, lz); g.rotation.y = Math.atan2(-lx, -lz); I.g.add(g);
-  mk(box(2.6, 2, 2.4), flat(wall), g, 0, 1, 0);
-  const roofM = mk(new THREE.ConeGeometry(2.05, 1.3, 4), flat(roof), g, 0, 2.65, 0); roofM.rotation.y = PI / 4; roofM.scale.set(1, 1, .95);
-  mk(box(.3, .8, .3), flat('#8a6a4a'), g, .6, 3, -.4);
-  mk(box(.72, 1.25, .06), flat('#6b4a2e'), g, 0, .62, 1.22);
-  const win = new THREE.MeshStandardMaterial({color:0xcfe4f2, emissive:0xffc66b, emissiveIntensity:0, roughness:.2});
-  for (const s of [-1, 1]) mk(box(.55, .5, .06), win, g, .8 * s, 1.25, 1.22);
-  mk(box(.06, .5, .55), win, g, 1.31, 1.2, 0);
-  board(signTex([who + ' 的家'], 256, 64, '#fbf6f2', '#17363c'), .9, .22, g, 0, 1.55, 1.26);
-  mk(new THREE.CylinderGeometry(.04, .04, .8, 5), flat('#17363c'), g, 1.1, .4, 1.7); mk(box(.3, .2, .4), flat(roof), g, 1.1, .85, 1.7);
+  g.name=who+' 的泳池豪宅';
+  const stone=flat('#f5f0e7'),frame=flat('#214b49'),timber=flat('#a66e40');
+  const win=new THREE.MeshStandardMaterial({color:0x8bd7de,transparent:true,opacity:.3,emissive:0xffc66b,emissiveIntensity:0,roughness:.08,depthWrite:false});
+  // Two full storeys, open glass facades, shaded balcony and a private rear pool.
+  for(const y of [.04,2.5,5])mk(box(3.6,.16,3),stone,g,0,y,0);
+  for(const x of [-1.65,1.65])for(const z of [-1.35,1.35])mk(box(.15,5,.15),frame,g,x,2.5,z);
+  mk(box(1.1,4.8,2.7),flat(wall),g,-1.1,2.5,0);
+  for(const y of [1.3,3.8]){
+    mk(box(2.4,2.25,.04),win,g,.45,y,1.38);mk(box(2.4,2.25,.04),win,g,.45,y,-1.38);
+    mk(box(.04,2.25,2.7),win,g,1.7,y,0);
+    mk(box(1,.35,.55),timber,g,.5,y-.9,.1);mk(box(.65,.35,.65),flat(roof),g,.9,y-.75,-.7);
+  }
+  mk(box(3.6,.12,.6),stone,g,0,2.5,1.72);
+  mk(box(3.55,.65,.04),win,g,0,2.88,2);mk(box(3.6,.05,.05),frame,g,0,3.23,2);
+  // Ground-level threshold stays on the established walking route.
+  mk(box(.8,1.9,.08),timber,g,-.2,.9,1.43);
+  board(signTex([who+' 的家','雙層泳池別墅'],256,96,'#17363c','#fffaf2'),1.25,.46,g,-.8,1.9,1.5);
+  mk(box(3.6,.08,2.1),stone,g,0,-.02,-2.6);
+  const pool=mk(box(2.8,.035,1.45),new THREE.MeshStandardMaterial({color:0x00b8c8,roughness:.12,metalness:.25}),g,0,.035,-2.65);pool.name='private-swimming-pool';
+  for(const z of [-3.43,-1.87])mk(box(3,.12,.12),stone,g,0,.06,z);
+  for(const x of [-1.46,1.46])mk(box(.12,.12,1.65),stone,g,x,.06,-2.65);
+  for(const x of [-1.5,1.5]){mk(box(.35,.16,.75),timber,g,x,.17,-2.65);mk(box(.35,.09,.3),stone,g,x,.29,-2.95);}
+  g.userData.residence={storeys:2,pool:true,owner:who};
   // Door coordinates are world-space: update the island ancestor before sampling.
   g.updateWorldMatrix(true, true);
   const door = g.localToWorld(new V3(0, 0, 1.9)); door.y = I.y;
@@ -90,7 +104,7 @@ function house(I, ang, who, roof, wall){
   fountain(R); flowersAt(R, 2.4, -2.6); flowersAt(R, -2.6, 2.3);
   for (const a of [.8, 2.4, 4, 5.6]) lampPost(R, Math.cos(R.bridgeAngle + a) * 4.6, Math.sin(R.bridgeAngle + a) * 3.8);
   R.benches = [PI - .55, PI + .55].map(d => { const a = R.bridgeAngle + d, x = Math.cos(a) * 4.2, z = Math.sin(a) * 3.4; bench(R, x, z, Math.atan2(-x, -z)); return {p:R.W(x * .92, z * .92), face:Math.atan2(-x, -z)}; });
-  const [sx, sz] = R.rim(R.bridgeAngle + .35); board(signTex(['A.C.E. 員工村', '住宅島 · 下班回家'], 512, 160), 2.2, .7, R.g, sx * .82, 1.4, sz * .82, Math.atan2(-sx, -sz) + PI);
+  const [sx, sz] = R.rim(R.bridgeAngle + .35); board(signTex(['A.C.E. 泳池豪宅社區', '每人一棟 · 私人泳池'], 512, 160), 2.2, .7, R.g, sx * .82, 1.4, sz * .82, Math.atan2(-sx, -sz) + PI);
   mk(new THREE.CylinderGeometry(.06, .06, 1.1, 5), flat('#17363c'), R.g, sx * .82, .55, sz * .82);
 }
 
