@@ -164,6 +164,7 @@ function bird(){
 const flocks = [[26, 9, .16, 0, 5], [38, 13, -.11, 2, 6], [30, 6, .2, 4, 3]].map(([r, y, w, a, n]) => ({r, y, w, a, birds:Array.from({length:n}, (_, i) => Object.assign(bird(), {i, ph:rnd() * 6}))}));
 
 /* shared builders for the other islands (islands.js / life.js) */
+H.airDecor = [...flocks.flatMap(f=>f.birds.map(b=>b.g)), ...clouds.filter(c=>c.y>-20).map(c=>c.m)];
 H.SKY = {islandGeo, rockM, tree, bush, stone, flowers, flat, rnd, leafM, trunkM};
 
 /* ---------- per-frame ---------- */

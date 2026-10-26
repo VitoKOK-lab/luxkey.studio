@@ -323,6 +323,11 @@ button.li:hover{background:var(--panel-2)}
 }
 @media (max-width:420px){ .brand small{display:none} }
 @media (prefers-reduced-motion: reduce){ *{transition:none!important} }
+/* The facade display can also be read in a keyboard-accessible large view. */
+#broadcast-dialog{width:min(1080px,92vw);max-height:90dvh;padding:14px;border:1px solid var(--line);border-radius:18px;background:var(--panel);color:var(--fg)}
+#broadcast-dialog::backdrop{background:rgba(8,20,24,.72)}
+#broadcast-dialog header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+#broadcast-dialog canvas{display:block;width:100%;height:auto;border-radius:10px}
 </style>
 
 <div id="stage"></div>
@@ -434,23 +439,24 @@ button.li:hover{background:var(--panel-2)}
 <div class="island tour" id="tour" hidden><b id="tour-t"></b><p id="tour-d"></p><div class="row"><button class="btn" id="tour-x">結束導覽</button><button class="btn ink" id="tour-next">下一站</button></div></div>
 <div class="island menu ctx" id="ctx" hidden><small id="ctx-name"></small><button data-act="card">查看資訊卡</button><button data-act="gen">AI 產出</button><button data-act="task">指派任務</button><button data-act="coach">教練建議</button><button data-act="follow">鏡頭跟隨</button><button data-act="ask">請 Ace 檢視</button></div>
 <div class="statbar" id="stat-bar"></div>
+<dialog id="broadcast-dialog" aria-labelledby="broadcast-title"><header><b id="broadcast-title">莊園大螢幕 · 模擬營運</b><button class="btn" id="broadcast-close" aria-label="關閉大螢幕">關閉 ×</button></header><canvas id="broadcast-canvas" width="1280" height="545" role="img" aria-label="莊園即時模擬營運與會議資訊"></canvas></dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/loaders/GLTFLoader.js"></script>
 <script>if (!window.THREE) document.getElementById('stage').innerHTML = '<div class="err">3D 引擎載入失敗，請重新整理頁面。</div>';</script>
-<script charset="utf-8" src="js/core.js?v=28"></script>
-<script charset="utf-8" src="js/world.js?v=28"></script>
-<script charset="utf-8" src="js/estate.js?v=28"></script>
-<script charset="utf-8" src="js/sky.js?v=28"></script>
-<script charset="utf-8" src="js/agents.js?v=28"></script>
-<script charset="utf-8" src="js/sim.js?v=28"></script>
-<script charset="utf-8" src="js/panels.js?v=28"></script>
-<script charset="utf-8" src="js/assets.js?v=28"></script>
-<script charset="utf-8" src="js/chars.js?v=28"></script>
-<script charset="utf-8" src="js/islands.js?v=28"></script>
-<script charset="utf-8" src="js/life.js?v=28"></script>
-<script charset="utf-8" src="js/transport.js?v=28"></script>
-<script charset="utf-8" src="js/fx.js?v=28"></script>
-<script charset="utf-8" src="js/workbench.js?v=28"></script>
-<script charset="utf-8" src="js/neon.js?v=28"></script>
-<script charset="utf-8" src="js/ui.js?v=28"></script>
+<script charset="utf-8" src="js/core.js?v=29"></script>
+<script charset="utf-8" src="js/world.js?v=29"></script>
+<script charset="utf-8" src="js/estate.js?v=29"></script>
+<script charset="utf-8" src="js/sky.js?v=29"></script>
+<script charset="utf-8" src="js/agents.js?v=29"></script>
+<script charset="utf-8" src="js/sim.js?v=29"></script>
+<script charset="utf-8" src="js/panels.js?v=29"></script>
+<script charset="utf-8" src="js/assets.js?v=29"></script>
+<script charset="utf-8" src="js/chars.js?v=29"></script>
+<script charset="utf-8" src="js/islands.js?v=29"></script>
+<script charset="utf-8" src="js/life.js?v=29"></script>
+<script charset="utf-8" src="js/transport.js?v=29"></script>
+<script charset="utf-8" src="js/fx.js?v=29"></script>
+<script charset="utf-8" src="js/workbench.js?v=29"></script>
+<script charset="utf-8" src="js/neon.js?v=29"></script>
+<script charset="utf-8" src="js/ui.js?v=29"></script>

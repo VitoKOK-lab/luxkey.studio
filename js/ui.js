@@ -55,8 +55,8 @@ function placeCam(dt){
   camera.lookAt(cam.tx, cam.ty, cam.tz);
 }
 const clampGoal = () => { H.moved = true; goal.phi = H.clamp(goal.phi, .3, 1.32); goal.radius = H.clamp(goal.radius, 6, 650); goal.tx = H.clamp(goal.tx, -46, 46); goal.tz = H.clamp(goal.tz, -44, 44); };
-H.focusOn = (x, z, radius = 12) => { H.setEstateRoofs(false); H.follow = null; Object.assign(goal, {tx:x, ty:1, tz:z, radius:narrow() ? radius * 1.6 : radius}); };
-H.resetView = () => { H.follow = null; Object.assign(goal, HOME()); H.moved = false; };
+H.focusOn = (x, z, radius = 12) => { H.setEstateRoofs(false); H.airshipFocus=false; H.railFocus=false; H.follow = null; Object.assign(goal, {tx:x, ty:1, tz:z, radius:narrow() ? radius * 1.6 : radius}); };
+H.resetView = () => { H.airshipFocus=false; H.railFocus=false; H.follow = null; Object.assign(goal, HOME()); H.moved = false; };
 H.setFollow = a => { if (a) H.setEstateRoofs(false); H.follow = a; $('#c-follow').classList.toggle('on', !!a); if (a) goal.radius = Math.min(goal.radius, 11); };
 function pan(dx, dy){ const s = goal.radius * .0016, c = Math.cos(goal.theta), sn = Math.sin(goal.theta); goal.tx -= (dx * c + dy * sn) * s; goal.tz -= (-dx * sn + dy * c) * s; }
 const el = renderer.domElement, ptrs = new Map(); let dragged = false, pinch0 = 0, panMode = false;
@@ -88,7 +88,8 @@ function hover(e){
 }
 function click(e){
   const r = hit(e), n = performance.now(), dbl = n - lastClick < 320; lastClick = n;
-  if (r === 'neon') H.openChat();
+  if (r === 'broadcast') H.openBroadcast();
+  else if (r === 'neon') H.openChat();
   else if (typeof r === 'number'){ H.openCard(r); if (dbl) H.setFollow(H.agents[r]); }
   else if (dbl){ const p = floorPoint(e); if (p) H.focusOn(p.x, p.z, Math.max(9, goal.radius * .6)); }
   H.sfx && H.sfx.click();

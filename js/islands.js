@@ -194,6 +194,7 @@ for (const I of Object.values(ISL)){
 }
 
 /* ---------- per-frame ---------- */
+H.airDecor.push(...balloons.map(b=>b.grp));
 const prev = H.updateWorld;
 H.updateWorld = (dt, t) => {
   prev && prev(dt, t);

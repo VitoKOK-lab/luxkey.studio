@@ -46,6 +46,22 @@ const run=promisify(execFile);
  });
  assert.deepEqual(architecture.levels,[0,4.4,8.8]);assert.ok(architecture.height>=13&&architecture.glass>=50&&architecture.poolArea>=69);
  assert.ok(architecture.encloses.every(Boolean));assert.ok(architecture.railLength>350&&architecture.closed<.001);assert.equal(architecture.stations.length,5);assert.equal(architecture.coaches,5);
+ const clarity=await page.evaluate(()=>{
+  const H=HQ;let straight=0,minAirDistance=Infinity;
+  for(let i=0;i<720;i++){
+   const t=H.transport.railCurve.getTangentAt(i/720);if(Math.max(Math.abs(t.x),Math.abs(t.z))>.999)straight++;
+   const p=H.transport.airCurve.getPointAt(i/720);minAirDistance=Math.min(minAirDistance,Math.max(Math.abs(p.x),Math.abs(p.z)));
+  }
+  return {straight:straight/720,minAirDistance,railHidden:!H.transport.railway.visible,shipHidden:!H.transport.ship.visible,decorHidden:H.airDecor.every(o=>!o.visible),screen:HQ.screens.broadcast.g.position.toArray()};
+ });
+ assert.ok(clarity.straight>.85&&clarity.minAirDistance>=60);assert.ok(clarity.railHidden&&clarity.shipHidden&&clarity.decorHidden);
+ assert.deepEqual(clarity.screen,[0,6.45,-2.7]);
+ await page.locator('#v-screen').click();assert.equal(await page.locator('#broadcast-dialog').evaluate(d=>d.open),true);
+ await page.keyboard.press('Escape');assert.equal(await page.locator('#broadcast-dialog').evaluate(d=>d.open),false);
+ // Verify that clicking the physical 3D screen opens the same readable display.
+ const screenPoint=await page.evaluate(()=>{const p=HQ.screens.broadcast.g.position.clone().project(HQ.camera);return {x:(p.x+1)*innerWidth/2,y:(1-p.y)*innerHeight/2};});
+ await page.mouse.click(screenPoint.x,screenPoint.y);assert.equal(await page.locator('#broadcast-dialog').evaluate(d=>d.open),true);
+ await page.locator('#broadcast-close').click();
  assert.equal(routes.failures.length,0,JSON.stringify(routes.failures.slice(0,5)));
  assert.equal(await page.evaluate(()=>HQ.estate.roofs.visible),true);
  await page.locator('#v-roof').click();assert.equal(await page.evaluate(()=>HQ.estate.roofs.visible),false);
@@ -71,7 +87,7 @@ const run=promisify(execFile);
  });
  assert.ok(!walk.crossed&&walk.arrived&&walk.distance<.1,JSON.stringify(walk));
  await page.evaluate(()=>{HQ.setDept('all');HQ.setEstateRoofs(true);});await page.waitForTimeout(700);await page.screenshot({path:'/tmp/estate-desktop.png'});
- await page.locator('#v-train').click();await page.waitForTimeout(700);await page.screenshot({path:'/tmp/estate-world.png'});
+ await page.locator('#v-train').click();await page.waitForFunction(()=>HQ.transport.railway.visible&&HQ.transport.ship.visible);await page.waitForTimeout(700);await page.screenshot({path:'/tmp/estate-world.png'});
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>{HQ.resetView();});await page.waitForTimeout(700);
  await page.locator('#v-train').click();assert.ok(await page.evaluate(()=>HQ.goal.radius>=215));
  await page.locator('#v-airship').click();assert.ok(await page.evaluate(()=>HQ.goal.ty>8));
@@ -81,6 +97,6 @@ const run=promisify(execFile);
  assert.ok(mobile.document<=mobile.width);assert.ok(mobile.buttons.every(w=>w>=44));
  await page.screenshot({path:'/tmp/estate-mobile.png'});
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({architecture,routes:routes.checked,models:8,agents:8,transport:moving,walk,mobile,errors},null,2));
+ console.log(JSON.stringify({architecture,clarity,routes:routes.checked,models:8,agents:8,transport:moving,walk,mobile,errors},null,2));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});

@@ -291,5 +291,6 @@ H.updateWorld = (dt, t) => {
   for (const n of npcs) npcTick(n, dw, now);
   tennisTick(dw);
   ufoTick(dt * Math.max(.6, k || .6), t);
+  const showUfo=!!H.cam&&H.cam.radius>=150;ufo.visible=showUfo;beam.visible=beam.visible&&showUfo;ufoLight.intensity*=showUfo?1:0;
 };
 })();

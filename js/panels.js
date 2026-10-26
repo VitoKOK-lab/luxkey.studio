@@ -110,10 +110,32 @@ const zl = (text, x, z, dept) => {
 for (const id of H.DEPT_IDS){ const z = H.DEPTS[id].zone; zl(`${H.DEPTS[id].name} · ${H.agentsBy(id).length}`, z.x0 + 2.2, z.z1 - .3, id); }
 zl('Ace 王牌室', 12.6, -6.0); zl('玻璃會議廳', 12.4, .8); zl('無邊際泳池', 1.0, 10.5); zl('超跑車庫', 11.8, 9.8); zl('雕塑庭院', -9.6, 1.5); zl('數字人攝影棚', 7.0, -6.4); zl('客戶接待', -8.0, 10.0);
 
+/* A prominent facade screen with click-to-enlarge and an explicit navigation button. */
+const display=H.screens.broadcast.g.children[1];display.userData.agent='broadcast';H.pickables.push(display);
+const displayDialog=$('#broadcast-dialog');
+H.openBroadcast=()=>{if(!displayDialog.open)displayDialog.showModal();H.drawScreens();};
+$('#broadcast-close').onclick=()=>displayDialog.close();
+const displayButton=document.createElement('button');displayButton.id='v-screen';displayButton.title=displayButton.ariaLabel='大螢幕';
+displayButton.innerHTML='<svg class="i" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>';
+displayButton.onclick=H.openBroadcast;$('.rail').insertBefore(displayButton,$('#v-an'));
+
 /* wall screens */
 const F = H.screenFont;
 H.drawScreens = () => {
   const k = H.kpi(), P = S.projects;
+  H.drawScreen('broadcast',(g,W,Hh)=>{
+    g.fillStyle='#132b32';g.fillRect(0,0,W,Hh);
+    g.fillStyle='#f37021';g.fillRect(0,0,12,Hh);g.font=F(700,28);g.fillText('A.C.E.  /  莊園大螢幕',48,56);
+    g.fillStyle='#fff';g.font=F(700,64);g.fillText(S.meeting?'會議進行中':'今日營運總覽',48,142);
+    g.fillStyle='#b7cbd0';g.font=F(500,24);g.fillText(S.meeting?`主持 Ace · ${S.meeting.total} 位夥伴 · ${S.meeting.arrived} 位已到席`:'四個部門同步運作 · 模擬營運數據',48,190);
+    [['今日入帳',H.k(k.today)],['影片交付',k.delivered+' 支'],['在製專案',k.inProd+' 件'],['月目標',k.pct+'%']].forEach(([label,value],i)=>{
+      const x=48+i*300;g.fillStyle='#203e46';g.fillRect(x,238,276,176);
+      g.fillStyle='#b7cbd0';g.font=F(500,26);g.fillText(label,x+22,282);
+      g.fillStyle=i===0?'#ffb16b':'#fff';g.font=F(700,48);g.fillText(value,x+22,360);
+    });
+    g.fillStyle='#b7cbd0';g.font=F(500,23);g.fillText('點擊螢幕放大  ·  側邊「大螢幕」也可開啟',48,Hh-42);
+  });
+  if(displayDialog.open)$('#broadcast-canvas').getContext('2d').drawImage(H.screens.broadcast.c,0,0,1280,545);
   H.drawScreen('production', (g, W, Hh) => {
     g.fillStyle = '#9aa1ad'; g.font = F(600, 24); g.fillText('RENDER WALL · 今日出片', 40, 56);
     g.fillStyle = '#fff'; g.font = F(700, 86, 1); g.fillText(k.videos + ' 支', 36, 148);
