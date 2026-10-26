@@ -1,4 +1,23 @@
-# A.C.E. 王牌辦公室 — 3D AI Agent 公司模擬
+# A.C.E. 王牌莊園 — 3D AI Agent 公司模擬
+
+## 3D 莊園版本
+
+主島現在使用真正的 Three.js 幾何：日式宅邸、可隱藏屋頂、木廊、枯山水、哥德會議廳、動態泳池與雙車位車庫。原有員工、接案模擬、其他浮島、動物與 UFO 保留。
+
+- 左側「屋頂」切換室內／外觀；聚焦部門、導覽或跟隨角色會自動打開屋頂。
+- 「空島列車」查看住宅島高架環線；「空船航線」聚焦飛行中的船。
+- 列車和空船目前是觀光動畫，尚未承擔員工通勤／載客或購買功能；暫停模擬也會停止它們。減少動態效果偏好會停止觀光動畫。
+- Mini Forest、Train Kit、Watercraft Kit 與配送車為真正的 Kenney CC0 模型，來源與授權見 [assets/kenney/SOURCES.md](assets/kenney/SOURCES.md)。空船由 Watercraft 船體加程序化氣囊構成。未把概念插畫當成 3D 場景。
+- GitHub Pages 上的 AI 仍是示範／離線模式；未加入 API key、Cloudflare 後端或跨裝置存檔。
+
+從 checkout 根目錄執行 `python3 -m http.server 8899 --bind 127.0.0.1`。不需要建置或 npm 安裝。新增程式：`js/estate.js`、`js/transport.js`。
+
+### 驗證
+
+JavaScript 語法：`for f in js/*.js; do node --check "$f" || exit 1; done`。
+
+瀏覽器測試：啟動上述伺服器，使用已安裝 Playwright 的工具環境執行 `node tests/estate-smoke.cjs`。可用 `PLAYWRIGHT_MODULE` 指定 Playwright 套件路徑、`CHROMIUM_PATH` 指定 Chromium、`TEST_URL` 指定測試位址。測試涵蓋模型載入、所有座位／休息點／出口間的路線、繞池步行、屋頂切換、交通工具移動與暫停，以及 390px 手機操作。截圖輸出在 `/tmp/estate-desktop.png` 和 `/tmp/estate-mobile.png`。效能計數來自測試環境，不代表真實手機幀率。
+
 
 LUXKEY A.C.E. 的 3D 數位分身：一間漂浮在空中的天空島美式 loft 辦公室，8 位 AI 夥伴依「LINE 詢問 → 腳本確認 → AI 製作 → 交片上架」的流程工作，AI 王牌製作人 Ace 巡樓、開會、處理事件，並用 Claude 真的產出報價、腳本、製作指令與上架文案。
 

@@ -23,15 +23,6 @@ add('cup-coffee', .15, 1.75, 0, .7, .85); add('mug', 1.1, 1.8, PI / 2, .55, .85)
 for (const x of [.3, 1.4, 2.5, 3.6]) add('stoolBar', x, 2.9, 0, 2, 0, {carpet:ORANGE, wood:INK});
 add('kitchenFridge', -1.4, 1.5, PI / 2, 2, 0, {metalLight:'#f6f1ea', metalDark:INK}, [-1.9, 1.0, -.9, 2.0]);
 add('trashcan', -1.4, 3.2, 0, 1.4, 0, null, [-1.7, 2.9, -1.1, 3.5]);
-/* lounge */
-add('loungeSofa', 2.0, 8.6, PI, 2.4, 0, {carpet:TEAL, wood:WALNUT}); add('pillow', 1.2, 8.55, PI, 2, .55, {carpet:ORANGE}); add('pillowBlue', 2.8, 8.55, PI, 2, .55, {carpetBlue:CREAM});
-add('loungeDesignSofa', -2.2, 5.8, PI / 2, 2.2, 0, {carpetBlue:RUST, metal:INK}); add('pillow', -2.2, 5.0, PI / 2, 2, .5, {carpet:CREAM});
-add('loungeSofaOttoman', 4.2, 7.2, 0, 2.2, 0, {carpet:TEAL, wood:WALNUT}, [3.7, 6.7, 4.7, 7.7]);
-add('tableCoffee', 2.0, 6.0, 0, 2.2, 0, {wood:WALNUT}); add('books', 1.6, 5.9, .3, 2, .5); add('mug', 2.5, 6.1, 0, .5, .5); add('plantSmall1', 2.1, 6.2, 0, 1.6, .5, {wood:'#f6f1ea'});
-add('lampRoundFloor', 4.3, 9.6, 0, 2.3, 0, {metal:INK}, [4.0, 9.3, 4.6, 9.9]);
-add('cabinetTelevision', 6.4, 9.6, PI, 2.3, 0, {wood:WALNUT}, [5.4, 9.2, 7.4, 10.0]); add('radio', 6.4, 9.55, PI, 2, .7, {wood:TAN, metalMedium:INK});
-add('speaker', 5.2, 10.5, PI, 2, 0, {wood:WALNUT, metalMedium:INK}, [4.9, 10.2, 5.5, 10.8]); add('speaker', 7.6, 10.5, PI, 2, 0, {wood:WALNUT, metalMedium:INK}, [7.3, 10.2, 7.9, 10.8]);
-add('bookcaseOpen', 6.4, 10.7, 0, 2.2, 0, {wood:WALNUT}); add('books', 6.1, 10.7, 0, 2, .05); add('books', 6.7, 10.7, 0, 2, .95); add('books', 6.4, 10.7, 0, 2, 1.4);
 /* client lounge (sales) */
 add('loungeChair', -9.3, 8.6, PI / 2, 2.2, 0, {carpet:TAN, wood:WALNUT}); add('loungeChair', -6.7, 8.6, -PI / 2, 2.2, 0, {carpet:TAN, wood:WALNUT});
 add('tableCoffeeGlass', -8.0, 8.6, PI / 2, 1.9, 0, {metal:INK}); add('cup-coffee', -8.1, 8.5, 0, .6, .5); add('cookie', -7.8, 8.8, 0, .9, .5);
@@ -46,13 +37,12 @@ add('sideTable', 14.2, -9.0, -PI / 2, 2, 0, {wood:WALNUT}, [13.9, -9.5, 14.5, -8
 add('plantSmall3', 11.8, -8.0, 0, 1.8, .77, {wood:'#f6f1ea'});
 /* production + growth touches */
 add('speaker', 5.4, -10.4, 0, 2, 0, {wood:INK, metalMedium:INK}, [5.1, -10.7, 5.7, -10.1]);
-add('cardboardBoxOpen', 14.2, 7.0, .4, 2, 0, null, [13.8, 6.6, 14.6, 7.4]); add('pizza-box', 14.2, 7.0, .4, .45, .58);
 add('plantSmall1', -.9, -6.95, 0, 1.6, .78, {wood:'#f6f1ea'}); add('plantSmall2', -8.2, 4.5, 0, 1.6, .78, {wood:'#f6f1ea'});
 add('soda-can', 1.0, -6.9, 0, .6, .78); add('cup-coffee', -12.9, -6.1, 0, .6, .78);
 /* potted plants (replace procedural) */
 for (const [x, z] of [[8.6, 1.2], [-5.6, 9.8], [-5.8, -10.0], [9.6, -10.2], [-14.2, 10.2], [14.4, 10.3], [4.6, -1.4], [14.3, -10.3]]) add('pottedPlant', x, z, Math.random() * PI, 2.5, 0, {wood:'#f6f1ea', woodDark:INK});
 /* ceiling: pendant lamps over island and lounge, fans over the floor */
-for (const [x, z] of [[.9, 1.6], [3.1, 1.6], [2.0, 6.0], [-8.0, 8.6], [12.4, -2.2]]) add('lampSquareCeiling', x, z, 0, 2.2, 2.75, {metal:INK});
+for (const [x, z] of [[.9, 1.6], [3.1, 1.6], [-8.0, 8.6], [12.4, -2.2]]) add('lampSquareCeiling', x, z, 0, 2.2, 2.75, {metal:INK});
 for (const [x, z] of [[-10, -2], [3, -5], [-10, 7]]) add('ceilingFan', x, z, 0, 3.2, 3.2, {metalLight:'#f6f1ea', wood:WALNUT});
 /* desk + meeting chairs */
 for (const c of H.chairSpots) add('chairDesk', c.x, c.z, c.ry, 2, 0, {carpet:c.color === 0xc9560f ? RUST : INK, metalMedium:'#2a3236'});

@@ -52,6 +52,7 @@ H.canvasTex = canvasTex;
 const CS = .5, OX = -FW / 2 - 1, OZ = -FD / 2 - 1, GX = Math.ceil((FW + 2) / CS), GZ = Math.ceil((FD + 2) / CS), grid = new Uint8Array(GX * GZ);
 const cx = x => H.clamp(Math.floor((x - OX) / CS), 0, GX - 1), cz = z => H.clamp(Math.floor((z - OZ) / CS), 0, GZ - 1);
 const block = H.block = (x0, z0, x1, z1, pad = .25) => { for (let j = cz(z0 - pad); j <= cz(z1 + pad); j++) for (let i = cx(x0 - pad); i <= cx(x1 + pad); i++) grid[j * GX + i] = 1; };
+H.navBlocked = (x, z) => !!grid[cz(z) * GX + cx(x)];
 for (let i = 0; i < GX; i++){ grid[i] = 1; grid[GX + i] = 1; grid[(GZ - 1) * GX + i] = 1; }
 for (let j = 0; j < GZ; j++){ grid[j * GX] = 1; grid[j * GX + 1] = 1; grid[j * GX + GX - 1] = 1; }
 function los(ax, az, bx, bz, s, g){ const d = Math.hypot(bx - ax, bz - az), n = Math.ceil(d / .2); for (let i = 1; i < n; i++){ const k = cz(az + (bz - az) * i / n) * GX + cx(ax + (bx - ax) * i / n); if (grid[k] && k !== s && k !== g) return false; } return true; }
@@ -74,7 +75,7 @@ H.findPath = (sx, sz, tx, tz) => {
       const c = gS[k] + (dx && dz ? 1.414 : 1); if (c < gS[n]){ gS[n] = c; from[n] = k; push(n, c + hf(n)); }
     }
   }
-  if (!found) return [{x:tx, z:tz}];
+  if (!found) return [];
   const cells = []; for (let k = goal; k !== -1; k = from[k]) cells.unshift(k);
   const pts = cells.map(k => ({x:OX + (k % GX + .5) * CS, z:OZ + (Math.floor(k / GX) + .5) * CS}));
   pts[0] = {x:sx, z:sz}; pts.push({x:tx, z:tz});
@@ -103,23 +104,7 @@ for (const id of H.DEPT_IDS){
   const p = mesh(new THREE.PlaneGeometry(z.x1 - z.x0, z.z1 - z.z0), m, scene, (z.x0 + z.x1) / 2, .012, (z.z0 + z.z1) / 2); p.rotation.x = -Math.PI / 2; p.castShadow = false; H.zoneMeshes[id] = m;
 }
 
-/* walls: back = exposed brick, left = cream plaster with tall windows */
-const brick = canvasTex(512, 256, g => {
-  g.fillStyle = '#d9d2c7'; g.fillRect(0, 0, 512, 256);
-  for (let r = 0; r < 8; r++) for (let c = -1; c < 9; c++){ const x = c * 64 + (r % 2) * 32, y = r * 32; g.fillStyle = pick(['#c4553a', '#b9492f', '#cc5f44', '#a94330', '#c1573c']); g.fillRect(x + 2, y + 2, 60, 28); g.fillStyle = 'rgba(255,255,255,.08)'; g.fillRect(x + 2, y + 2, 60, 4); }
-}, 7, 1.6);
-mesh(box(FW, 3.6, .2), new THREE.MeshStandardMaterial({map:brick, roughness:.95}), scene, 0, 1.8, -FD / 2 - .1);
-mesh(box(.2, 3.6, FD), mat(0xf4ede3), scene, -FW / 2 - .1, 1.8, 0);
-mesh(box(FW + .2, .14, .32), mat(0xffffff), scene, 0, 3.67, -FD / 2 - .1);
-mesh(box(.32, .14, FD), mat(0xffffff), scene, -FW / 2 - .1, 3.67, 0);
-for (const z of [-7.5, -2.5, 2.5, 7.5]){ // tall black-frame windows
-  mesh(box(.08, 2.6, 3.4), mat(0x1c1f22), scene, -FW / 2 + .02, 1.75, z);
-  mesh(box(.04, 2.4, 3.2), winM, scene, -FW / 2 + .07, 1.75, z);
-  mesh(box(.1, 2.4, .05), mat(0x1c1f22), scene, -FW / 2 + .08, 1.75, z); mesh(box(.1, .05, 3.2), mat(0x1c1f22), scene, -FW / 2 + .08, 1.75, z);
-}
-
-
-/* outside the windows: open sky — see sky.js (floating island, clouds, sun/moon, birds, UFO) */
+/* Estate architecture is built by estate.js after the shared workspaces. */
 
 /* wall screens */
 H.screens = {};
@@ -182,8 +167,6 @@ function art(x, y, z, w, h, rotY, i){
   const t = canvasTex(512, 512, ART[i % ART.length]); t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping; t.repeat.set(1, 1);
   const p = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshStandardMaterial({map:t, roughness:.9})); p.position.z = .045; g.add(p);
 }
-art(-5.4, 2.0, -FD / 2 + .12, 1.5, 1.5, 0, 0); art(-7.7, 2.1, -FD / 2 + .12, 1.1, 1.5, 0, 1); art(7.4, 2.0, -FD / 2 + .12, 2.4, 1.5, 0, 5); art(-13.2, 2.2, -FD / 2 + .12, 1.0, 1.0, 0, 6);
-art(-FW / 2 + .12, 2.0, -10, 1.2, 1.2, Math.PI / 2, 3); art(-FW / 2 + .12, 2.0, 0, 1.6, 1.3, Math.PI / 2, 4); art(-FW / 2 + .12, 2.0, 10, 1.3, 1.3, Math.PI / 2, 2); art(-FW / 2 + .12, 2.0, 5, .9, .9, Math.PI / 2, 6);
 /* neon sign: A.C.E. in orange on the brick */
 {
   const c = canvasTex(1024, 256, g => { g.clearRect(0, 0, 1024, 256); g.fillStyle = '#f37021'; g.font = '700 150px "Noto Serif TC",Georgia,serif'; g.textBaseline = 'middle'; g.fillText('A.C.E.', 40, 118); g.font = '500 44px "Noto Sans TC",sans-serif'; g.fillStyle = '#fbf6f2'; g.fillText('讓 AI 成為每個品牌的王牌', 540, 126); });
@@ -203,6 +186,7 @@ function plant(x, z, s = 1, kind = 0){
   block(x - .35 * s, z - .35 * s, x + .35 * s, z + .35 * s, .1);
 }
 function chair(x, z, rotY = 0, color = 0x17363c){
+  H.chairSpots.push({x, z, ry:rotY, color});
   const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = rotY; proc.add(g);
   mesh(cyl(.05, .05, .42, 8), mat(0x6b7280), g, 0, .22, 0); mesh(cyl(.28, .28, .03, 12), mat(0x6b7280), g, 0, .03, 0);
   mesh(box(.6, .1, .56), mat(color), g, 0, .48, 0); mesh(box(.6, .62, .09), mat(color), g, 0, .82, -.27);
@@ -231,19 +215,16 @@ H.desks.growth.push(desk(12.4, 4.4, 'growth', true));
 for (let i = 0; i < 8; i++) mesh(box(.02, .35, .28), mat(pick([0xffffff, 0xfbf6f2, 0xf37021, 0xece3da])), scene, -FW / 2 + .12, 1.4 + (i % 2) * .5, -9.2 + Math.floor(i / 2) * .45).rotation.x = rand(-.08, .08);
 
 /* Ace office (glass corner) */
-const glassM = new THREE.MeshStandardMaterial({color:0xd6ecf5, transparent:true, opacity:.2, roughness:.05, depthWrite:false}), frameM = mat(0x1c1f22);
-function glass(x0, z0, x1, z1){ const w = Math.max(.05, x1 - x0), d = Math.max(.05, z1 - z0); mesh(box(w, 2.8, d), glassM, scene, (x0 + x1) / 2, 1.4, (z0 + z1) / 2).castShadow = false; mesh(box(w + .02, .08, d + .02), frameM, scene, (x0 + x1) / 2, 2.8, (z0 + z1) / 2); for (const [px, pz] of [[x0, z0], [x1, z1]]) mesh(box(.08, 2.8, .08), frameM, scene, px, 1.4, pz); block(x0, z0, x1, z1, .2); }
-glass(10.2, -11, 10.2, -7.4); glass(10.2, -6.2, 15, -6.2); glass(10.2, -7.4, 10.2, -6.2);
 mesh(box(4.8, .03, 4.8), mat(0xf6efe7), scene, 12.6, .01, -8.6);
 H.neonDesk = desk(12.8, -8.9, 'exec', true);
 plant(14.3, -10.3, .9, 2);
 /* open meeting table (walnut) */
-mesh(box(3.6, .08, 1.5), mat(0x6b4a2e, {roughness:.5}), scene, 12.4, .76, -2.2);
-for (const x of [11.0, 13.8]) mesh(box(.12, .72, 1.2), legM, scene, x, .36, -2.2);
-block(10.5, -3.0, 14.3, -1.4, .15);
+mesh(box(3.2, .08, 1.5), mat(0x6b4a2e, {roughness:.5}), scene, 12.0, .76, -2.2);
+for (const x of [10.8, 13.2]) mesh(box(.12, .72, 1.2), legM, scene, x, .36, -2.2);
+block(10.3, -3.0, 13.7, -1.4, .15);
 H.meetChairs = [];
 for (const x of [11.3, 12.4, 13.5]){ H.meetChairs.push({x, z:-3.5, face:0}, {x, z:-.9, face:Math.PI}); }
-H.meetChairs.push({x:10.0, z:-2.2, face:Math.PI / 2}, {x:14.8, z:-2.2, face:-Math.PI / 2});
+H.meetChairs.push({x:10.0, z:-2.2, face:Math.PI / 2}, {x:14.3, z:-2.2, face:-Math.PI / 2});
 H.meetChairs.forEach(c => chair(c.x - Math.sin(c.face) * .1, c.z - Math.cos(c.face) * .1, c.face, 0xc9560f));
 H.drawScreen('meet', g => { g.fillStyle = '#f37021'; g.font = font(700, 30, 1); g.fillText('會議桌', 30, 60); g.fillStyle = '#9aa1ad'; g.font = font(500, 22); g.fillText('目前沒有排定的會議', 30, 106); });
 
@@ -263,7 +244,7 @@ H.stageSpot = {x:STG.x + .3, z:STG.z, face:-Math.PI / 2 + .3};
 H.studioLive = on => { ringM.emissiveIntensity = on ? 2.4 : .5; };
 
 /* chill zone: kitchen island with food, bar stools, lounge sofas, rug, record player */
-rug(2.0, 5.2, 7.5, 5.5, '#e9d8c3', '#d7bea0');
+
 const island = new THREE.Group(); island.position.set(2.0, 0, 1.6); proc.add(island);
 mesh(box(4.6, .9, 1.1), mat(0x17363c, {roughness:.6}), island, 0, .45, 0); mesh(box(4.8, .07, 1.3), mat(0xf6f1ea, {roughness:.3}), island, 0, .94, 0);
 mesh(box(.5, .2, .4), mat(0x9c6b3f), island, -1.8, 1.07, 0); mesh(box(.46, .05, .36), mat(0xe9c9a8), island, -1.8, 1.2, 0); // bread board
@@ -275,15 +256,6 @@ mesh(box(.42, .5, .4), mat(0x111417), island, 1.9, 1.2, -.2); mesh(cyl(.05, .05,
 for (const x of [1.4, 2.0, 2.6, 3.2]) for (const z of [.9, 2.3]) mesh(cyl(.06, .06, .14, 12), mat(x % 1 ? 0xffffff : 0x17363c), island, x - 2.0, 1.04, z - 1.6);
 for (const x of [.6, 1.7, 2.8, 3.9]){ mesh(cyl(.26, .26, .08, 18), mat(0xc9560f), proc, x - .3, .78, 2.9); mesh(cyl(.03, .03, .74, 8), legM, proc, x - .3, .37, 2.9); mesh(cyl(.2, .2, .03, 18), legM, proc, x - .3, .02, 2.9); }
 block(-.5, .9, 4.5, 3.2, .2);
-const sofa = (x, z, ry, c) => { const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = ry; proc.add(g); mesh(box(3.0, .42, 1.1), mat(c), g, 0, .3, 0); mesh(box(3.0, .66, .3), mat(c), g, 0, .66, -.42); for (const s of [-1, 1]) mesh(box(.3, .58, 1.1), mat(c), g, 1.35 * s, .48, 0); mesh(box(.5, .4, .18), mat(0xf37021), g, .8, .72, -.22).rotation.z = .1; mesh(box(.5, .4, .18), mat(0xece3da), g, -.7, .72, -.22).rotation.z = -.08; return g; };
-sofa(2.0, 8.6, Math.PI, 0x5b6b70); sofa(-2.2, 5.8, Math.PI / 2, 0xc9a27a);
-mesh(cyl(.6, .6, .06, 32), mat(0x6b4a2e, {roughness:.5}), proc, 2.0, .42, 6.0); mesh(cyl(.08, .08, .4, 10), legM, proc, 2.0, .2, 6.0);
-mesh(box(.4, .02, .3), mat(0xfbf6f2), proc, 1.8, .46, 5.9); mesh(cyl(.05, .05, .1, 10), mat(0x17363c), proc, 2.25, .5, 6.1); // magazine + cup
-block(.5, 8.1, 3.5, 9.2, .1); block(-2.8, 4.3, -1.7, 7.3, .1); block(1.4, 5.4, 2.6, 6.6, .05);
-mesh(box(1.2, .9, .5), mat(0x6b4a2e), proc, 6.4, .45, 9.6); mesh(box(.5, .05, .5), mat(0x111417), proc, 6.4, .93, 9.6); mesh(cyl(.2, .2, .02, 20), mat(0x222), proc, 6.4, .97, 9.6); // record player
-mesh(box(.9, 1.6, .25), mat(0xffffff), proc, 6.4, .8, 10.7); for (let i = 0; i < 6; i++) mesh(box(.32, .32, .02), mat(pick([0xc9560f, 0x17363c, 0x3f7f8c, 0xf37021, 0xe9c9a8])), proc, 6.15 + (i % 2) * .5, .4 + Math.floor(i / 2) * .5, 10.84); // vinyl shelf
-block(5.7, 9.2, 7.1, 10.9, .1);
-mesh(box(.8, .08, .22), mat(0x17363c), proc, 9.4, .05, 9.8).rotation.y = .4; // skateboard
 plant(8.6, 1.2, 1.1, 2); plant(-5.6, 9.8, 1.0, 0); plant(-5.8, -10.0, .9, 1); plant(9.6, -10.2, 1.0, 2); plant(-14.2, 10.2, 1.1, 0); plant(14.4, 10.3, 1.0, 1); plant(4.6, -1.4, .8, 0);
 /* client lounge in sales zone + reception at the entrance */
 mesh(cyl(.5, .5, .05, 28), mat(0xf6f1ea), proc, -8.0, .44, 8.6); mesh(cyl(.06, .06, .42, 10), legM, proc, -8.0, .21, 8.6);
@@ -296,10 +268,10 @@ mesh(cyl(.16, .12, .3, 14), mat(0xffffff), rc, 1.0, 1.2, -.1); mesh(new THREE.Sp
 block(-5.0, 9.4, -2.2, 10.3, .2);
 
 /* gathering spots */
-H.ATRIUM = {x:2.0, z:5.2};
+H.ATRIUM = {x:0, z:-1.5};
 H.allHands = [];
-for (let i = 0; i < 12; i++){ const a = i / 12 * Math.PI * 2; H.allHands.push({x:H.ATRIUM.x + Math.cos(a) * 3.0, z:H.ATRIUM.z + Math.sin(a) * 2.2, face:Math.atan2(-Math.cos(a), -Math.sin(a))}); }
-H.breakSpots = [{x:.3, z:3.6, face:0}, {x:1.4, z:3.6, face:0}, {x:2.5, z:3.6, face:0}, {x:3.6, z:3.6, face:0}, {x:1.2, z:7.6, face:Math.PI, sit:true}, {x:2.8, z:7.6, face:Math.PI, sit:true}, {x:-1.4, z:5.0, face:Math.PI / 2, sit:true}].map(s => Object.assign(s, {taken:null}));
+for (let i = 0; i < 12; i++){ const a = i / 12 * Math.PI * 2; H.allHands.push({x:H.ATRIUM.x + Math.cos(a) * 2.8, z:H.ATRIUM.z + Math.sin(a) * 1.4, face:Math.atan2(-Math.cos(a), -Math.sin(a))}); }
+H.breakSpots = [{x:.3, z:3.6, face:0}, {x:1.4, z:3.6, face:0}, {x:2.5, z:3.6, face:0}, {x:3.6, z:3.6, face:0}, {x:7, z:5.8, face:-Math.PI / 2, sit:true}, {x:7, z:8.3, face:-Math.PI / 2, sit:true}, {x:-1, z:6.5, face:Math.PI / 2, sit:true}].map(s => Object.assign(s, {taken:null}));
 H.clientSpots = [{x:-8.0, z:7.5, face:Math.PI}];
 
 H.updateWorld = (dt, t) => {};

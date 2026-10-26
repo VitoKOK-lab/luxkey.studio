@@ -108,7 +108,7 @@ const zl = (text, x, z, dept) => {
   $('#overlay').append(el); H.zoneTags.push({el, x, z});
 };
 for (const id of H.DEPT_IDS){ const z = H.DEPTS[id].zone; zl(`${H.DEPTS[id].name} · ${H.agentsBy(id).length}`, z.x0 + 2.2, z.z1 - .3, id); }
-zl('Ace 王牌室', 12.6, -6.0); zl('會議桌', 12.4, -.4); zl('Chill Zone · 廚房', 2.0, 11.0); zl('數字人攝影棚', 7.0, -6.4); zl('客戶接待', -8.0, 10.0);
+zl('Ace 王牌室', 12.6, -6.0); zl('哥德會議廳', 12.4, .8); zl('無邊際泳池', 3.0, 10.0); zl('超跑車庫', 11.8, 9.8); zl('枯山水庭院', -9.6, 1.5); zl('數字人攝影棚', 7.0, -6.4); zl('客戶接待', -8.0, 10.0);
 
 /* wall screens */
 const F = H.screenFont;
