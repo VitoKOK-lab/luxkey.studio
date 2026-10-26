@@ -69,8 +69,8 @@ function npc(name, model, I, at, role){
   H.loadChar(model).then(gltf => {
     const root = gltf.scene; root.scale.setScalar(2.3);
     root.traverse(o => { if (o.isMesh){ o.castShadow = o.receiveShadow = true; o.frustumCulled = false; o.material = o.material.clone(); o.material.roughness = .8; o.material.envMapIntensity = .25; } });
-    n.g.add(root); const mixer = new THREE.AnimationMixer(root), clips = {}; gltf.animations.forEach(c => { clips[c.name] = mixer.clipAction(c); });
-    n.rig = {mixer, clips, cur:null}; clip(n, 'idle');
+    n.g.add(root); const mixer = new THREE.AnimationMixer(root), clips = {}; gltf.animations.forEach(c => { clips[c.name] = mixer.clipAction(H.groundCharClip(c)); });
+    n.rig = {root, mixer, clips, cur:null}; clip(n, 'idle');
   }).catch(e => console.warn('resident failed', name, e));
   const el = document.createElement('div'); el.className = 'tag npc'; el.style.setProperty('--dc', '#94a3b8');
   el.innerHTML = '<i class="dot" style="background:#94a3b8"></i><b></b><span></span>'; el.querySelector('b').textContent = name; el.querySelector('span').textContent = role;
@@ -83,12 +83,13 @@ function npcTick(n, dt, now){
   if (n.path.length && dt > 0){
     const p = n.path[0], g = n.g, dx = p.x - g.position.x, dz = p.z - g.position.z, d = Math.hypot(dx, dz), step = dt * n.spd;
     if (d <= step){ g.position.set(p.x, p.y, p.z); n.path.shift(); if (!n.path.length){ if (n.face !== undefined) n.rotGoal = n.face; const cb = n.onArrive; n.onArrive = null; cb && cb(); } }
-    else { g.position.x += dx / d * step; g.position.z += dz / d * step; n.rotGoal = Math.atan2(dx, dz); }
+    else { g.position.y += (p.y - g.position.y) * step / d; g.position.x += dx / d * step; g.position.z += dz / d * step; n.rotGoal = Math.atan2(dx, dz); }
   } else if (!n.path.length && (n.wait -= dt) <= 0 && n.brain) n.brain(n);
   if (n.rotGoal !== undefined){ let da = n.rotGoal - n.g.rotation.y; da = Math.atan2(Math.sin(da), Math.cos(da)); n.g.rotation.y += da * Math.min(1, dt * 8); }
   if (!n.rig) return;
   clip(n, n.path.length && dt > 0 ? 'walk' : n.swingUntil > now ? 'interact-right' : n.sit ? 'sit' : 'idle');
   n.rig.mixer.update(dt || 0);
+  H.groundCharacter(n.rig.root, n.sit);
 }
 const freeBench = I => I.benches.filter(b => !b.taken);
 function sitBench(n, I, then){ const b = pick(freeBench(I)); if (!b) return then(n); b.taken = n; walkIsle(n, local(I, b.p), b.face, () => { n.sit = true; n.wait = rand(10, 22); n.brain = m => { b.taken = null; m.sit = false; m.brain = then; then(m); }; }); }
@@ -218,11 +219,26 @@ function clearLife(a){
 /* anything that calls an employee back (meeting, live, goHome) walks them back over the bridge first */
 H.goTo = (a, spot, cb) => {
   if (a.isNeon || !a.offMain) return goTo0(a, spot, cb);
-  const p = a.c.g.position, r = a.route; a.c.g.visible = true; clearLife(a); a.offMain = false; a.route = null;
-  if (onFloor(p)) return goTo0(a, spot, cb);
-  let k = 0, bd = 1e9; r.forEach((q, i) => { const d = (q.x - p.x) ** 2 + (q.z - p.z) ** 2 + (q.y - p.y) ** 2; if (d < bd){ bd = d; k = i; } });
-  a.path = [...r.slice(0, k + 1).reverse(), {x:r.exit.x, z:r.exit.z, y:0}, ...H.findPath(r.exit.x, r.exit.z, spot.x, spot.z)];
-  a.dest = spot; a.onArrive = cb || null; a.pose = 'stand'; a.status = 'walking'; a.statusUntil = 0;
+  const p = a.c.g.position, r = a.route;
+  a.c.g.visible = true; clearLife(a);
+  if (onFloor(p)) { a.offMain = false; a.route = null; a.gy = 0; return goTo0(a, spot, cb); }
+  const I = r.island, bridge = [{x:I.exit.x, y:0, z:I.exit.z}, ...I.bridge];
+  // Project onto a bridge segment, never jump to the nearest discrete waypoint.
+  let nearest, distance = Infinity;
+  for (let i = 0; i < bridge.length - 1; i++) {
+    const a = bridge[i], b = bridge[i+1], dx = b.x-a.x, dz = b.z-a.z;
+    const t = H.clamp(((p.x-a.x)*dx+(p.z-a.z)*dz)/(dx*dx+dz*dz), 0, 1);
+    const q = {x:a.x+dx*t, y:a.y+(b.y-a.y)*t, z:a.z+dz*t};
+    const d = Math.hypot(p.x-q.x,p.z-q.z);
+    if (d < distance) { distance = d; nearest = {q,i}; }
+  }
+  const back = distance < .8
+    ? [nearest.q, ...bridge.slice(0, nearest.i+1).reverse()]
+    : [...isleRoute(I, local(I,p), local(I,bridge[bridge.length-1])), ...bridge.slice().reverse()];
+  a.path = [...back, ...H.findPath(I.exit.x, I.exit.z, spot.x, spot.z)];
+  // Keep offMain and the island reference while returning: a second task may interrupt us.
+  a.dest = spot; a.onArrive = () => { a.offMain = false; a.route = null; a.gy = 0; cb && cb(); };
+  a.pose = 'stand'; a.status = 'walking'; a.statusUntil = 0;
 };
 const VENUE_TXT = {'711':'去 7-11 買咖啡', gym:'去健身房', cinema:'去看電影', tennis:'去娛樂島打網球'};
 function goOff(a, kind, venue, instant){
@@ -233,7 +249,7 @@ function goOff(a, kind, venue, instant){
   if (kind === 'home') isle = isleRoute(I, B, local(I, R.houses[a.name].door));
   else if (venue === 'tennis'){ isle = [...isleRoute(I, B, {x:3.45, z:0}), ...TENNIS_IN(1)]; face = PI; F.court.B.who = a; }
   else isle = isleRoute(I, B, local(I, F.venues[venue].door));
-  const route = [...I.bridge, ...isle].map(q => ({x:q.x, y:q.y, z:q.z})); route.exit = I.exit;
+  const route = [...I.bridge, ...isle].map(q => ({x:q.x, y:q.y, z:q.z})); route.exit = I.exit; route.island = I;
   if (instant){ const q = route[route.length - 1]; a.c.g.position.set(q.x, q.y, q.z); a.gy = q.y; a.path = []; }
   else { goTo0(a, I.exit); a.path.push(...route); }
   a.route = route; a.offMain = true; a.activity = 'commute'; a.dest = {face}; a.pose = 'stand';

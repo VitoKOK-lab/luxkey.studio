@@ -54,7 +54,7 @@ function placeCam(dt){
   camera.position.set(cam.tx + cam.radius * sp * Math.sin(cam.theta), cam.ty + cam.radius * Math.cos(cam.phi), cam.tz + cam.radius * sp * Math.cos(cam.theta));
   camera.lookAt(cam.tx, cam.ty, cam.tz);
 }
-const clampGoal = () => { H.moved = true; goal.phi = H.clamp(goal.phi, .3, 1.32); goal.radius = H.clamp(goal.radius, 6, 650); goal.tx = H.clamp(goal.tx, -46, 46); goal.tz = H.clamp(goal.tz, -44, 44); };
+const clampGoal = () => { H.moved = true; goal.phi = H.clamp(goal.phi, .3, 1.32); goal.radius = H.clamp(goal.radius, 6, 650); goal.tx = H.clamp(goal.tx, -85, 200); goal.tz = H.clamp(goal.tz, -80, 80); };
 H.focusOn = (x, z, radius = 12) => { H.setEstateRoofs(false); H.airshipFocus=false; H.railFocus=false; H.follow = null; Object.assign(goal, {tx:x, ty:1, tz:z, radius:narrow() ? radius * 1.6 : radius}); };
 H.resetView = () => { H.airshipFocus=false; H.railFocus=false; H.follow = null; Object.assign(goal, HOME()); H.moved = false; };
 H.setFollow = a => { if (a) H.setEstateRoofs(false); H.follow = a; $('#c-follow').classList.toggle('on', !!a); if (a) goal.radius = Math.min(goal.radius, 11); };

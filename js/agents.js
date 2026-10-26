@@ -101,6 +101,7 @@ ng.traverse(o => { if (o.isMesh){ H.pickables.push(o); o.userData.agent = 'neon'
 /* actions */
 H.goTo = (a, spot, cb) => {
   const p = a.c.g.position;
+  if (!a.isNeon) a.gy = 0; // this planner only handles the office floor
   a.path = H.findPath(p.x, p.z, spot.x, spot.z); a.dest = spot; a.onArrive = cb || null;
   if (!a.isNeon){ a.pose = 'stand'; a.status = 'walking'; a.statusUntil = 0; }
 };

@@ -125,6 +125,6 @@ H.updateFx = (dt, t) => {
   if (H.fans) for (const f of H.fans) f.rotation.y = t * 2.4;
   dust.rotation.y = t * .012; dust.position.y = Math.sin(t * .3) * .08;
   dust.material.opacity = .15 + H.daylight * .4;
-  for (const a of [...H.agents, H.neon]) if (a.blob){ const y = a.c.g.position.y; a.blob.position.y = .02 - y; const s = 1 - Math.min(.6, Math.max(0, y) * 1.5); a.blob.scale.setScalar(s); }
+  for (const a of [...H.agents, H.neon]) if (a.blob){ const y = a.c.g.position.y; a.blob.position.y = (a.gy || 0) + .02 - y; const s = 1 - Math.min(.6, Math.max(0, y - (a.gy || 0)) * 1.5); a.blob.scale.setScalar(s); }
 };
 })();

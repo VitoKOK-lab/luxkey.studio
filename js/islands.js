@@ -51,7 +51,7 @@ function bridge(A, I){
     for (let i = 0; i <= n; i += 3){ const t = i / n, p = at(t).addScaledVector(side, .78 * s), top = 1 - .25 * Math.sin(PI * t); mk(new THREE.CylinderGeometry(.015, .015, top, 4), ropeM, g, p.x, p.y + top / 2, p.z); }
     for (const P of [at(0), at(1)]){ const q = P.clone().addScaledVector(side, .8 * s); mk(new THREE.CylinderGeometry(.08, .1, 1.3, 6), woodM, g, q.x, q.y + .6, q.z); }
   }
-  const walk = []; for (let i = 0; i <= 12; i++) walk.push(at(i / 12));
+  const walk = []; for (let i = 0; i <= n; i++) { const p = at(i / n); p.y += .035; walk.push(p); }
   const angle = Math.atan2(bl.z, bl.x);
   return {walk, angle};
 }

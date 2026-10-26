@@ -35,6 +35,67 @@ const run=promisify(execFile);
   }
   return {checked,failures};
  });
+ console.log("Loaded assets; checking movement");
+ const ground=await page.evaluate(()=>{
+  const H=HQ,a=H.agents[0],results=[];H.setSpeed(1);
+  for(const I of [H.ISL.res,H.ISL.fun])for(const start of [.25,.6,1]){
+   const k=Math.floor((I.bridge.length-1)*start),p=I.bridge[k];
+   a.c.g.position.copy(p);a.gy=p.y;a.offMain=true;a.life=null;a.route=[...I.bridge];a.route.island=I;a.route.exit=I.exit;
+   H.goHome(a);let maxDistance=0,maxHeight=0,steps=0;
+   while(a.path.length&&steps<2000){
+    if(steps%17===0)H.goHome(a); // repeated assignments while still on the bridge
+    H.updateAgents(.025,steps*.025,performance.now());steps++;
+    const p=a.c.g.position;
+    if(p.z>=I.bridge[0].z&&p.z<=I.bridge[I.bridge.length-1].z){
+     let best=Infinity,height=0;
+     for(let j=0;j<I.bridge.length-1;j++){
+      const b=I.bridge[j],c=I.bridge[j+1],dx=c.x-b.x,dz=c.z-b.z;
+      const t=H.clamp(((p.x-b.x)*dx+(p.z-b.z)*dz)/(dx*dx+dz*dz),0,1);
+      const d=Math.hypot(p.x-b.x-dx*t,p.z-b.z-dz*t);
+      if(d<best){best=d;height=b.y+(c.y-b.y)*t;}
+     }
+     maxDistance=Math.max(maxDistance,best);maxHeight=Math.max(maxHeight,Math.abs(a.gy-height));
+    }
+   }
+   results.push({island:I.key,start,maxDistance,maxHeight,arrived:!a.path.length,offMain:a.offMain,y:a.c.g.position.y});
+  }
+  const feet=[];
+  for(const actor of H.agents){
+   const saved={gy:actor.gy,y:actor.c.g.position.y,pose:actor.pose,path:actor.path,status:actor.status,swingUntil:actor.swingUntil};
+   actor.gy=0;actor.c.g.position.y=0;actor.status='working';actor.swingUntil=0;
+   for(const pose of ['sit','stand','walk']){
+    actor.pose=pose==='sit'?'sit':'stand';actor.path=pose==='walk'?[{x:1,z:0}]:[];
+    let min=Infinity,max=-Infinity;
+    for(let i=0;i<12;i++){
+     H.updateRig(actor,.05,i*.05,pose==='walk',pose==='sit');actor.c.g.updateMatrixWorld(true);
+     let floor=Infinity;const v=new THREE.Vector3();
+     actor.rig.root.traverse(mesh=>{
+      if(!mesh.isSkinnedMesh)return;
+      for(let j=0;j<mesh.geometry.attributes.position.count;j++){
+       v.fromBufferAttribute(mesh.geometry.attributes.position,j);mesh.boneTransform(j,v).applyMatrix4(mesh.matrixWorld);floor=Math.min(floor,v.y);
+      }
+     });min=Math.min(min,floor);max=Math.max(max,floor);
+    }
+    feet.push({name:actor.name,pose,min,max});
+   }
+   Object.assign(actor,{gy:saved.gy,pose:saved.pose,path:saved.path,status:saved.status,swingUntil:saved.swingUntil});actor.c.g.position.y=saved.y;
+  }
+  H.setSpeed(0);return {results,feet};
+ });
+ for(const r of ground.results){assert.ok(r.arrived&&!r.offMain&&Math.abs(r.y)<.001,JSON.stringify(r));assert.ok(r.maxDistance<.001&&r.maxHeight<.001,JSON.stringify(r));}
+ for(const f of ground.feet){assert.ok(f.min>-.005,JSON.stringify(f));if(f.pose!=='sit')assert.ok(f.max<.005,JSON.stringify(f));}
+ const twinRail=await page.evaluate(()=>{
+  const H=HQ,T=H.transport;H.reduced=false;H.setSpeed(1);
+  const stats=T.services.map(s=>({name:s.name,coaches:s.coaches.length,speed:s.speed,direction:s.direction,lane:s.lane,color:s.color,visited:new Set(),maxGap:0}));
+  for(let i=0;i<230;i++){
+   H.updateWorld(.6,i*.6);
+   T.services.forEach((s,j)=>{stats[j].visited.add(s.realm);for(let k=1;k<s.coaches.length;k++)stats[j].maxGap=Math.max(stats[j].maxGap,s.coaches[k].position.distanceTo(s.coaches[k-1].position));});
+  }
+  H.setSpeed(0);H.reduced=true;return stats.map(s=>({...s,visited:[...s.visited]}));
+ });
+ assert.notEqual(twinRail[0].color,twinRail[1].color);assert.notEqual(twinRail[0].speed,twinRail[1].speed);assert.equal(twinRail[0].direction,-twinRail[1].direction);
+ for(const s of twinRail){assert.equal(s.coaches,12);assert.equal(s.visited.length,2);assert.ok(s.maxGap<6.5,JSON.stringify(s));}
+ console.log("Movement and twin railway checks passed");
  const architecture=await page.evaluate(()=>{
   const H=HQ,curve=H.transport.railCurve,points=Array.from({length:720},(_,i)=>curve.getPointAt(i/720));
   const inside=(x,z)=>{let hit=false;for(let i=0,j=points.length-1;i<points.length;j=i++){
@@ -45,7 +106,7 @@ const run=promisify(execFile);
    railLength:H.transport.railLength,closed:curve.getPoint(0).distanceTo(curve.getPoint(1)),stations:H.transport.stations.map(s=>s.id),coaches:H.transport.train.length};
  });
  assert.deepEqual(architecture.levels,[0,4.4,8.8]);assert.ok(architecture.height>=13&&architecture.glass>=50&&architecture.poolArea>=69);
- assert.ok(architecture.encloses.every(Boolean));assert.ok(architecture.railLength>350&&architecture.closed<.001);assert.equal(architecture.stations.length,5);assert.equal(architecture.coaches,5);
+ assert.ok(architecture.encloses.every(Boolean));assert.ok(architecture.railLength>350&&architecture.closed<.001);assert.equal(architecture.stations.length,5);assert.equal(architecture.coaches,12);
  const clarity=await page.evaluate(()=>{
   const H=HQ;let straight=0,minAirDistance=Infinity;
   for(let i=0;i<720;i++){
@@ -88,6 +149,8 @@ const run=promisify(execFile);
  assert.ok(!walk.crossed&&walk.arrived&&walk.distance<.1,JSON.stringify(walk));
  await page.evaluate(()=>{HQ.setDept('all');HQ.setEstateRoofs(true);});await page.waitForTimeout(700);await page.screenshot({path:'/tmp/estate-desktop.png'});
  await page.locator('#v-train').click();await page.waitForFunction(()=>HQ.transport.railway.visible&&HQ.transport.ship.visible);await page.waitForTimeout(700);await page.screenshot({path:'/tmp/estate-world.png'});
+ await page.locator('#v-universe').click();await page.waitForTimeout(700);await page.screenshot({path:'/tmp/estate-universe.png'});
+ await page.mouse.wheel(0,-100);assert.ok(await page.evaluate(()=>HQ.goal.tx>100));
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>{HQ.resetView();});await page.waitForTimeout(700);
  await page.locator('#v-train').click();assert.ok(await page.evaluate(()=>HQ.goal.radius>=215));
  await page.locator('#v-airship').click();assert.ok(await page.evaluate(()=>HQ.goal.ty>8));
@@ -97,6 +160,6 @@ const run=promisify(execFile);
  assert.ok(mobile.document<=mobile.width);assert.ok(mobile.buttons.every(w=>w>=44));
  await page.screenshot({path:'/tmp/estate-mobile.png'});
  assert.deepEqual(errors,[]);
- console.log(JSON.stringify({architecture,clarity,routes:routes.checked,models:8,agents:8,transport:moving,walk,mobile,errors},null,2));
+ console.log(JSON.stringify({ground,twinRail,architecture,clarity,routes:routes.checked,models:8,agents:8,transport:moving,walk,mobile,errors},null,2));
  }finally{await browser.close();}
 })().catch(e=>{console.error(e);process.exitCode=1;});
