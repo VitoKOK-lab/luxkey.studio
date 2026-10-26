@@ -89,7 +89,7 @@ function finishVisit(a){
 }
 const platform=s=>s.id==='north'?51:61;
 function stationPath(s,x){return s.id==='north'?[point(0,43),point(-5,45),point(-5,51,3),point(x,51,3)]:[point(0,43),point(0,51,7),point(0,61,7),point(10,61,3),point(x,61,3)];}
-function seatPoint(a){const coach=a.service.coaches[a.coach];coach.updateWorldMatrix(true,false);return coach.localToWorld(new V(0,.54,(a.seat-1)*.72));}
+function seatPoint(a){const coach=a.service.coaches[a.coach];coach.updateWorldMatrix(true,false);return coach.localToWorld(new V(0,.54,a.coach===4?.15+a.seat*.42:(a.seat-1)*.72));}
 function dock(s){
  stats.docks++;const riders=visitors.filter(a=>a.state==='aboard'&&a.service===s);
  for(const a of riders){a.p.copy(seatPoint(a));const x=s.coaches[a.coach].position.x;a.service=null;a.visits=0;stats.arrivals++;
@@ -131,6 +131,20 @@ H.kenneyReady.then(()=>{
   box(1.45,.24,2.7,0,.4,0,m,c);
   for(const x of [-.7,.7])for(const z of [-.95,.95])box(.1,.45,.6,x,.7,z,m,c);
   for(const z of [-1.3,1.3])box(1.45,.45,.1,0,.7,z,m,c);
+  if(i===4){
+   c.name='panoramic-passenger-cabin-'+s.id;c.userData.cabin={floor:.52,ceiling:1.76,halfWidth:.725,halfLength:1.35};
+   const glass=H.mat(0xaed9dd,{transparent:true,opacity:.12,roughness:.15,depthWrite:false});
+   box(1.6,.14,2.85,0,1.83,0,cream,c);
+   c.userData.doors=[];
+   for(const x of [-.735,.735]){
+    box(.09,.1,2.65,x,.84,0,m,c);box(.09,.1,2.65,x,1.68,0,m,c);
+    for(const z of [-1.25,-.32,.32,1.25])box(.085,1.25,.085,x,1.13,z,m,c);
+    for(const z of [-.79,.79])box(.025,.76,.84,x,1.25,z,glass,c);
+    c.userData.doors.push(box(.025,1.14,.55,x,1.12,0,glass,c));
+   }
+   for(const z of [-1.3,1.3]){box(1.45,.1,.08,0,1.68,z,m,c);box(1.3,.7,.025,0,1.25,z,glass,c);}
+   for(const x of [-.46,.46]){box(.4,.2,2.1,x,.64,0,ink,c);box(.09,.32,2.1,Math.sign(x)*.64,.91,0,ink,c);}
+  }
   for(const x of [-.62,.62])for(const z of [-.9,.9]){const w=H.mesh(new THREE.CylinderGeometry(.22,.22,.12,8),ink,c,x,.18,z);w.rotation.z=PI/2;}
  }
 });
@@ -161,6 +175,7 @@ function renderAnimals(){
 }
 function update(dt){
  elapsed+=dt;
+ for(const s of T.services)for(const door of s.coaches[4].userData.doors||[])door.visible=s.dwell<=0;
  for(const a of visitors){
   let budget=dt*4.5;
   while(a.path.length&&budget>0){const p=a.path[0],d=a.p.distanceTo(p);if(d<1e-6){a.path.shift();continue;}a.yaw=Math.atan2(p.x-a.p.x,p.z-a.p.z);if(d<=budget){a.p.copy(p);budget-=d;a.path.shift();}else{a.p.lerp(p,budget/d);budget=0;}}

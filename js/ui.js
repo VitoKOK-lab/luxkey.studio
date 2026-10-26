@@ -48,7 +48,7 @@ const cam = H.cam = HOME(), goal = H.goal = HOME();
 H.follow = null;
 function placeCam(dt){
   H.updateIdleOrbit?.(dt,performance.now());
-  if(H.view){H.updateView(dt);return;}
+  if(H.view)return;
   if (H.follow){ const p = H.follow.c.g.position; goal.tx = p.x; goal.tz = p.z; goal.ty = 1; }
   const a = H.reduced ? 1 : 1 - Math.pow(.0015, dt);
   for (const k in goal){ if (!Number.isFinite(goal[k])) goal[k] = HOME()[k]; cam[k] = Number.isFinite(cam[k]) ? cam[k] + (goal[k] - cam[k]) * a : goal[k]; }
@@ -294,6 +294,7 @@ function frame(now){
   const dt = Math.min(.05, (now - last) / 1000); last = now; const t = now / 1000;
   if (Math.abs(offWant - viewOff) > .5){ viewOff += (offWant - viewOff) * Math.min(1, dt * 8); applyOffset(); }
   placeCam(dt); H.advance(dt); H.updateSim(dt); H.updateAgents(dt, t, now); H.updateWorld(dt, t); H.updateFx && H.updateFx(dt, t); H.setDaylight(S.simMin);
+  if(H.view)H.updateView(dt);
   H.hideViewBody?.(true);renderer.render(scene, camera);H.hideViewBody?.(false);
   const W = stage.clientWidth, Hh = stage.clientHeight;
   document.body.classList.toggle('far', cam.radius > 62);

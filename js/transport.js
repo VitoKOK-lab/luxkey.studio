@@ -136,7 +136,7 @@ function placeTransport(){
     c.position.copy(p);c.lookAt(next);
    });
    service.realm=service.coaches[0].position.x>100?'外宇宙':'群島世界';
-   if(service.button)service.button.title=service.button.ariaLabel=`${service.name}｜12 節｜${service.speed} m/s｜${service.realm}`;
+   if(service.button){service.button.title=`上車｜${service.name}｜12 節｜${service.speed} m/s｜${service.realm}`;service.button.ariaLabel=service.id==='north'?'搭北上列車':'搭南下列車';}
   }
   const a=elapsed*6/airLength+.6,p=route(a),next=route(a+.0002);ship.position.copy(p);ship.rotation.y=Math.atan2(next.x-p.x,next.z-p.z);
   propellers.forEach(p=>p.rotation.z=elapsed*8);
@@ -165,7 +165,7 @@ for(const [id,label,svg,focus] of [
 for(const service of services){
  const b=document.createElement('button');service.button=b;b.id='v-train-'+service.id;
  b.textContent=service.id==='north'?'北 ↑':'南 ↓';b.style.color='#'+service.color.toString(16);b.style.fontSize='12px';b.style.fontWeight='700';
- b.title=b.ariaLabel=`${service.name}｜12 節｜${service.speed} m/s`;
+ b.title=`上車｜${service.name}｜12 節｜${service.speed} m/s`;b.ariaLabel=service.id==='north'?'搭北上列車':'搭南下列車';
  b.onclick=()=>{const p=service.coaches[0].position;H.focusOn(p.x,p.z,70);H.goal.ty=4;H.railFocus=true;};rail.append(b);
 }
 // Official Kenney CC0 forest and delivery vehicle, with local texture dependencies.

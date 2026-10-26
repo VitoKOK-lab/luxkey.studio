@@ -3,11 +3,15 @@
 const H=HQ,V=THREE.Vector3,PI=Math.PI;
 const style=document.createElement('style');style.textContent=`
 body.immersive .top,body.immersive #kpis,body.immersive .actions,body.immersive .rail,body.immersive #overlay,body.immersive #card,body.immersive .mini,body.immersive #minimap,body.immersive .statbar,body.immersive .greet,body.immersive .mapbox,body.immersive .panel,body.immersive .drawer,body.immersive .alert{visibility:hidden!important}
-#view-exit{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:80;background:#fff9ed;border:1px solid #d9cbb3;border-radius:24px;padding:12px 20px;max-width:90vw;box-shadow:0 6px 24px #14283222}
-#view-exit[hidden],#meditation-hint[hidden]{display:none}#meditation-hint{position:fixed;top:15%;left:50%;transform:translateX(-50%);z-index:80;color:#fff;text-shadow:0 2px 8px #17363c;text-align:center;font-size:24px;pointer-events:none}
+#view-hud{position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);left:12px;right:12px;max-width:780px;margin:auto;z-index:80;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;background:rgba(15,40,47,.94);color:#fff6e6;box-shadow:0 5px 22px #0003}
+#view-caption{flex:1;min-width:0}#view-identity{display:block;font-size:15px}#view-location{display:block;font-size:12px;color:#cedbd6;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#view-hud button{flex:none;min-height:44px;padding:8px 12px;border:1px solid #d9cbb3;border-radius:12px;background:#fff9ed;color:#17363c;font-size:13px}
+#view-hud[hidden],#view-exit[hidden],#meditation-hint[hidden]{display:none}#meditation-hint{position:fixed;top:22%;left:50%;transform:translateX(-50%);z-index:80;color:#fff;text-shadow:0 2px 8px #17363c;text-align:center;font-size:24px;pointer-events:none}
+@media(max-width:440px){#view-hud{gap:6px;padding:8px}#view-hud button{padding:8px;font-size:12px}#view-identity{font-size:13px}#view-location{font-size:11px}}
 .experience-dialog{border:0;border-radius:18px;background:#fffaf2;color:#17363c;padding:24px;width:min(480px,90vw);max-height:85vh}.experience-dialog .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.experience-dialog button,.experience-dialog select{min-height:44px}.experience-dialog select{width:100%;margin-top:12px}
 `;document.head.append(style);
 const exit=document.createElement('button');exit.id='view-exit';exit.hidden=true;exit.textContent='離開視角 · Esc';document.body.append(exit);
+const hud=document.createElement('div');hud.id='view-hud';hud.hidden=true;hud.innerHTML='<div id="view-caption"><strong id="view-identity"></strong><span id="view-location"></span></div><button id="view-switch">切換</button>';hud.append(exit);document.body.append(hud);
+const identity=hud.querySelector('#view-identity'),location=hud.querySelector('#view-location');
 const hint=document.createElement('div');hint.id='meditation-hint';hint.hidden=true;document.body.append(hint);
 function railButton(id,text,title,fn){const b=document.createElement('button');b.style.cssText='font-size:12px;white-space:nowrap';b.id=id;b.textContent=text;b.title=b.ariaLabel=title;b.onclick=fn;document.querySelector('.rail').append(b);return b;}
 function focus(x,z,r=70){H.focusOn(x,z,r);H.goal.ty=2;H.moved=true;}
@@ -32,14 +36,19 @@ const label=document.createElement('button');label.className='zone';label.textCo
 const meditateLaunch=document.createElement('button');meditateLaunch.id='meditation-start';meditateLaunch.className='btn';meditateLaunch.textContent='開始冥想';meditateLaunch.hidden=true;meditateLaunch.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:80';document.body.append(meditateLaunch);
 meditateLaunch.onclick=()=>H.enterView('meditation');
 function showSanctuary(){focus(-108,-82,68);meditateLaunch.hidden=false;}
-const panel=document.createElement('dialog');panel.id='view-dialog';panel.className='experience-dialog';panel.innerHTML='<header style="display:flex;justify-content:space-between"><b>進入世界的不同視角</b><button class="btn" data-close>關閉 ×</button></header><label>員工<select id="view-employee"></select></label><div class="choices"><button class="btn" data-view="employee">員工第一人稱</button><button class="btn" data-view="train">北上列車乘客</button><button class="btn" data-view="train-south">南下列車乘客</button><button class="btn" data-view="ufo">UFO 向下俯瞰</button><button class="btn" data-view="tennis">網球選手</button><button class="btn" data-view="meditation">私人島冥想</button></div><p>拖曳環顧四周；按 Esc 或底部按鈕返回。</p>';
+const panel=document.createElement('dialog');panel.id='view-dialog';panel.className='experience-dialog';panel.innerHTML='<header style="display:flex;justify-content:space-between"><b>進入世界的不同視角</b><button class="btn" data-close>關閉 ×</button></header><label>員工<select id="view-employee"></select></label><div class="choices"><button class="btn" data-view="employee">員工第一人稱</button><button class="btn" data-view="train">北上列車・車內</button><button class="btn" data-view="train-south">南下列車・車內</button><button class="btn" data-view="ufo">UFO 向下俯瞰</button><button class="btn" data-view="tennis">網球選手</button><button class="btn" data-view="meditation">私人島冥想</button></div><p>拖曳環顧四周；按 Esc 或上方「退出」返回。</p>';
 document.body.append(panel);panel.querySelector('[data-close]').onclick=()=>panel.close();
+hud.querySelector('#view-switch').onclick=()=>openViewPanel();
 for(const a of H.agents){const o=document.createElement('option');o.value=a.i;o.textContent=a.name;panel.querySelector('select').append(o);}
-railButton('v-perspective','視角','第一人稱／列車／UFO／網球視角',()=>panel.showModal());
+function openViewPanel(){
+ for(const option of panel.querySelectorAll('option')){const a=H.agents[+option.value];option.textContent=a.name+' · '+(a.offMain?(a.c.g.visible?'島外通勤':'住宅島休息中'):'辦公室');}
+ if(!panel.open)panel.showModal();
+}
+railButton('v-perspective','視角','第一人稱／列車／UFO／網球視角',()=>openViewPanel());
 railButton('v-private','私人','私人島與冥想',()=>showSanctuary());
 // Keep the requested entries visible near the existing primary actions.
 for(const [id,text,action] of [
- ['b-views','切換視角',()=>panel.showModal()],
+ ['b-views','切換視角',()=>openViewPanel()],
  ['b-sanctuary','枯山水・私人島',()=>showSanctuary()],
  ['b-festival','動物遊園',()=>H.festival.focus()]
 ]){const b=document.createElement('button');b.id=id;b.className='btn';b.textContent=text;b.onclick=action;document.querySelector('.actions').prepend(b);}
@@ -57,35 +66,46 @@ H.updateIdleOrbit=(dt,now)=>{
 };
 let saved=null,hiddenBody=null,hiddenBefore=true;
 H.exitView=()=>{
- H.hideViewBody(false);hiddenBody=null;H.view=null;document.body.classList.remove('immersive');exit.hidden=true;hint.hidden=true;
+ H.hideViewBody(false);hiddenBody=null;H.view=null;document.body.classList.remove('immersive');exit.hidden=true;hud.hidden=true;hint.hidden=true;
  H.camera.up.set(0,1,0);H.camera.fov=saved?.fov||35;
  const v=saved?.cameraView;if(v?.enabled)H.camera.setViewOffset(v.fullWidth,v.fullHeight,v.offsetX,v.offsetY,v.width,v.height);else H.camera.clearViewOffset();H.camera.updateProjectionMatrix();
  if(saved){Object.assign(H.goal,saved.goal);H.setEstateRoofs(saved.roof);H.railFocus=saved.rail;H.follow=saved.follow;H.state.speed=saved.speed;saved=null;H.emit('speed');}
 };
-exit.onclick=H.exitView;addEventListener('keydown',e=>{if(e.key==='Escape'&&H.view)H.exitView();});
+exit.onclick=H.exitView;addEventListener('keydown',e=>{if(e.key==='Escape'&&H.view&&!panel.open)H.exitView();});
 H.enterView=(mode,index=0)=>{
  if(H.view)H.exitView();
  saved={goal:{...H.goal},follow:H.follow,cameraView:H.camera.view?{...H.camera.view}:null,fov:H.camera.fov,roof:H.estate.roofs.visible,rail:H.railFocus,speed:H.state.speed};
  H.view={mode,index,yaw:0,pitch:mode.startsWith('train')?-.12:0,started:performance.now()};H.follow=null;H.moved=true;H.railFocus=mode.startsWith('train');
  H.setEstateRoofs(mode!=='employee');H.camera.fov=mode==='ufo'?68:72;H.camera.clearViewOffset();H.camera.updateProjectionMatrix();
- document.body.classList.add('immersive');meditateLaunch.hidden=true;exit.hidden=false;hint.hidden=mode!=='meditation';exit.textContent=mode==='meditation'?'結束冥想 · 返回園區':'離開視角 · Esc';
+ document.body.classList.add('immersive');meditateLaunch.hidden=true;exit.hidden=false;hud.hidden=false;hint.hidden=mode!=='meditation';exit.textContent=mode==='meditation'?'結束冥想':'退出';
+ if(mode==='employee')panel.querySelector('select').value=String(index);
  if(mode==='meditation')H.setSpeed(0);
+ if(mode.startsWith('train')&&!H.state.speed)H.setSpeed(1);
  if(mode==='tennis'){const n=H.tennis.sparring;H.tennis.sparring.g.visible=true;}
  panel.close();H.updateView(0);
 };
+for(const s of H.transport.services)s.button.onclick=()=>H.enterView(s.id==='north'?'train':'train-south');
 panel.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>H.enterView(b.dataset.view,+panel.querySelector('select').value));
 H.updateView=(dt=.016)=>{
  const view=H.view;if(!view)return;let p=new V(),target=new V(),yaw=0;hiddenBody=null;
  if(view.mode==='employee'){
-  const a=H.agents[view.index]||H.agents[0];a.c.g.updateWorldMatrix(true,false);p=a.c.g.localToWorld(new V(0,1.55,.15));yaw=a.c.g.rotation.y;hiddenBody=a.rig?.root;
+  const a=H.agents[view.index]||H.agents[0],island=a.route?.island,at=a.c.g.position;
+  identity.textContent=a.name+' 的第一人稱';
+  const area=!a.offMain?'辦公室':island&&Math.abs(at.x-island.c[0])<=island.ax&&Math.abs(at.z-island.c[2])<=island.az?island.name:'吊橋／通勤中';
+  location.textContent=H.DEPTS[a.dept].name+' · '+area+(!a.c.g.visible?' · 休息中':'');
+  a.c.g.updateWorldMatrix(true,false);p=a.c.g.localToWorld(new V(0,1.55,.15));yaw=a.c.g.rotation.y;hiddenBody=a.rig?.root;
  }else if(view.mode.startsWith('train')){
-  const s=H.transport.services[view.mode==='train-south'?1:0],c=s.coaches[4];c.updateWorldMatrix(true,false);p=c.localToWorld(new V(.48,1.35,0));yaw=Math.atan2((p.x>100?166:0)-p.x,-p.z);
-  if(view.baseYaw===undefined)view.baseYaw=yaw;else view.baseYaw+=Math.atan2(Math.sin(yaw-view.baseYaw),Math.cos(yaw-view.baseYaw))*Math.min(1,dt*2);yaw=view.baseYaw;
+  const s=H.transport.services[view.mode==='train-south'?1:0],c=s.coaches[4];
+  identity.textContent=(s.id==='north'?'北上':'南下')+'列車 · 第 5 節車廂內';location.textContent=s.name+' · '+(!H.state.speed?'已暫停':s.dwell>0?'中央站停靠 · '+Math.ceil(s.dwell)+' 秒後出發':s.realm+'行駛中');
+  c.updateWorldMatrix(true,false);p=c.localToWorld(new V(s.direction*.38,1.36,-1));yaw=c.rotation.y-s.direction*PI/2;
  }else if(view.mode==='ufo'){
+  identity.textContent='UFO 俯瞰視角';location.textContent='空中巡航 · 向下看島群';
   p.copy(H.ufo.position).add(new V(0,-1,0));target.copy(p).add(new V(Math.sin(view.yaw)*5,-12,Math.cos(view.yaw)*(.1+view.pitch*5)));H.camera.up.set(0,0,-1);
  }else if(view.mode==='tennis'){
+  identity.textContent='阿傑的第一人稱';location.textContent='網球場 · 與 '+(H.ISL.fun.court.B.ready?H.ISL.fun.court.B.who.name:'小夏')+' 對打';
   const a=H.tennis.coach;a.g.updateWorldMatrix(true,false);p=a.g.localToWorld(new V(0,1.55,.1));target.copy(H.tennis.ball.position);hiddenBody=a.rig?.root;
  }else{
+  identity.textContent='Vito · 私人島冥想';location.textContent='枯山水 · 園區已暫停';
   p.set(-108,1.65,-73);yaw=PI;hiddenBody=vitoRig?.root;
   const phase=(performance.now()-view.started)/1000%10;hint.textContent=phase<4?'吸氣 · 放慢呼吸':phase<5?'停留一刻':'吐氣 · 放鬆肩膀';
  }

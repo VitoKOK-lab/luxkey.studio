@@ -212,7 +212,8 @@ function visit(){
 
 /* ---------- 員工通勤：下班回住宅島，沒案子去娛樂島 ---------- */
 const goTo0 = H.goTo;
-const onFloor = p => Math.abs(p.x) <= 15 && Math.abs(p.z) <= 11;
+// Include the nav grid's half-cell detours along the office lawn.
+const onFloor = p => Math.abs(p.x) <= 16 && Math.abs(p.z) <= 12;
 function clearLife(a){
   const L = a.life; if (!L) return;
   if (L.kind === 'home') R.houses[a.name].home = false;

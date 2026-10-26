@@ -73,7 +73,8 @@ function house(I, ang, who, roof, wall){
   mk(box(.06, .5, .55), win, g, 1.31, 1.2, 0);
   board(signTex([who + ' 的家'], 256, 64, '#fbf6f2', '#17363c'), .9, .22, g, 0, 1.55, 1.26);
   mk(new THREE.CylinderGeometry(.04, .04, .8, 5), flat('#17363c'), g, 1.1, .4, 1.7); mk(box(.3, .2, .4), flat(roof), g, 1.1, .85, 1.7);
-  g.updateMatrixWorld(true);
+  // Door coordinates are world-space: update the island ancestor before sampling.
+  g.updateWorldMatrix(true, true);
   const door = g.localToWorld(new V3(0, 0, 1.9)); door.y = I.y;
   return {g, win, door, ang, home:false, npc:false};
 }
