@@ -7,7 +7,11 @@ body.immersive .top,body.immersive #kpis,body.immersive .actions,body.immersive 
 #view-caption{flex:1;min-width:0}#view-identity{display:block;font-size:15px}#view-location{display:block;font-size:12px;color:#cedbd6;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#view-hud button{flex:none;min-height:44px;padding:8px 12px;border:1px solid #d9cbb3;border-radius:12px;background:#fff9ed;color:#17363c;font-size:13px}
 #view-hud[hidden],#view-exit[hidden],#meditation-hint[hidden]{display:none}#meditation-hint{position:fixed;top:22%;left:50%;transform:translateX(-50%);z-index:80;color:#fff;text-shadow:0 2px 8px #17363c;text-align:center;font-size:24px;pointer-events:none}
 @media(max-width:440px){#view-hud{gap:6px;padding:8px}#view-hud button{padding:8px;font-size:12px}#view-identity{font-size:13px}#view-location{font-size:11px}}
-.experience-dialog{border:0;border-radius:18px;background:#fffaf2;color:#17363c;padding:24px;width:min(480px,90vw);max-height:85vh}.experience-dialog .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.experience-dialog button,.experience-dialog select{min-height:44px}.experience-dialog select{width:100%;margin-top:12px}
+.experience-dialog{color-scheme:light;border:0;border-radius:18px;background:#fffaf2;color:#17363c;padding:24px;width:min(480px,90vw);max-height:85vh}.experience-dialog .choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}.experience-dialog button,.experience-dialog select{min-height:44px}.experience-dialog button{background:#17363c;color:#fffaf2;border:1px solid #31565e;box-shadow:0 2px 5px #17363c18;justify-content:center}
+.experience-dialog button:hover:not(:disabled){background:#244b53;border-color:#244b53}
+.experience-dialog select{width:100%;margin-top:12px;padding:8px 10px;border:1px solid #8a9c9e;border-radius:8px;background:#fff;color:#17363c}
+.experience-dialog option{background:#fff;color:#17363c}
+.experience-dialog :focus-visible{outline:3px solid #c9560f;outline-offset:3px}
 `;document.head.append(style);
 const exit=document.createElement('button');exit.id='view-exit';exit.hidden=true;exit.textContent='離開視角 · Esc';document.body.append(exit);
 const hud=document.createElement('div');hud.id='view-hud';hud.hidden=true;hud.innerHTML='<div id="view-caption"><strong id="view-identity"></strong><span id="view-location"></span></div><button id="view-switch">切換</button>';hud.append(exit);document.body.append(hud);
