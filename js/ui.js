@@ -10,8 +10,8 @@ const phone = () => innerWidth <= 760;
 function freeBand(){
   const h = innerHeight; let top = 0, bot = h;
   if (!phone()) return {top, bot};
-  for (const s of ['.top', '#kpis']){ const r = $(s).getBoundingClientRect(); if (r.height) top = Math.max(top, r.bottom); }
-  for (const s of ['.actions', '.rail', '#card']){ const n = $(s); if (n.hidden) continue; const r = n.getBoundingClientRect(); if (r.height) bot = Math.min(bot, r.top); }
+  for (const s of ['.top']){ const r = $(s).getBoundingClientRect(); if (r.height) top = Math.max(top, r.bottom); }
+  for (const s of ['.rail', '#card']){ const n = $(s); if (n.hidden) continue; const r = n.getBoundingClientRect(); if (r.height) bot = Math.min(bot, r.top); }
   return bot - top > 120 ? {top:top + 4, bot:bot - 4} : {top:0, bot:h};
 }
 const fitCam = new THREE.PerspectiveCamera(), FIT = [];

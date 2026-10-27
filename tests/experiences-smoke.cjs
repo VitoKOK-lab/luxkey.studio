@@ -22,7 +22,7 @@ const {execFile}=require('node:child_process'),{promisify}=require('node:util'),
   await page.keyboard.press('Escape');assert.equal(await page.evaluate(()=>HQ.view),null);
  }
  // The private-island button first reveals the garden, then explicitly enters meditation.
- await page.locator('#b-sanctuary').click({force:true});await frame();
+ await page.locator('#b-more').click();await page.locator('#b-sanctuary').click({force:true});await frame();
  assert.equal(await page.locator('#view-dialog').evaluate(d=>d.open),false);
  assert.ok(await page.evaluate(()=>HQ.goal.tx<-90&&HQ.goal.tz<-70));
  await page.screenshot({path:'/tmp/estate-sanctuary.png'});
@@ -55,7 +55,7 @@ const {execFile}=require('node:child_process'),{promisify}=require('node:util'),
  for(const key of ['watched','market','circus'])assert.ok(simulation.stats[key]>0,key);
  assert.ok(simulation.swimming&&simulation.moved&&simulation.paused&&simulation.uniqueSeats&&!simulation.boardingWhileMoving);
  assert.ok(simulation.tennisHits>100&&simulation.dragons===3);
- await page.locator('#b-festival').click({force:true});await frame();await page.screenshot({path:'/tmp/estate-festival.png'});
+ await page.locator('#b-more').click();await page.locator('#b-festival').click({force:true});await frame();await page.screenshot({path:'/tmp/estate-festival.png'});
  await page.evaluate(()=>HQ.openFestival());assert.equal(await page.locator('#festival-dialog').evaluate(d=>d.open),true);await page.locator('#festival-close').click({force:true});
  await page.locator('#v-pool').click({force:true});await frame();await page.screenshot({path:'/tmp/estate-pool.png'});
  await page.setViewportSize({width:390,height:844});await page.evaluate(()=>HQ.resetView());await frame();
