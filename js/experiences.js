@@ -107,7 +107,7 @@ H.updateView=(dt=.016)=>{
   p.copy(H.ufo.position).add(new V(0,-1,0));target.copy(p).add(new V(Math.sin(view.yaw)*5,-12,Math.cos(view.yaw)*(.1+view.pitch*5)));H.camera.up.set(0,0,-1);
  }else if(view.mode==='tennis'){
   identity.textContent='阿傑的第一人稱';location.textContent='網球場 · 與 '+(H.ISL.fun.court.B.ready?H.ISL.fun.court.B.who.name:'小夏')+' 對打';
-  const a=H.tennis.coach;a.g.updateWorldMatrix(true,false);p=a.g.localToWorld(new V(0,1.55,.1));target.copy(H.tennis.ball.position);hiddenBody=a.rig?.root;
+  const a=H.tennis.coach;a.g.updateWorldMatrix(true,false);p=a.g.localToWorld(new V(0,1.55,.1));if(H.tennis.ball.visible)target.copy(H.tennis.ball.position);else target.copy(H.ISL.fun.court.B.p).add(new V(0,1.2,0));hiddenBody=a.rig?.root;
  }else{
   identity.textContent='Vito · 私人島冥想';location.textContent='枯山水 · 園區已暫停';
   p.set(-108,1.65,-73);yaw=PI;hiddenBody=vitoRig?.root;
