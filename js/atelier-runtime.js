@@ -1,0 +1,26 @@
+/* A minimal exploration interface. No business simulation or numeric dashboards. */
+(() => {
+const T=THREE,{camera,controls,renderer,scene}=A;
+// Batch stationary architectural meshes by material, preserving animated heads, tails and roof.
+scene.updateMatrixWorld(true);
+const dynamic=new Set([A.roof,...A.staff.map(s=>s.head),...A.animals.map(a=>a.tail)]),batches=new Map();
+scene.traverse(o=>{if(!o.isMesh||o.isInstancedMesh||o.material.transparent||o.material.isShaderMaterial)return;for(let p=o;p;p=p.parent)if(dynamic.has(p))return;
+ const key=o.material.uuid+o.castShadow+o.receiveShadow;if(!batches.has(key))batches.set(key,[]);batches.get(key).push(o);
+});
+for(const list of batches.values()){if(list.length<3)continue;const positions=[],normals=[],uvs=[];for(const o of list){const g=o.geometry.index?o.geometry.toNonIndexed():o.geometry.clone();g.applyMatrix4(o.matrixWorld);positions.push(g.attributes.position.array);normals.push(g.attributes.normal.array);uvs.push(g.attributes.uv?.array||new Float32Array(g.attributes.position.count*2));g.dispose();o.removeFromParent();}
+ const join=arrays=>{const out=new Float32Array(arrays.reduce((n,a)=>n+a.length,0));let at=0;for(const a of arrays){out.set(a,at);at+=a.length;}return out;};const g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(join(positions),3));g.setAttribute('normal',new T.BufferAttribute(join(normals),3));g.setAttribute('uv',new T.BufferAttribute(join(uvs),2));g.computeBoundingSphere();const obj=new T.Mesh(g,list[0].material);obj.castShadow=list[0].castShadow;obj.receiveShadow=list[0].receiveShadow;scene.add(obj);
+}
+const views={home:{p:[37,30,43],t:[0,1,1],title:'讓工作，回到生活。',copy:'玻璃之內是靈感，庭院之間是日常。'},inside:{p:[6,12,21],t:[-1,1,-1],title:'靈感，有自己的空間。',copy:'開放的工作區、溫暖的材質，與窗外的綠意。'},pool:{p:[31,18,21],t:[15,0,0],title:'把時間，留給自己。',copy:'水面、日光，和一個不需要趕路的午後。'},garden:{p:[10,15,38],t:[-6,1,10],title:'抵達，也是一種享受。',copy:'樹影下的車道，通往安靜而開闊的日常。'}};
+let transition=null,lastInput=performance.now(),time=0,last=performance.now();const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function choose(name){const v=views[name];A.view=name;const p=new T.Vector3(...v.p);if(innerWidth<700)p.sub(new T.Vector3(...v.t)).multiplyScalar(1.32).add(new T.Vector3(...v.t));transition={from:camera.position.clone(),fromTarget:controls.target.clone(),to:p,target:new T.Vector3(...v.t),start:performance.now()};lastInput=performance.now();document.querySelectorAll('[data-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.view===name)));document.querySelector('#view-title').textContent=v.title;document.querySelector('#view-copy').textContent=v.copy;if(name==='inside'){renderer.shadowMap.needsUpdate=true;A.roofShown=false;A.roof.visible=false;document.querySelector('#roof').setAttribute('aria-pressed','false');document.querySelector('#roof').textContent='顯示屋頂';}}
+for(const b of document.querySelectorAll('[data-view]'))b.onclick=()=>choose(b.dataset.view);
+document.querySelector('#roof').onclick=e=>{A.roofShown=!A.roofShown;A.roof.visible=A.roofShown;renderer.shadowMap.needsUpdate=true;e.currentTarget.setAttribute('aria-pressed',String(A.roofShown));e.currentTarget.textContent=A.roofShown?'打開屋頂':'顯示屋頂';};
+document.querySelector('#light').onclick=e=>{A.dusk=!A.dusk;document.body.classList.toggle('dusk',A.dusk);e.currentTarget.setAttribute('aria-pressed',String(A.dusk));e.currentTarget.textContent=A.dusk?'日光':'暮色';A.sun.intensity=A.dusk?.12:1.3;A.sun.color.set(A.dusk?0xffbb81:0xffedce);A.hemi.intensity=A.dusk?.19:.5;scene.background.set(A.dusk?0x2c3a3b:0xe6e9df);scene.fog.color.copy(scene.background);renderer.toneMappingExposure=A.dusk?.85:.68;for(const l of A.lights){l.visible=A.dusk;l.intensity=A.dusk?l.userData.power:0;}A.waterMaterial.uniforms.night.value=A.dusk?1:0;renderer.shadowMap.needsUpdate=true;};
+controls.addEventListener('start',()=>{transition=null;lastInput=performance.now();});for(const event of ['pointerdown','wheel','keydown'])addEventListener(event,()=>{lastInput=performance.now();},{passive:true});
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.fov=innerWidth<700?55:39;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+if(innerWidth<700){camera.position.sub(controls.target).multiplyScalar(1.32).add(controls.target);}A.view='home';
+function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if(!document.hidden){if(!reduced)time+=dt;for(const fn of A.updates)fn(time);controls.autoRotate=!transition&&!reduced&&now-lastInput>18000;
+if(transition){const k=Math.min(1,(now-transition.start)/(reduced?1:1100)),s=k*k*(3-2*k);camera.position.lerpVectors(transition.from,transition.to,s);controls.target.lerpVectors(transition.fromTarget,transition.target,s);if(k===1)transition=null;}controls.target.y=Math.max(0,Math.min(4,controls.target.y));controls.update();renderer.render(scene,camera);}requestAnimationFrame(frame);}
+requestAnimationFrame(frame);A.ready=true;document.querySelector('#loading').classList.add('done');setTimeout(()=>document.querySelector('#loading').remove(),800);A.chooseView=choose;
+renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();const n=document.createElement('div');n.id='loading';n.innerHTML='<span>畫面暫時中斷，請重新整理以繼續探索。</span>';document.body.append(n);});
+})();
