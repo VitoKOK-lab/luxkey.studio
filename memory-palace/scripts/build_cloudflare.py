@@ -21,10 +21,10 @@ OUTPUT = ROOT / 'dist' / 'cloudflare' / 'public'
 MAX_ASSET_BYTES = 25 * 1024 * 1024
 BUFFER_BYTES = 20 * 1024 * 1024
 APP_FILES = {
-    'animal-rig.js', 'chat.js', 'cloud-session.js', 'decor.css', 'decor.js',
+    'animal-rig.js', 'character-catalog.js', 'characters.css', 'chat.js', 'cloud-session.js', 'decor.css', 'decor.js',
     'follow-camera.js', 'furnishings.js', 'index.html', 'main.js',
     'material-styles.js', 'meditation-water.js', 'meditation.css', 'meditation.js',
-    'navigation.css', 'navigation.js', 'quality-model.js', 'render-style.js',
+    'navigation.css', 'navigation.js', 'night-windows.js', 'quality-model.js', 'render-style.js',
     'renders.css', 'renders.html', 'renders.js', 'room-lighting.js', 'scene.js',
     'steward-appearance.js', 'stewards.js', 'style-controls.css',
     'style-controls.js', 'style.css',
