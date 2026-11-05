@@ -33,3 +33,22 @@ TEST_URL=http://127.0.0.1:8899 node tests/atelier-smoke.cjs
 ## 發布
 
 將儲存庫根目錄作為 GitHub Pages 或 Cloudflare Pages 的靜態發布目錄，不需要建置指令。
+
+## 憶境莊園 · Memory Palace
+
+[記憶莊園](memory-palace/README.md) 是獨立的本機應用：24 個房間、192 個記憶地標、六位機械動物管家，以及可編輯的 Blender 建築與 NOA 精修模型。原有 A.C.E. Garden Atelier 網站保留在根目錄。
+
+```sh
+cd memory-palace
+npm ci
+python3 scripts/launch.py
+```
+
+啟動後開啟 http://127.0.0.1:8765/ 。需要 Python 3.10+ 與 Node.js；只有編輯模型時才需要 Blender。
+
+記憶莊園使用 Python／SQLite 本機服務，不能直接以 GitHub Pages 執行完整功能。此處保存程式、共用場景、算圖與 Blender 原檔，不含私人記憶、對話、附件或金鑰。登入、手機遠端連線與雲端同步仍未實作。
+
+- [大廳與 NOA 精修資產](memory-palace/assets/quality/)
+- [大廳 Cycles 算圖](memory-palace/assets/renders/quality-hall.png)
+- [NOA Cycles 算圖](memory-palace/assets/renders/quality-noa.png)
+- [AI Agent 連接協定](memory-palace/docs/agent-protocol.md)

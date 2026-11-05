@@ -1,0 +1,5681 @@
+{
+  "version": 1,
+  "rooms": [
+    {
+      "id": "hall",
+      "floor": 0,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -2.9,
+          0.748,
+          -6.48
+        ],
+        "max": [
+          9.9,
+          4.278,
+          3.17
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "hall-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -2.027,
+            4.055,
+            0.507
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -2.027,
+            1.198,
+            0.507
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "hall-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -2.027,
+            4.055,
+            -4.237
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -2.027,
+            1.198,
+            -4.237
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "hall-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            2.227,
+            4.055,
+            0.507
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            2.227,
+            1.198,
+            0.507
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "hall-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            2.227,
+            4.055,
+            -4.237
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            2.227,
+            1.198,
+            -4.237
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "hall-05",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            4.003,
+            4.055,
+            0.507
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            4.003,
+            1.198,
+            0.507
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "hall-06",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            4.003,
+            4.055,
+            -4.237
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            4.003,
+            1.198,
+            -4.237
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "hall-07",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            8.617,
+            4.055,
+            0.507
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            8.617,
+            1.198,
+            0.507
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "hall-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            8.617,
+            4.055,
+            -4.237
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            8.617,
+            1.198,
+            -4.237
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "hall-09",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -1.961,
+            4.038,
+            -1.865
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "hall-10",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            2.161,
+            4.038,
+            -1.865
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "hall-11",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            4.069,
+            4.038,
+            -1.865
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "hall-12",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            8.551,
+            4.038,
+            -1.865
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "hall-13",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            0.0,
+            3.255,
+            -1.06
+          ],
+          "color": "#ffe4c4",
+          "intensity": 155,
+          "distance": 7.2,
+          "target": [
+            0.0,
+            1.198,
+            -1.06
+          ],
+          "angle": 0.97,
+          "penumbra": 0.77
+        },
+        {
+          "id": "hall-14",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            0.12,
+            3.855,
+            -6.048
+          ],
+          "color": "#fff0db",
+          "intensity": 105,
+          "distance": 5.2,
+          "target": [
+            0.12,
+            1.928,
+            -6.358
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "hall-15",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            -0.67,
+            2.407,
+            -3.49
+          ],
+          "color": "#fff0db",
+          "intensity": 16,
+          "distance": 2.8,
+          "target": [
+            -0.605,
+            2.055,
+            -3.44
+          ],
+          "angle": 0.89,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "library",
+      "floor": 0,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -9.9,
+          0.748,
+          -6.48
+        ],
+        "max": [
+          -2.9,
+          4.278,
+          3.17
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "library-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -8.637,
+            4.055,
+            0.507
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -8.637,
+            1.198,
+            0.507
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "library-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -8.637,
+            4.055,
+            -4.237
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -8.637,
+            1.198,
+            -4.237
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "library-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -3.063,
+            4.055,
+            0.507
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -3.063,
+            1.198,
+            0.507
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "library-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -3.063,
+            4.055,
+            -4.237
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -3.063,
+            1.198,
+            -4.237
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "library-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -8.571,
+            4.038,
+            -1.865
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "library-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -3.129,
+            4.038,
+            -1.865
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "library-07",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -5.85,
+            3.255,
+            -1.87
+          ],
+          "color": "#ffe4c4",
+          "intensity": 155,
+          "distance": 7.2,
+          "target": [
+            -5.85,
+            1.198,
+            -1.87
+          ],
+          "angle": 0.97,
+          "penumbra": 0.77
+        },
+        {
+          "id": "library-08",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -7.29,
+            3.008,
+            -5.291
+          ],
+          "color": "#ffe4c4",
+          "intensity": 54,
+          "distance": 4.7,
+          "target": [
+            -7.29,
+            1.848,
+            -5.566
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "library-09",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -4.88,
+            3.008,
+            -5.291
+          ],
+          "color": "#ffe4c4",
+          "intensity": 54,
+          "distance": 4.7,
+          "target": [
+            -4.88,
+            1.848,
+            -5.566
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "library-10",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            -5.99,
+            1.932,
+            -1.63
+          ],
+          "color": "#fff0db",
+          "intensity": 16,
+          "distance": 2.8,
+          "target": [
+            -5.925,
+            1.58,
+            -1.58
+          ],
+          "angle": 0.89,
+          "penumbra": 0.77
+        },
+        {
+          "id": "library-11",
+          "type": "point",
+          "role": "task",
+          "position": [
+            -7.79,
+            2.088,
+            -0.14
+          ],
+          "color": "#ffdab2",
+          "intensity": 49,
+          "distance": 4.9
+        }
+      ]
+    },
+    {
+      "id": "gallery",
+      "floor": 1,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -9.6,
+          4.738,
+          -6.43
+        ],
+        "max": [
+          0.35,
+          8.268,
+          2.46
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "gallery-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -8.332,
+            8.045,
+            -0.036
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -8.332,
+            5.188,
+            -0.036
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "gallery-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -8.332,
+            8.045,
+            -4.354
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -8.332,
+            5.188,
+            -4.354
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "gallery-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -3.108,
+            8.045,
+            -0.036
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -3.108,
+            5.188,
+            -0.036
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "gallery-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -3.108,
+            8.045,
+            -4.354
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -3.108,
+            5.188,
+            -4.354
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "gallery-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -8.266,
+            8.028,
+            -2.195
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "gallery-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -3.174,
+            8.028,
+            -2.195
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "gallery-07",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -5.29,
+            7.245,
+            -3.7
+          ],
+          "color": "#ffe4c4",
+          "intensity": 155,
+          "distance": 7.2,
+          "target": [
+            -5.29,
+            5.188,
+            -3.7
+          ],
+          "angle": 0.97,
+          "penumbra": 0.77
+        },
+        {
+          "id": "gallery-08",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -7.25,
+            7.617,
+            -5.561
+          ],
+          "color": "#f7f2e9",
+          "intensity": 28,
+          "distance": 3.1,
+          "target": [
+            -7.25,
+            6.751,
+            -5.617
+          ],
+          "angle": 0.61,
+          "penumbra": 0.77
+        },
+        {
+          "id": "gallery-09",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -5.35,
+            7.617,
+            -5.561
+          ],
+          "color": "#f7f2e9",
+          "intensity": 28,
+          "distance": 3.1,
+          "target": [
+            -5.35,
+            6.751,
+            -5.617
+          ],
+          "angle": 0.61,
+          "penumbra": 0.77
+        },
+        {
+          "id": "gallery-10",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -3.45,
+            7.617,
+            -5.561
+          ],
+          "color": "#f7f2e9",
+          "intensity": 28,
+          "distance": 3.1,
+          "target": [
+            -3.45,
+            6.751,
+            -5.617
+          ],
+          "angle": 0.61,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "quiet-room",
+      "floor": 1,
+      "interior": true,
+      "bounds": {
+        "min": [
+          0.35,
+          4.738,
+          -6.43
+        ],
+        "max": [
+          9.6,
+          8.268,
+          2.46
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "quiet-room-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            2.933,
+            8.045,
+            -0.036
+          ],
+          "color": "#fff0db",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            2.933,
+            5.188,
+            -0.036
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "quiet-room-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            2.933,
+            8.045,
+            -4.354
+          ],
+          "color": "#fff0db",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            2.933,
+            5.188,
+            -4.354
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "quiet-room-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            8.147,
+            8.045,
+            -0.036
+          ],
+          "color": "#fff0db",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            8.147,
+            5.188,
+            -0.036
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "quiet-room-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            8.147,
+            8.045,
+            -4.354
+          ],
+          "color": "#fff0db",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            8.147,
+            5.188,
+            -4.354
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "quiet-room-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            2.999,
+            8.028,
+            -2.195
+          ],
+          "color": "#ffe4c4",
+          "intensity": 78,
+          "distance": 8.6
+        },
+        {
+          "id": "quiet-room-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            8.081,
+            8.028,
+            -2.195
+          ],
+          "color": "#ffe4c4",
+          "intensity": 78,
+          "distance": 8.6
+        },
+        {
+          "id": "quiet-room-07",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            5.48,
+            7.245,
+            -2.56
+          ],
+          "color": "#ffe4c4",
+          "intensity": 155,
+          "distance": 7.2,
+          "target": [
+            5.48,
+            5.188,
+            -2.56
+          ],
+          "angle": 0.97,
+          "penumbra": 0.77
+        },
+        {
+          "id": "quiet-room-08",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            3.48,
+            6.668,
+            -5.979
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "quiet-room-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            7.76,
+            6.668,
+            -5.979
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        }
+      ]
+    },
+    {
+      "id": "observatory",
+      "floor": 2,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -7.2,
+          8.728,
+          -6.39
+        ],
+        "max": [
+          8.3,
+          12.258,
+          1.54
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "observatory-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -6.397,
+            12.035,
+            -0.745
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            -6.397,
+            9.178,
+            -0.745
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -6.397,
+            12.035,
+            -4.525
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            -6.397,
+            9.178,
+            -4.525
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -2.903,
+            12.035,
+            -0.745
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            -2.903,
+            9.178,
+            -0.745
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -2.903,
+            12.035,
+            -4.525
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            -2.903,
+            9.178,
+            -4.525
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-05",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -1.382,
+            12.035,
+            -0.745
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            -1.382,
+            9.178,
+            -0.745
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-06",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -1.382,
+            12.035,
+            -4.525
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            -1.382,
+            9.178,
+            -4.525
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-07",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            2.502,
+            12.035,
+            -0.745
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            2.502,
+            9.178,
+            -0.745
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            2.502,
+            12.035,
+            -4.525
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            2.502,
+            9.178,
+            -4.525
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-09",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            4.438,
+            12.035,
+            -0.745
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            4.438,
+            9.178,
+            -0.745
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-10",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            4.438,
+            12.035,
+            -4.525
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            4.438,
+            9.178,
+            -4.525
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-11",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            7.442,
+            12.035,
+            -0.745
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            7.442,
+            9.178,
+            -0.745
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-12",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            7.442,
+            12.035,
+            -4.525
+          ],
+          "color": "#f7f2e9",
+          "intensity": 149,
+          "distance": 9,
+          "target": [
+            7.442,
+            9.178,
+            -4.525
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-13",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -6.331,
+            12.018,
+            -2.635
+          ],
+          "color": "#ffe4c4",
+          "intensity": 78,
+          "distance": 8.6
+        },
+        {
+          "id": "observatory-14",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -2.969,
+            12.018,
+            -2.635
+          ],
+          "color": "#ffe4c4",
+          "intensity": 78,
+          "distance": 8.6
+        },
+        {
+          "id": "observatory-15",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -1.316,
+            12.018,
+            -2.635
+          ],
+          "color": "#ffe4c4",
+          "intensity": 78,
+          "distance": 8.6
+        },
+        {
+          "id": "observatory-16",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            2.436,
+            12.018,
+            -2.635
+          ],
+          "color": "#ffe4c4",
+          "intensity": 78,
+          "distance": 8.6
+        },
+        {
+          "id": "observatory-17",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            4.504,
+            12.018,
+            -2.635
+          ],
+          "color": "#ffe4c4",
+          "intensity": 78,
+          "distance": 8.6
+        },
+        {
+          "id": "observatory-18",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            7.376,
+            12.018,
+            -2.635
+          ],
+          "color": "#ffe4c4",
+          "intensity": 78,
+          "distance": 8.6
+        },
+        {
+          "id": "observatory-19",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -4.62,
+            11.235,
+            -2.49
+          ],
+          "color": "#ffe4c4",
+          "intensity": 155,
+          "distance": 7.2,
+          "target": [
+            -4.62,
+            9.178,
+            -2.49
+          ],
+          "angle": 0.97,
+          "penumbra": 0.77
+        },
+        {
+          "id": "observatory-20",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            0.53,
+            12.198,
+            -2.36
+          ],
+          "color": "#f7f2e9",
+          "intensity": 112,
+          "distance": 9,
+          "target": [
+            0.53,
+            10.448,
+            -2.36
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "observatory-21",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            -4.99,
+            9.932,
+            -2.4
+          ],
+          "color": "#fff0db",
+          "intensity": 16,
+          "distance": 2.8,
+          "target": [
+            -4.925,
+            9.58,
+            -2.35
+          ],
+          "angle": 0.89,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "garden",
+      "floor": -1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          -10.1,
+          0.213,
+          4.75
+        ],
+        "max": [
+          10.1,
+          3.713,
+          16.2
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "garden-01",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -5.7,
+            0.755,
+            9.2
+          ],
+          "color": "#ffdab2",
+          "intensity": 18,
+          "distance": 4.4
+        },
+        {
+          "id": "garden-02",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -5.7,
+            0.755,
+            14.9
+          ],
+          "color": "#ffdab2",
+          "intensity": 18,
+          "distance": 4.4
+        },
+        {
+          "id": "garden-03",
+          "type": "point",
+          "role": "path",
+          "position": [
+            5.7,
+            0.755,
+            9.2
+          ],
+          "color": "#ffdab2",
+          "intensity": 18,
+          "distance": 4.4
+        },
+        {
+          "id": "garden-04",
+          "type": "point",
+          "role": "path",
+          "position": [
+            5.7,
+            0.755,
+            14.9
+          ],
+          "color": "#ffdab2",
+          "intensity": 18,
+          "distance": 4.4
+        },
+        {
+          "id": "garden-05",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -1.55,
+            0.272,
+            9.59
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            0,
+            0.93,
+            9.85
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "garden-06",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            1.55,
+            0.272,
+            9.59
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            0,
+            0.93,
+            9.85
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        }
+      ]
+    },
+    {
+      "id": "archive",
+      "floor": 0,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -28.95,
+          0.748,
+          0.21
+        ],
+        "max": [
+          -16.25,
+          4.318,
+          10.09
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "archive-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            4.085,
+            7.678
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -28.407,
+            1.198,
+            7.678
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "archive-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            4.085,
+            2.622
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -28.407,
+            1.198,
+            2.622
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "archive-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            4.085,
+            7.678
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -16.793,
+            1.198,
+            7.678
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "archive-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            4.085,
+            2.622
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -16.793,
+            1.198,
+            2.622
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "archive-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -28.341,
+            4.068,
+            5.15
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "archive-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -16.859,
+            4.068,
+            5.15
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "archive-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            -27.37,
+            4.116,
+            5.46
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -27.37,
+            1.678,
+            5.88
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "archive-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -22.6,
+            4.116,
+            4.97
+          ],
+          "color": "#fff0db",
+          "intensity": 170,
+          "distance": 9,
+          "target": [
+            -22.6,
+            1.248,
+            5.15
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "archive-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -24.94,
+            2.708,
+            0.633
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "archive-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -20.26,
+            2.708,
+            0.633
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "archive-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -22.6,
+            3.918,
+            0.53
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            -22.6,
+            2.198,
+            0.24
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "workshop",
+      "floor": 0,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -28.95,
+          0.748,
+          -9.69
+        ],
+        "max": [
+          -16.25,
+          4.318,
+          0.19
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "workshop-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            4.085,
+            -2.222
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -28.407,
+            1.198,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "workshop-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            4.085,
+            -7.278
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -28.407,
+            1.198,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "workshop-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            4.085,
+            -2.222
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -16.793,
+            1.198,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "workshop-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            4.085,
+            -7.278
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -16.793,
+            1.198,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "workshop-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -28.341,
+            4.068,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "workshop-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -16.859,
+            4.068,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "workshop-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            -19.0,
+            4.116,
+            -1.97
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -19.0,
+            1.908,
+            -1.55
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "workshop-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -22.6,
+            4.116,
+            -4.93
+          ],
+          "color": "#f7f2e9",
+          "intensity": 170,
+          "distance": 9,
+          "target": [
+            -22.6,
+            1.248,
+            -4.75
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "workshop-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -24.94,
+            2.708,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "workshop-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -20.26,
+            2.708,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "workshop-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -22.6,
+            3.918,
+            -0.13
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            -22.6,
+            2.198,
+            0.16
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "workshop-12",
+          "type": "point",
+          "role": "task",
+          "position": [
+            -26.78,
+            2.088,
+            -7.17
+          ],
+          "color": "#ffdab2",
+          "intensity": 49,
+          "distance": 4.9
+        }
+      ]
+    },
+    {
+      "id": "cartography-room",
+      "floor": 1,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -28.95,
+          4.738,
+          0.21
+        ],
+        "max": [
+          -16.25,
+          8.308,
+          10.09
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "cartography-room-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            8.075,
+            7.678
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -28.407,
+            5.188,
+            7.678
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "cartography-room-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            8.075,
+            2.622
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -28.407,
+            5.188,
+            2.622
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "cartography-room-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            8.075,
+            7.678
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -16.793,
+            5.188,
+            7.678
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "cartography-room-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            8.075,
+            2.622
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -16.793,
+            5.188,
+            2.622
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "cartography-room-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -28.341,
+            8.058,
+            5.15
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "cartography-room-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -16.859,
+            8.058,
+            5.15
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "cartography-room-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            -26.12,
+            8.106,
+            7.91
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -26.12,
+            5.668,
+            8.33
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "cartography-room-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -22.6,
+            8.106,
+            4.97
+          ],
+          "color": "#f7f2e9",
+          "intensity": 170,
+          "distance": 9,
+          "target": [
+            -22.6,
+            5.238,
+            5.15
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "cartography-room-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -24.94,
+            6.698,
+            0.633
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "cartography-room-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -20.26,
+            6.698,
+            0.633
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "cartography-room-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -22.6,
+            7.908,
+            0.53
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            -22.6,
+            6.188,
+            0.24
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "portrait-hall",
+      "floor": 1,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -28.95,
+          4.738,
+          -9.69
+        ],
+        "max": [
+          -16.25,
+          8.308,
+          0.19
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "portrait-hall-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            8.075,
+            -2.222
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -28.407,
+            5.188,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "portrait-hall-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            8.075,
+            -7.278
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -28.407,
+            5.188,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "portrait-hall-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            8.075,
+            -2.222
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -16.793,
+            5.188,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "portrait-hall-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            8.075,
+            -7.278
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -16.793,
+            5.188,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "portrait-hall-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -28.341,
+            8.058,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "portrait-hall-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -16.859,
+            8.058,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "portrait-hall-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            -19.0,
+            8.106,
+            -1.97
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -19.0,
+            6.078,
+            -1.55
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "portrait-hall-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -22.6,
+            8.106,
+            -4.93
+          ],
+          "color": "#f7f2e9",
+          "intensity": 170,
+          "distance": 9,
+          "target": [
+            -22.6,
+            5.238,
+            -4.75
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "portrait-hall-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -24.94,
+            6.698,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "portrait-hall-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -20.26,
+            6.698,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "portrait-hall-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -22.6,
+            7.908,
+            -0.13
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            -22.6,
+            6.188,
+            0.16
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "music-room",
+      "floor": 2,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -28.95,
+          8.728,
+          0.21
+        ],
+        "max": [
+          -16.25,
+          12.298,
+          10.09
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "music-room-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            12.065,
+            7.678
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -28.407,
+            9.178,
+            7.678
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "music-room-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            12.065,
+            2.622
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -28.407,
+            9.178,
+            2.622
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "music-room-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            12.065,
+            7.678
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -16.793,
+            9.178,
+            7.678
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "music-room-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            12.065,
+            2.622
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -16.793,
+            9.178,
+            2.622
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "music-room-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -28.341,
+            12.048,
+            5.15
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "music-room-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -16.859,
+            12.048,
+            5.15
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "music-room-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            -19.0,
+            12.096,
+            7.93
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            -19.0,
+            9.888,
+            8.35
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "music-room-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -22.6,
+            12.096,
+            4.97
+          ],
+          "color": "#fff0db",
+          "intensity": 170,
+          "distance": 9,
+          "target": [
+            -22.6,
+            9.228,
+            5.15
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "music-room-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -24.94,
+            10.688,
+            0.633
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "music-room-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -20.26,
+            10.688,
+            0.633
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "music-room-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -22.6,
+            11.898,
+            0.53
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            -22.6,
+            10.178,
+            0.24
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "planetarium",
+      "floor": 2,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -28.95,
+          8.728,
+          -9.69
+        ],
+        "max": [
+          -16.25,
+          12.298,
+          0.19
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "planetarium-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            12.065,
+            -2.222
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            -28.407,
+            9.178,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "planetarium-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -28.407,
+            12.065,
+            -7.278
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            -28.407,
+            9.178,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "planetarium-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            12.065,
+            -2.222
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            -16.793,
+            9.178,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "planetarium-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -16.793,
+            12.065,
+            -7.278
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            -16.793,
+            9.178,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "planetarium-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -28.341,
+            12.048,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 74,
+          "distance": 8.6
+        },
+        {
+          "id": "planetarium-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            -16.859,
+            12.048,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 74,
+          "distance": 8.6
+        },
+        {
+          "id": "planetarium-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            -19.0,
+            12.096,
+            -1.97
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            -19.0,
+            9.958,
+            -1.55
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "planetarium-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            -22.6,
+            12.096,
+            -4.93
+          ],
+          "color": "#fff0db",
+          "intensity": 136,
+          "distance": 9,
+          "target": [
+            -22.6,
+            9.228,
+            -4.75
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "planetarium-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -24.94,
+            10.688,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "planetarium-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            -20.26,
+            10.688,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "planetarium-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -22.6,
+            11.898,
+            -0.13
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            -22.6,
+            10.178,
+            0.16
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "atrium",
+      "floor": 0,
+      "interior": true,
+      "bounds": {
+        "min": [
+          16.25,
+          0.748,
+          0.21
+        ],
+        "max": [
+          28.95,
+          4.318,
+          10.09
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "atrium-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            16.793,
+            4.085,
+            7.678
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            16.793,
+            1.198,
+            7.678
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "atrium-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            16.793,
+            4.085,
+            2.622
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            16.793,
+            1.198,
+            2.622
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "atrium-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            28.407,
+            4.085,
+            7.678
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            28.407,
+            1.198,
+            7.678
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "atrium-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            28.407,
+            4.085,
+            2.622
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            28.407,
+            1.198,
+            2.622
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "atrium-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            16.859,
+            4.068,
+            5.15
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "atrium-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            28.341,
+            4.068,
+            5.15
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "atrium-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            19.0,
+            4.116,
+            7.93
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            19.0,
+            2.018,
+            8.35
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "atrium-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            22.6,
+            4.116,
+            4.97
+          ],
+          "color": "#fff0db",
+          "intensity": 170,
+          "distance": 9,
+          "target": [
+            22.6,
+            1.248,
+            5.15
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "atrium-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            20.26,
+            2.708,
+            0.633
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "atrium-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            24.94,
+            2.708,
+            0.633
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "atrium-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            22.6,
+            3.918,
+            0.53
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            22.6,
+            2.198,
+            0.24
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "atrium-12",
+          "type": "point",
+          "role": "task",
+          "position": [
+            22.52,
+            2.088,
+            8.57
+          ],
+          "color": "#ffdab2",
+          "intensity": 49,
+          "distance": 4.9
+        }
+      ]
+    },
+    {
+      "id": "banquet-room",
+      "floor": 0,
+      "interior": true,
+      "bounds": {
+        "min": [
+          16.25,
+          0.748,
+          -9.69
+        ],
+        "max": [
+          28.95,
+          4.318,
+          0.19
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "banquet-room-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            16.793,
+            4.085,
+            -2.222
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            16.793,
+            1.198,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "banquet-room-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            16.793,
+            4.085,
+            -7.278
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            16.793,
+            1.198,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "banquet-room-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            28.407,
+            4.085,
+            -2.222
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            28.407,
+            1.198,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "banquet-room-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            28.407,
+            4.085,
+            -7.278
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            28.407,
+            1.198,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "banquet-room-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            16.859,
+            4.068,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "banquet-room-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            28.341,
+            4.068,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "banquet-room-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            19.0,
+            4.116,
+            -1.97
+          ],
+          "color": "#fff0db",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            19.0,
+            1.678,
+            -1.55
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "banquet-room-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            22.6,
+            4.116,
+            -4.93
+          ],
+          "color": "#fff0db",
+          "intensity": 170,
+          "distance": 9,
+          "target": [
+            22.6,
+            1.248,
+            -4.75
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "banquet-room-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            20.26,
+            2.708,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "banquet-room-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            24.94,
+            2.708,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "banquet-room-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            22.6,
+            3.918,
+            -0.13
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            22.6,
+            2.198,
+            0.16
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "banquet-room-12",
+          "type": "point",
+          "role": "task",
+          "position": [
+            18.77,
+            2.088,
+            -7.46
+          ],
+          "color": "#ffdab2",
+          "intensity": 49,
+          "distance": 4.9
+        }
+      ]
+    },
+    {
+      "id": "tea-room",
+      "floor": 1,
+      "interior": true,
+      "bounds": {
+        "min": [
+          16.25,
+          4.738,
+          0.21
+        ],
+        "max": [
+          28.95,
+          8.308,
+          10.09
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "tea-room-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            16.793,
+            8.075,
+            7.678
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            16.793,
+            5.188,
+            7.678
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "tea-room-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            16.793,
+            8.075,
+            2.622
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            16.793,
+            5.188,
+            2.622
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "tea-room-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            28.407,
+            8.075,
+            7.678
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            28.407,
+            5.188,
+            7.678
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "tea-room-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            28.407,
+            8.075,
+            2.622
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            28.407,
+            5.188,
+            2.622
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "tea-room-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            16.859,
+            8.058,
+            5.15
+          ],
+          "color": "#ffe4c4",
+          "intensity": 74,
+          "distance": 8.6
+        },
+        {
+          "id": "tea-room-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            28.341,
+            8.058,
+            5.15
+          ],
+          "color": "#ffe4c4",
+          "intensity": 74,
+          "distance": 8.6
+        },
+        {
+          "id": "tea-room-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            19.0,
+            8.106,
+            7.93
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            19.0,
+            5.668,
+            8.35
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "tea-room-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            22.6,
+            8.106,
+            4.97
+          ],
+          "color": "#fff0db",
+          "intensity": 136,
+          "distance": 9,
+          "target": [
+            22.6,
+            5.238,
+            5.15
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "tea-room-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            20.26,
+            6.698,
+            0.633
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "tea-room-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            24.94,
+            6.698,
+            0.633
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "tea-room-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            22.6,
+            7.908,
+            0.53
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            22.6,
+            6.188,
+            0.24
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "reflection-suite",
+      "floor": 1,
+      "interior": true,
+      "bounds": {
+        "min": [
+          16.25,
+          4.738,
+          -9.69
+        ],
+        "max": [
+          28.95,
+          8.308,
+          0.19
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "reflection-suite-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            16.793,
+            8.075,
+            -2.222
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            16.793,
+            5.188,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "reflection-suite-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            16.793,
+            8.075,
+            -7.278
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            16.793,
+            5.188,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "reflection-suite-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            28.407,
+            8.075,
+            -2.222
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            28.407,
+            5.188,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "reflection-suite-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            28.407,
+            8.075,
+            -7.278
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            28.407,
+            5.188,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "reflection-suite-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            16.859,
+            8.058,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 74,
+          "distance": 8.6
+        },
+        {
+          "id": "reflection-suite-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            28.341,
+            8.058,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 74,
+          "distance": 8.6
+        },
+        {
+          "id": "reflection-suite-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            22.35,
+            8.106,
+            -1.92
+          ],
+          "color": "#fff0db",
+          "intensity": 140,
+          "distance": 9,
+          "target": [
+            22.35,
+            5.248,
+            -1.5
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "reflection-suite-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            22.6,
+            8.106,
+            -4.93
+          ],
+          "color": "#fff0db",
+          "intensity": 136,
+          "distance": 9,
+          "target": [
+            22.6,
+            5.238,
+            -4.75
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "reflection-suite-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            20.26,
+            6.698,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "reflection-suite-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            24.94,
+            6.698,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "reflection-suite-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            22.6,
+            7.908,
+            -0.13
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            22.6,
+            6.188,
+            0.16
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "reflection-suite-12",
+          "type": "point",
+          "role": "task",
+          "position": [
+            24.34,
+            6.078,
+            -7.81
+          ],
+          "color": "#ffdab2",
+          "intensity": 49,
+          "distance": 4.9
+        }
+      ]
+    },
+    {
+      "id": "roof-terrace",
+      "floor": 2,
+      "interior": false,
+      "bounds": {
+        "min": [
+          16.25,
+          8.728,
+          0.21
+        ],
+        "max": [
+          28.95,
+          11.478,
+          10.09
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "roof-terrace-01",
+          "type": "point",
+          "role": "path",
+          "position": [
+            27.12,
+            10.068,
+            2.73
+          ],
+          "color": "#ffdab2",
+          "intensity": 15,
+          "distance": 3.7
+        },
+        {
+          "id": "roof-terrace-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            17.98,
+            8.81,
+            9.88
+          ],
+          "color": "#ffe4c4",
+          "intensity": 11,
+          "distance": 4.8,
+          "target": [
+            17.98,
+            8.888,
+            8.57
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "roof-terrace-03",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            22.6,
+            8.81,
+            9.88
+          ],
+          "color": "#ffe4c4",
+          "intensity": 11,
+          "distance": 4.8,
+          "target": [
+            22.6,
+            8.888,
+            8.57
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "roof-terrace-04",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            27.22,
+            8.81,
+            9.88
+          ],
+          "color": "#ffe4c4",
+          "intensity": 11,
+          "distance": 4.8,
+          "target": [
+            27.22,
+            8.888,
+            8.57
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        }
+      ]
+    },
+    {
+      "id": "glasshouse",
+      "floor": 2,
+      "interior": true,
+      "bounds": {
+        "min": [
+          16.25,
+          8.728,
+          -9.69
+        ],
+        "max": [
+          28.95,
+          12.298,
+          0.19
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "glasshouse-01",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            16.793,
+            12.065,
+            -2.222
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            16.793,
+            9.178,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "glasshouse-02",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            16.793,
+            12.065,
+            -7.278
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            16.793,
+            9.178,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "glasshouse-03",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            28.407,
+            12.065,
+            -2.222
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            28.407,
+            9.178,
+            -2.222
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "glasshouse-04",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            28.407,
+            12.065,
+            -7.278
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            28.407,
+            9.178,
+            -7.278
+          ],
+          "angle": 0.92,
+          "penumbra": 0.72
+        },
+        {
+          "id": "glasshouse-05",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            16.859,
+            12.048,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "glasshouse-06",
+          "type": "point",
+          "role": "ambient",
+          "position": [
+            28.341,
+            12.048,
+            -4.75
+          ],
+          "color": "#ffe4c4",
+          "intensity": 92,
+          "distance": 8.6
+        },
+        {
+          "id": "glasshouse-07",
+          "type": "spot",
+          "role": "task",
+          "position": [
+            22.35,
+            12.096,
+            -1.92
+          ],
+          "color": "#f7f2e9",
+          "intensity": 175,
+          "distance": 9,
+          "target": [
+            22.35,
+            9.658,
+            -1.5
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "glasshouse-08",
+          "type": "spot",
+          "role": "ambient",
+          "position": [
+            22.6,
+            12.096,
+            -4.93
+          ],
+          "color": "#f7f2e9",
+          "intensity": 170,
+          "distance": 9,
+          "target": [
+            22.6,
+            9.228,
+            -4.75
+          ],
+          "angle": 0.8,
+          "penumbra": 0.77
+        },
+        {
+          "id": "glasshouse-09",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            20.26,
+            10.688,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "glasshouse-10",
+          "type": "point",
+          "role": "accent",
+          "position": [
+            24.94,
+            10.688,
+            -0.233
+          ],
+          "color": "#ffe4c4",
+          "intensity": 32,
+          "distance": 4.8
+        },
+        {
+          "id": "glasshouse-11",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            22.6,
+            11.898,
+            -0.13
+          ],
+          "color": "#fff0db",
+          "intensity": 115,
+          "distance": 6.1,
+          "target": [
+            22.6,
+            10.178,
+            0.16
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "arrival-court",
+      "floor": -1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          -5.9,
+          0.282,
+          21.5
+        ],
+        "max": [
+          5.9,
+          3.782,
+          31.3
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "arrival-court-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -1.1,
+            0.338,
+            22.45
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            -0.583,
+            0.28,
+            23.55
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "arrival-court-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            1.1,
+            0.338,
+            22.45
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            0.583,
+            0.28,
+            23.55
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "arrival-court-03",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -4.6,
+            1.622,
+            27.3
+          ],
+          "color": "#ffdab2",
+          "intensity": 15,
+          "distance": 3.7
+        }
+      ]
+    },
+    {
+      "id": "sculpture-court",
+      "floor": -1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          -18.65,
+          0.282,
+          21.5
+        ],
+        "max": [
+          -6.85,
+          3.782,
+          31.3
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "sculpture-court-01",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -17.55,
+            0.617,
+            29.95
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4,
+          "target": [
+            -16.878,
+            0.98,
+            29.95
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "sculpture-court-02",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -17.55,
+            0.617,
+            22.85
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4,
+          "target": [
+            -16.878,
+            0.98,
+            22.85
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "sculpture-court-03",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -7.95,
+            0.617,
+            29.95
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4,
+          "target": [
+            -8.622,
+            0.98,
+            29.95
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "sculpture-court-04",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -7.95,
+            0.617,
+            22.85
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4,
+          "target": [
+            -8.622,
+            0.98,
+            22.85
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "orchard",
+      "floor": -1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          -31.45,
+          0.282,
+          21.5
+        ],
+        "max": [
+          -19.65,
+          3.782,
+          31.3
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "orchard-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -26.65,
+            0.338,
+            22.45
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            -26.133,
+            0.28,
+            23.55
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "orchard-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -24.45,
+            0.338,
+            22.45
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            -24.967,
+            0.28,
+            23.55
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "orchard-03",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -30.41,
+            0.35,
+            25.85
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            -29.389,
+            1.1,
+            26.15
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "orchard-04",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            -20.69,
+            0.35,
+            25.85
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            -21.711,
+            1.1,
+            26.15
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        }
+      ]
+    },
+    {
+      "id": "water-garden",
+      "floor": -1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          6.85,
+          0.325,
+          21.5
+        ],
+        "max": [
+          18.65,
+          3.825,
+          31.3
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "water-garden-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            11.65,
+            0.338,
+            22.45
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            12.167,
+            0.28,
+            23.55
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "water-garden-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            13.85,
+            0.338,
+            22.45
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            13.333,
+            0.28,
+            23.55
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "water-garden-03",
+          "type": "point",
+          "role": "path",
+          "position": [
+            16.44,
+            1.665,
+            29.75
+          ],
+          "color": "#ffdab2",
+          "intensity": 15,
+          "distance": 3.7
+        }
+      ]
+    },
+    {
+      "id": "stone-garden",
+      "floor": -1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          19.65,
+          0.325,
+          21.5
+        ],
+        "max": [
+          31.45,
+          3.825,
+          31.3
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "stone-garden-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            24.45,
+            0.338,
+            22.45
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            24.967,
+            0.28,
+            23.55
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "stone-garden-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            26.65,
+            0.338,
+            22.45
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            26.133,
+            0.28,
+            23.55
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "stone-garden-03",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            20.69,
+            0.35,
+            25.85
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            21.711,
+            1.1,
+            26.15
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "stone-garden-04",
+          "type": "spot",
+          "role": "accent",
+          "position": [
+            30.41,
+            0.35,
+            25.85
+          ],
+          "color": "#ffe4c4",
+          "intensity": 23,
+          "distance": 4.8,
+          "target": [
+            29.389,
+            1.1,
+            26.15
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "stone-garden-05",
+          "type": "point",
+          "role": "path",
+          "position": [
+            21.72,
+            1.665,
+            23.69
+          ],
+          "color": "#ffdab2",
+          "intensity": 15,
+          "distance": 3.7
+        }
+      ]
+    },
+    {
+      "id": "skybridge",
+      "floor": 2,
+      "interior": false,
+      "bounds": {
+        "min": [
+          -16.2,
+          8.728,
+          1.63
+        ],
+        "max": [
+          16.2,
+          11.478,
+          3.93
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "skybridge-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -11.76,
+            8.786,
+            3.775
+          ],
+          "color": "#ffe4c4",
+          "intensity": 14,
+          "distance": 3.7,
+          "target": [
+            -11.76,
+            8.768,
+            2.66
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "skybridge-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -7.84,
+            8.786,
+            3.775
+          ],
+          "color": "#ffe4c4",
+          "intensity": 14,
+          "distance": 3.7,
+          "target": [
+            -7.84,
+            8.768,
+            2.66
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "skybridge-03",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -3.92,
+            8.786,
+            3.775
+          ],
+          "color": "#ffe4c4",
+          "intensity": 14,
+          "distance": 3.7,
+          "target": [
+            -3.92,
+            8.768,
+            2.66
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "skybridge-04",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            0.0,
+            8.786,
+            3.775
+          ],
+          "color": "#ffe4c4",
+          "intensity": 14,
+          "distance": 3.7,
+          "target": [
+            0.0,
+            8.768,
+            2.66
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "skybridge-05",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            3.92,
+            8.786,
+            3.775
+          ],
+          "color": "#ffe4c4",
+          "intensity": 14,
+          "distance": 3.7,
+          "target": [
+            3.92,
+            8.768,
+            2.66
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "skybridge-06",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            7.84,
+            8.786,
+            3.775
+          ],
+          "color": "#ffe4c4",
+          "intensity": 14,
+          "distance": 3.7,
+          "target": [
+            7.84,
+            8.768,
+            2.66
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "skybridge-07",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            11.76,
+            8.786,
+            3.775
+          ],
+          "color": "#ffe4c4",
+          "intensity": 14,
+          "distance": 3.7,
+          "target": [
+            11.76,
+            8.768,
+            2.66
+          ],
+          "angle": 0.87,
+          "penumbra": 0.77
+        },
+        {
+          "id": "skybridge-08",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -13.63,
+            10.068,
+            2.42
+          ],
+          "color": "#ffdab2",
+          "intensity": 15,
+          "distance": 3.7
+        }
+      ]
+    }
+  ],
+  "circulation": [
+    {
+      "id": "central-stair-1",
+      "floor": 0,
+      "interior": true,
+      "bounds": {
+        "min": [
+          2.14,
+          0.68,
+          -5.3
+        ],
+        "max": [
+          4.1,
+          5.07,
+          -0.47
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "central-stair-1-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            3.12,
+            1.074,
+            -0.731
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            3.12,
+            0.911,
+            -0.541
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "central-stair-1-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            3.12,
+            1.797,
+            -1.604
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            3.12,
+            1.634,
+            -1.414
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "central-stair-1-03",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            3.12,
+            2.52,
+            -2.477
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            3.12,
+            2.357,
+            -2.287
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "central-stair-1-04",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            3.12,
+            3.243,
+            -3.35
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            3.12,
+            3.08,
+            -3.16
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "central-stair-1-05",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            3.12,
+            3.966,
+            -4.223
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            3.12,
+            3.803,
+            -4.033
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "central-stair-2",
+      "floor": 1,
+      "interior": true,
+      "bounds": {
+        "min": [
+          -3.16,
+          4.67,
+          -5.3
+        ],
+        "max": [
+          -1.2,
+          9.06,
+          -0.47
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "central-stair-2-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -2.18,
+            5.064,
+            -0.731
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -2.18,
+            4.901,
+            -0.541
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "central-stair-2-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -2.18,
+            5.787,
+            -1.604
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -2.18,
+            5.624,
+            -1.414
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "central-stair-2-03",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -2.18,
+            6.51,
+            -2.477
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -2.18,
+            6.347,
+            -2.287
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "central-stair-2-04",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -2.18,
+            7.233,
+            -3.35
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -2.18,
+            7.07,
+            -3.16
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "central-stair-2-05",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -2.18,
+            7.956,
+            -4.223
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -2.18,
+            7.793,
+            -4.033
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "west-stair-1",
+      "floor": 1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          -13.87,
+          0.213,
+          -4.3
+        ],
+        "max": [
+          -11.37,
+          6.288,
+          8.0
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "west-stair-1-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.62,
+            0.668,
+            6.825
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -12.62,
+            0.526,
+            7.25
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "west-stair-1-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.62,
+            1.573,
+            4.365
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -12.62,
+            1.431,
+            4.79
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "west-stair-1-03",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.62,
+            2.478,
+            1.905
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -12.62,
+            2.336,
+            2.33
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "west-stair-1-04",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.62,
+            3.383,
+            -0.555
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -12.62,
+            3.241,
+            -0.13
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "west-stair-1-05",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.62,
+            4.288,
+            -3.015
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -12.62,
+            4.146,
+            -2.59
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "west-stair-2",
+      "floor": 2,
+      "interior": false,
+      "bounds": {
+        "min": [
+          -13.87,
+          4.738,
+          -16.2
+        ],
+        "max": [
+          -11.37,
+          10.278,
+          -4.3
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "west-stair-2-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.62,
+            5.129,
+            -5.435
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -12.62,
+            4.987,
+            -5.01
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "west-stair-2-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.62,
+            5.927,
+            -7.815
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -12.62,
+            5.785,
+            -7.39
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "west-stair-2-03",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.62,
+            6.725,
+            -10.195
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -12.62,
+            6.583,
+            -9.77
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "west-stair-2-04",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.62,
+            7.523,
+            -12.575
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -12.62,
+            7.381,
+            -12.15
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "west-stair-2-05",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.62,
+            8.321,
+            -14.955
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            -12.62,
+            8.179,
+            -14.53
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "east-stair-1",
+      "floor": 1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          11.37,
+          0.213,
+          -4.3
+        ],
+        "max": [
+          13.87,
+          6.288,
+          8.0
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "east-stair-1-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.62,
+            0.668,
+            6.825
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            12.62,
+            0.526,
+            7.25
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "east-stair-1-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.62,
+            1.573,
+            4.365
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            12.62,
+            1.431,
+            4.79
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "east-stair-1-03",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.62,
+            2.478,
+            1.905
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            12.62,
+            2.336,
+            2.33
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "east-stair-1-04",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.62,
+            3.383,
+            -0.555
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            12.62,
+            3.241,
+            -0.13
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "east-stair-1-05",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.62,
+            4.288,
+            -3.015
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            12.62,
+            4.146,
+            -2.59
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "east-stair-2",
+      "floor": 2,
+      "interior": false,
+      "bounds": {
+        "min": [
+          11.37,
+          4.738,
+          -16.2
+        ],
+        "max": [
+          13.87,
+          10.278,
+          -4.3
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "east-stair-2-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.62,
+            5.129,
+            -5.435
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            12.62,
+            4.987,
+            -5.01
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "east-stair-2-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.62,
+            5.927,
+            -7.815
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            12.62,
+            5.785,
+            -7.39
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "east-stair-2-03",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.62,
+            6.725,
+            -10.195
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            12.62,
+            6.583,
+            -9.77
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "east-stair-2-04",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.62,
+            7.523,
+            -12.575
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            12.62,
+            7.381,
+            -12.15
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        },
+        {
+          "id": "east-stair-2-05",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.62,
+            8.321,
+            -14.955
+          ],
+          "color": "#ffe4c4",
+          "intensity": 7,
+          "distance": 2.9,
+          "target": [
+            12.62,
+            8.179,
+            -14.53
+          ],
+          "angle": 0.91,
+          "penumbra": 0.77
+        }
+      ]
+    },
+    {
+      "id": "first-skybridge",
+      "floor": 1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          -16.2,
+          4.738,
+          2.35
+        ],
+        "max": [
+          16.2,
+          7.488,
+          4.65
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "first-skybridge-01",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -12.0,
+            4.814,
+            4.49
+          ],
+          "color": "#ffe4c4",
+          "intensity": 12,
+          "distance": 4.8,
+          "target": [
+            -12,
+            4.878,
+            3.18
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "first-skybridge-02",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -8.0,
+            4.814,
+            4.49
+          ],
+          "color": "#ffe4c4",
+          "intensity": 12,
+          "distance": 4.8,
+          "target": [
+            -8,
+            4.878,
+            3.18
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "first-skybridge-03",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            -4.0,
+            4.814,
+            4.49
+          ],
+          "color": "#ffe4c4",
+          "intensity": 12,
+          "distance": 4.8,
+          "target": [
+            -4,
+            4.878,
+            3.18
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "first-skybridge-04",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            0.0,
+            4.814,
+            4.49
+          ],
+          "color": "#ffe4c4",
+          "intensity": 12,
+          "distance": 4.8,
+          "target": [
+            0,
+            4.878,
+            3.18
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "first-skybridge-05",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            4.0,
+            4.814,
+            4.49
+          ],
+          "color": "#ffe4c4",
+          "intensity": 12,
+          "distance": 4.8,
+          "target": [
+            4,
+            4.878,
+            3.18
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "first-skybridge-06",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            8.0,
+            4.814,
+            4.49
+          ],
+          "color": "#ffe4c4",
+          "intensity": 12,
+          "distance": 4.8,
+          "target": [
+            8,
+            4.878,
+            3.18
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        },
+        {
+          "id": "first-skybridge-07",
+          "type": "spot",
+          "role": "path",
+          "position": [
+            12.0,
+            4.814,
+            4.49
+          ],
+          "color": "#ffe4c4",
+          "intensity": 12,
+          "distance": 4.8,
+          "target": [
+            12,
+            4.878,
+            3.18
+          ],
+          "angle": 0.79,
+          "penumbra": 0.55
+        }
+      ]
+    },
+    {
+      "id": "west-promenade",
+      "floor": -1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          -32,
+          0.18,
+          16.0
+        ],
+        "max": [
+          -11,
+          2.9,
+          21.5
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "west-promenade-01",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -31.1,
+            0.827,
+            16.19
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "west-promenade-02",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -31.1,
+            0.827,
+            21.05
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "west-promenade-03",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -25.0,
+            0.827,
+            16.19
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "west-promenade-04",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -25.0,
+            0.827,
+            21.05
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "west-promenade-05",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -18.0,
+            0.827,
+            16.19
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "west-promenade-06",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -18.0,
+            0.827,
+            21.05
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        }
+      ]
+    },
+    {
+      "id": "central-promenade",
+      "floor": -1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          -11,
+          0.18,
+          16.0
+        ],
+        "max": [
+          11,
+          2.9,
+          21.5
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "central-promenade-01",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -10.0,
+            0.827,
+            16.19
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "central-promenade-02",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -10.0,
+            0.827,
+            21.05
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "central-promenade-03",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -4.3,
+            0.827,
+            16.19
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "central-promenade-04",
+          "type": "point",
+          "role": "path",
+          "position": [
+            -4.3,
+            0.827,
+            21.05
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "central-promenade-05",
+          "type": "point",
+          "role": "path",
+          "position": [
+            4.3,
+            0.827,
+            16.19
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "central-promenade-06",
+          "type": "point",
+          "role": "path",
+          "position": [
+            4.3,
+            0.827,
+            21.05
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "central-promenade-07",
+          "type": "point",
+          "role": "path",
+          "position": [
+            10.0,
+            0.827,
+            16.19
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "central-promenade-08",
+          "type": "point",
+          "role": "path",
+          "position": [
+            10.0,
+            0.827,
+            21.05
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        }
+      ]
+    },
+    {
+      "id": "east-promenade",
+      "floor": -1,
+      "interior": false,
+      "bounds": {
+        "min": [
+          11,
+          0.18,
+          16.0
+        ],
+        "max": [
+          32,
+          2.9,
+          21.5
+        ]
+      },
+      "fixtures": [
+        {
+          "id": "east-promenade-01",
+          "type": "point",
+          "role": "path",
+          "position": [
+            18.0,
+            0.827,
+            16.19
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "east-promenade-02",
+          "type": "point",
+          "role": "path",
+          "position": [
+            18.0,
+            0.827,
+            21.05
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "east-promenade-03",
+          "type": "point",
+          "role": "path",
+          "position": [
+            25.0,
+            0.827,
+            16.19
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "east-promenade-04",
+          "type": "point",
+          "role": "path",
+          "position": [
+            25.0,
+            0.827,
+            21.05
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "east-promenade-05",
+          "type": "point",
+          "role": "path",
+          "position": [
+            31.1,
+            0.827,
+            16.19
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        },
+        {
+          "id": "east-promenade-06",
+          "type": "point",
+          "role": "path",
+          "position": [
+            31.1,
+            0.827,
+            21.05
+          ],
+          "color": "#ffdab2",
+          "intensity": 16,
+          "distance": 4.8
+        }
+      ]
+    }
+  ]
+}

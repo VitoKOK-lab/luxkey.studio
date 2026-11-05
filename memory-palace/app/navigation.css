@@ -1,0 +1,97 @@
+.human-movement {
+  display: none;
+}
+.perspective-bar{position:fixed;top:105px;left:270px;right:calc(29vw + 52px);z-index:6;display:flex;flex-wrap:wrap;gap:6px;align-items:center;max-width:620px}
+.perspective-bar select,.perspective-bar button{height:40px;border:1px solid var(--line-control);border-radius:7px;background:var(--panel);color:var(--text);padding:0 10px;font:inherit;font-size:11px;min-width:0}
+.perspective-bar select{flex:1;max-width:200px}
+.perspective-bar button{cursor:pointer}
+.perspective-bar>span{flex-basis:100%;font-size:10px;color:var(--muted);line-height:1.8;background:var(--panel);border-radius:3px}
+/* The walking views leave the edges of the estate visible. */
+body:is([data-view-mode="human"],[data-view-mode="third"],[data-view-mode="steward"]) .scene-vignette{
+  background:linear-gradient(180deg,var(--scene-edge) 68px,transparent 150px);
+}
+body[data-view-mode="human"] .welcome,body[data-view-mode="third"] .welcome,body[data-view-mode="steward"] .welcome,
+body[data-view-mode="human"] .room-nav,body[data-view-mode="third"] .room-nav,body[data-view-mode="steward"] .room-nav,
+body[data-view-mode="human"] .scene-caption,body[data-view-mode="third"] .scene-caption,body[data-view-mode="steward"] .scene-caption,
+body[data-view-mode="human"] .scene-controls,body[data-view-mode="third"] .scene-controls,body[data-view-mode="steward"] .scene-controls,
+body[data-view-mode="human"] .gesture-hint,body[data-view-mode="third"] .gesture-hint,body[data-view-mode="steward"] .gesture-hint{display:none!important}
+body[data-view-mode="human"] .perspective-bar,body[data-view-mode="third"] .perspective-bar,body[data-view-mode="steward"] .perspective-bar{left:36px;right:auto;max-width:650px}
+.conversation-app .butler-panel.collapsed{top:auto;bottom:24px;height:auto;min-height:0;max-height:85px}
+.butler-panel.collapsed .butler-body{display:none!important}
+.conversation-app .butler-panel.collapsed .butler-head{flex-shrink:0}
+body.decorating .perspective-bar{display:none}
+#guided-starters{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0}
+#guided-starters button{background:var(--surface-green);color:var(--text);border:1px solid var(--line-control);border-radius:6px;padding:8px;font:inherit;font-size:10px;cursor:pointer;min-height:36px}
+.placement-badge{padding:8px 10px;font-size:10px;color:var(--gold);background:var(--surface-gold);border-radius:8px 8px 0 0;line-height:1.6}
+.placement-badge span{display:block}
+
+.human-walking #viewport canvas {
+  cursor: grab;
+}
+
+.human-walking #viewport canvas:active {
+  cursor: grabbing;
+}
+
+@media (any-pointer: coarse), (max-width: 900px) {
+  .human-walking .human-movement {
+    position: fixed;
+    right: 14px;
+    bottom: max(94px, env(safe-area-inset-bottom));
+    z-index: 5;
+    display: grid;
+    grid-template-columns: repeat(3, 44px);
+    gap: 4px;
+    touch-action: none;
+    user-select: none;
+  }
+
+  .human-movement button {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: var(--panel);
+    border: 1px solid var(--line-control);
+    border-radius: 8px;
+    font-size: 19px;
+    touch-action: none;
+  }
+
+  .human-movement button[data-held] {
+    color: var(--text);
+    background: var(--surface-green-hover);
+  }
+
+  .human-movement [data-direction='forward'] {
+    grid-column: 2;
+  }
+
+  .human-movement [data-direction='left'] {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .conversation-app .welcome{display:none}
+  .conversation-app .room-nav{display:none;top:154px}
+  .conversation-app.mobile-rooms-open .room-nav{display:block}
+  .mobile-rooms-toggle{display:inline-flex}
+  .perspective-bar,body[data-view-mode="human"] .perspective-bar,body[data-view-mode="third"] .perspective-bar,body[data-view-mode="steward"] .perspective-bar{left:12px;right:12px;top:78px;max-width:none;gap:5px}
+  .perspective-bar select,.perspective-bar button{height:44px;font-size:10px;padding:0 7px}
+  .perspective-bar select{max-width:none}
+  .perspective-bar>span{font-size:9px}
+  .conversation-app .butler-panel.collapsed{bottom:12px}
+  #guided-starters button{min-height:44px}
+  .human-walking:has(.butler-panel:not(.collapsed)) .human-movement {
+    bottom: min(calc(max(43dvh, 245px) + 72px), calc(100dvh - 150px));
+  }
+}
+
+@media (max-width: 600px) {
+  body:is([data-view-mode="third"], [data-view-mode="steward"]) .perspective-bar :is(select, button) {
+    flex: 1 1 calc(50% - 3px);
+    font-size: 11px;
+  }
+}

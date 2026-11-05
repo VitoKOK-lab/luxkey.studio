@@ -1,0 +1,118 @@
+.meditation-dialog {
+  --quiet-ink: #244c49;
+  --quiet-muted: #526e66;
+  --quiet-paper: #f7f5e9;
+  --quiet-border: #9bab9e;
+  position: fixed; inset: 0; margin: 0; padding: 0;
+  width: 100%; max-width: none; height: 100dvh; max-height: none;
+  border: 0; border-radius: 0; color: var(--quiet-ink);
+  background: #dfe8dc; text-align: left; overflow: auto;
+}
+.meditation-dialog[open] { display: block; }
+.meditation-dialog::backdrop { background: #1c4745; backdrop-filter: none; }
+#meditation-water { position: absolute; inset: 0; width: 100%; height: max(100%,640px); pointer-events: none; }
+.meditation-layout { min-height: 640px; height: 100%; position: relative; isolation: isolate; }
+.quiet-header { position: absolute; top: max(28px, env(safe-area-inset-top)); left: 4.5%; right: 4.5%; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.quiet-brand { display: flex; align-items: center; gap: 13px; }
+.quiet-brand>svg { width: 36px; height: 36px; stroke-width: 1; }
+.quiet-brand strong { font-size: 17px; font-weight: 500; letter-spacing: .2em; }
+.quiet-brand span { display: block; margin-top: 5px; font-size: 10px; letter-spacing: .12em; color: var(--quiet-muted); }
+.quiet-header-actions { display: flex; gap: 12px; }
+.meditation-dialog button { min-height: 44px; cursor: pointer; }
+.meditation-dialog button:focus-visible { outline: 2px solid var(--quiet-ink); outline-offset: 4px; }
+.meditation-dialog button:disabled { cursor: default; opacity: .55; }
+.quiet-header-actions button { padding: 0 14px; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 12px; color: var(--quiet-ink); background: #f7f5e9bb; border: 1px solid #b5c3b4; border-radius: 30px; }
+.quiet-header-actions button:hover { background: var(--quiet-paper); }
+.quiet-header-actions svg { width: 17px; height: 17px; }
+.quiet-intro { position: absolute; left: 6%; top: 18%; }
+.quiet-eyebrow { font-size: 9px; letter-spacing: .22em; color: var(--quiet-muted); }
+.meditation-dialog .quiet-intro h2 { font-family: Georgia,"Songti TC","Noto Serif TC",serif; font-size: clamp(30px,3.2vw,48px); font-weight: 400; line-height: 1.6; letter-spacing: .1em; margin: 14px 0; }
+.quiet-intro h2 br { display: none; }
+.quiet-intro p { font-size: 12px; line-height: 1.9; margin: 0; color: var(--quiet-ink); }
+.quiet-scenes { position: absolute; right: 4.5%; top: 19.5%; text-align: right; }
+.quiet-scenes-label { display: block; font-size: 11px; letter-spacing: .07em; margin-bottom: 12px; color: var(--quiet-muted); }
+.quiet-scene-options { display: flex; gap: 8px; }
+.quiet-scene-options button { min-width: 75px; display: flex; flex-direction: column; gap: 7px; align-items: center; padding: 13px 16px; border-radius: 18px; border: 1px solid #a5b8ab; background: #f7f5e94d; font-size: 12px; color: var(--quiet-ink); }
+.quiet-scene-options button svg { width: 23px; height: 23px; stroke-width: 1.2; }
+.quiet-scene-options button:hover { background: #f7f5e9c9; }
+.quiet-scene-options button[aria-pressed="true"] { background: var(--quiet-ink); color: var(--quiet-paper); border-color: var(--quiet-ink); box-shadow: 0 5px 16px #1b49451c; }
+.quiet-breath { position: absolute; top: 54%; left: 50%; transform: translate(-50%,-50%); text-align: center; width: min(90%,500px); color: #fff9e5; text-shadow: 0 2px 12px #153e3c80; }
+.quiet-breath>span:first-child { font-size: 11px; letter-spacing: .16em; }
+.quiet-breath strong { display: block; font-family: Georgia,"Songti TC",serif; font-size: 27px; font-weight: 400; letter-spacing: .16em; margin-top: 18px; }
+.quiet-breath-line { display: block; width: 84px; height: 2px; margin: 24px auto 0; background: #f8efce33; border-radius: 3px; overflow: hidden; }
+.quiet-breath-line i { display: block; height: 100%; background: #fff4cb; transform: scaleX(.5); transition: transform .25s linear; }
+.quiet-footer { position: absolute; bottom: max(22px,env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); width: min(780px,88%); }
+.quiet-dock { position: relative; display: flex; gap: 32px; align-items: center; justify-content: space-between; padding: 25px 28px; border: 1px solid #f6f4dfaa; border-radius: 24px; background: #f6f5eaf5; box-shadow: 0 18px 50px #0e3f3b35; overflow: hidden; }
+.quiet-progress { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: #dce3d4; }
+.quiet-progress i { display: block; width: 100%; height: 100%; background: #779682; transform: scaleX(0); transform-origin: left; transition: transform .2s linear; }
+.quiet-duration>span,.quiet-clock>span { display: block; font-size: 10px; letter-spacing: .1em; color: var(--quiet-muted); margin-bottom: 10px; }
+.quiet-duration-options { display: flex; gap: 6px; }
+.quiet-duration-options button { border: 1px solid transparent; background: none; padding: 0 13px; border-radius: 10px; font-size: 12px; color: var(--quiet-muted); }
+.quiet-duration-options button:hover { background: #e3e9dd; }
+.quiet-duration-options button[aria-pressed="true"] { background: #e0e8da; border-color: #879f8d; color: var(--quiet-ink); }
+.quiet-clock { min-width: 90px; padding-left: 28px; border-left: 1px solid #c9d2c4; }
+.meditation-dialog #meditation-time { font: 400 32px/1 Georgia,serif; font-variant-numeric: tabular-nums; letter-spacing: .03em; }
+.meditation-dialog #meditation-start { min-width: 152px; height: 52px; border-radius: 14px; border: 1px solid var(--quiet-ink); background: var(--quiet-ink); color: var(--quiet-paper); display: flex; justify-content: center; align-items: center; gap: 10px; padding: 0 20px; font-size: 13px; }
+.meditation-dialog #meditation-start:hover { background: #33605b; }
+#meditation-start svg { width: 19px; height: 19px; }
+.quiet-note { color: #f9f4df; text-shadow: 0 1px 6px #143b35; text-align: center; font-size: 11px; margin: 15px 0 0; line-height: 1.7; letter-spacing: .04em; }
+@media (max-width: 650px) {
+  #meditation-water { height: max(100%,680px); }
+  .meditation-layout { min-height: 680px; }
+  .quiet-header { left: 22px; right: 18px; top: max(20px,env(safe-area-inset-top)); }
+  .quiet-brand { gap: 8px; }
+  .quiet-brand>svg { width: 29px; }
+  .quiet-brand strong { font-size: 15px; }
+  .quiet-brand span { font-size: 8px; }
+  .quiet-header-actions { gap: 7px; }
+  .quiet-header-actions button { padding: 0 11px; min-width: 44px; }
+  #meditation-motion span { display: none; }
+  .quiet-header-actions button>span { font-size: 11px; }
+  .quiet-header-actions #meditation-close { gap: 5px; }
+  .quiet-intro { top: 13%; left: 25px; }
+  .quiet-intro h2 br { display: block; }
+  .quiet-eyebrow { font-size: 8px; }
+  .meditation-dialog .quiet-intro h2 { font-size: 29px; line-height: 1.55; margin: 10px 0; }
+  .quiet-intro p { font-size: 11px; }
+  .quiet-scenes { top: 37%; left: 25px; right: auto; }
+  .quiet-scenes-label { display: none; }
+  .quiet-scene-options { gap: 7px; }
+  .quiet-scene-options button { padding: 8px 13px; min-width: 0; border-radius: 24px; flex-direction: row; gap: 6px; background: #f7f5e9c7; border-color: #8ea997; }
+  .quiet-scene-options button svg { width: 18px; height: 18px; }
+  .quiet-breath { top: 56%; }
+  .quiet-breath strong { font-size: 24px; margin-top: 13px; }
+  .quiet-breath-line { margin-top: 18px; }
+  .quiet-footer { width: calc(100% - 36px); bottom: max(20px,env(safe-area-inset-bottom)); }
+  .quiet-dock { border-radius: 21px; display: grid; grid-template-columns: 1fr auto; gap: 18px 10px; padding: 21px 19px; }
+  .quiet-clock { min-width: 77px; padding-left: 13px; text-align: right; }
+  .quiet-duration-options { gap: 2px; }
+  .quiet-duration-options button { padding: 0 8px; font-size: 11px; }
+  .meditation-dialog #meditation-time { font-size: 28px; }
+  .meditation-dialog #meditation-start { grid-column: 1/-1; width: 100%; height: 47px; }
+  .quiet-note { font-size: 10px; margin-top: 12px; }
+}
+@media (max-height: 570px) and (min-width: 651px) {
+  #meditation-water { height: max(100%,360px); }
+  .meditation-layout { min-height: 360px; }
+  .quiet-header { top: 12px; left: 28px; right: 28px; }
+  .quiet-intro { left: 32px; top: 21%; }
+  .quiet-eyebrow { font-size: 8px; }
+  .meditation-dialog .quiet-intro h2 { font-size: 25px; line-height: 1.4; margin: 8px 0; }
+  .quiet-intro p { display: none; }
+  .quiet-scenes { top: 27%; right: 28px; }
+  .quiet-scenes-label { display: none; }
+  .quiet-scene-options button { flex-direction: row; min-width: 0; padding: 8px 11px; border-radius: 25px; }
+  .quiet-scene-options button svg { width: 18px; height: 18px; }
+  .quiet-breath { top: 55%; }
+  .quiet-breath strong { font-size: 22px; margin-top: 10px; }
+  .quiet-breath-line { margin-top: 12px; }
+  .quiet-breath>span:first-child { font-size: 9px; }
+  .quiet-footer { bottom: 15px; width: calc(100% - 64px); }
+  .quiet-dock { padding: 13px 22px; border-radius: 18px; gap: 16px; }
+  .quiet-duration>span,.quiet-clock>span { margin-bottom: 4px; font-size: 9px; }
+  .meditation-dialog #meditation-time { font-size: 27px; }
+  .quiet-note { position: absolute; top: 0; margin: 0; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .meditation-dialog * { transition: none !important; animation: none !important; }
+}

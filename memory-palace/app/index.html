@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f1e5"><title>憶境莊園 · 你的記憶，有一個家</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/decor.css"><link rel="stylesheet" href="/navigation.css"><link rel="stylesheet" href="/style-controls.css"><link rel="stylesheet" href="/meditation.css"><script type="importmap">{"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}</script></head>
+<body class="conversation-app">
+<div id="viewport" aria-label="可旋轉與縮放的三維記憶莊園"></div>
+<div id="loading" class="loading"><div class="loader-mark"></div><span>正在為你點亮莊園</span><small id="loading-status">載入三維空間</small></div>
+<header class="topbar">
+  <a href="/" class="brand" aria-label="憶境莊園首頁"><svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M6 31V16l9-6v21M15 31V5l10 5v21M25 31V17l9 5v9M3 31h34"/><path d="M20 12v14M10 19v7M29 23v3"/></svg><span><span id="estate-brand-name">憶境莊園</span><small>MNEMOSYNE ESTATE</small></span></a>
+  <div class="top-status"><span class="status-dot"></span>本機私人空間<span class="status-divider"></span><span id="clock"></span></div>
+  <div class="top-actions">
+    <a href="/renders.html" class="button ghost gallery-open" aria-label="查看建築渲染圖集" title="建築渲染圖集"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="9.5" r="1.25"/><path d="m4 16 4-3.5 3 2.5 4-4.5 5 5.5"/></svg><span>渲染圖集</span></a>
+    <button id="style-open" type="button" class="button ghost" aria-haspopup="dialog" aria-controls="style-dialog" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v4m0 10v4M3 12h4m10 0h4M5.6 5.6l2.8 2.8m7.2 7.2 2.8 2.8m0-12.8-2.8 2.8m-7.2 7.2-2.8 2.8"/><circle cx="12" cy="12" r="2.2"/></svg>風格</button>
+    <button id="decor-open" type="button" class="button ghost decor-open">佈置</button>
+    <button id="meditate-open" class="button ghost" aria-label="靜心模式"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.4 8.4 0 0 1 9.8 4 8.4 8.4 0 1 0 20 14.2Z"/></svg><span>靜心模式</span></button>
+    <button id="route-open" class="button ghost" aria-label="熟悉路線"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.5 6H16a3 3 0 0 1 0 6H8a3 3 0 0 0 0 6h7.5"/></svg><span>熟悉路線</span></button>
+  </div>
+</header>
+<section class="perspective-bar" aria-label="進入莊園">
+  <select id="view-mode" aria-label="觀看視角"><option value="overview">莊園總覽</option><option value="human">我自己 · 第一視角</option><option value="third">看著管家 · 第三視角</option><option value="steward">管家的眼睛</option></select>
+  <select id="view-room" aria-label="進入房間"></select>
+  <select id="view-steward" aria-label="選擇管家" hidden><option value="hall">NOA · 機械狗</option><option value="library">INDEX · 機械貓頭鷹</option><option value="gallery">MUSE · 機械貓</option><option value="garden">FERN · 機械狗</option><option value="observatory">VEGA · 機械貓頭鷹</option><option value="quiet-room">SOLA · 機械貓</option></select>
+  <button id="talk-steward" type="button">和管家聊聊</button>
+  <span id="view-help">選擇第一視角，走進房間</span>
+</section>
+<section class="welcome"><div class="eyebrow"><span></span> A PLACE TO REMEMBER</div><h1>每一段記憶，<br>都能安心安放。</h1><p>不必急著整理，先自在地待一會兒。</p><button id="hero-mic" class="button primary"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0m-7 7v3m-3 0h6"/></svg>開始說話</button></section>
+<nav class="room-nav" aria-label="莊園空間"><div class="nav-title">探索莊園 <span id="room-nav-count">06 AREAS</span></div><div id="room-list"></div></nav>
+<div id="locus-tooltip" class="locus-tooltip" hidden></div>
+<div class="scene-caption"><span class="caption-line"></span><div><strong id="current-room">莊園全景</strong><span id="current-room-desc">三層生活空間 · 玻璃與光的記憶容器</span></div></div>
+<div class="scene-controls" aria-label="視角控制"><button id="overview" class="control active" title="回到全景"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg><span>全景</span></button><span class="control-divider"></span><button class="control floor" data-floor="0">1F</button><button class="control floor" data-floor="1">2F</button><button class="control floor" data-floor="2">3F</button><span class="control-divider"></span><button id="cutaway" class="control" aria-pressed="false">剖面</button></div>
+<p id="scene-hint" class="gesture-hint">拖曳旋轉 · 滾輪縮放 · 點選亮點探索地標</p>
+<aside class="butler-panel" aria-label="記憶管家">
+  <div class="butler-head"><div class="dog-avatar"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="m15 22-6-9 2 23 9 7h25l8-8 1-22-7 9" fill="#dfebe7"/><path d="M17 21h29l5 16-10 12H24L13 37Z" fill="#d0dedb"/><rect x="19" y="27" width="26" height="12" rx="5" fill="#182b31"/><path d="M24 33h4m9 0h4" stroke="#7ee3d5" stroke-width="3" stroke-linecap="round"/><path d="m29 43 3 2 3-2" stroke="#52636a" stroke-width="2"/></svg><i></i></div><div><h2>NOA <span>記憶管家</span></h2><p id="provider-status" role="status">檢查 AI 連線中…</p></div><button id="panel-toggle" class="icon-button" aria-controls="butler-body" aria-label="收起或展開管家" aria-expanded="true">−</button></div>
+  <div class="butler-body" id="butler-body">
+    <nav class="butler-tabs" aria-label="管家介面">
+      <button id="chat-tab" type="button" aria-pressed="true">對話</button>
+      <button id="collection-tab" type="button" aria-pressed="false">收藏 <span id="memory-count">0</span></button>
+      <button id="inbox-open" type="button">收件匣</button>
+      <button id="evening-tour" type="button">今晚回訪 <span id="due-count">0</span></button>
+    </nav>
+    <section id="chat-view" class="chat-view" aria-label="管家對話">
+      <div id="chat-log" class="chat-log" role="log" aria-live="polite" aria-label="對話紀錄">
+        <div class="chat-intro"><small>和管家聊聊 · 對話起點</small><p>今天有沒有一個小片段，現在還留在你腦海裡？可以是一句話、一個畫面，或一件在意的事。</p><div id="guided-starters"><button type="button" data-guide="today">陪我回顧今天</button><button type="button" data-guide="recall">幫我想起一件事</button><button type="button" data-guide="learn">聊聊剛學到的</button></div><small>接上你的 AI Agent 後，管家會順著你的回答，一次問一個問題。</small></div>
+      </div>
+      <form id="chat-form" class="chat-form" aria-label="傳送給管家">
+        <div id="capture-preview" class="capture-preview" hidden></div>
+        <textarea id="chat-input" aria-label="想對管家說的話" rows="2" maxlength="100000" placeholder="想記住、找回，或交給我整理的事…"></textarea>
+        <div class="chat-tools">
+          <button id="chat-mic" type="button" class="chat-icon" aria-label="開始語音輸入" title="開始語音輸入"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0m-7 7v3m-3 0h6"/></svg></button>
+          <button id="mic-cancel" type="button" class="chat-icon mic-cancel" hidden>取消</button>
+          <button id="capture-open" type="button" class="chat-icon" aria-label="附加對話、文字或截圖" title="附加文字或截圖"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 12 6-6a3 3 0 1 1 4 4l-8 8a5 5 0 0 1-7-7l8-8m0 11 5-5"/></svg></button>
+          <button id="tts-toggle" type="button" class="chat-icon" aria-pressed="false" aria-label="朗讀管家回覆" title="朗讀管家回覆"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4m12 0a5 5 0 0 1 0 6m2-9a9 9 0 0 1 0 12"/></svg></button>
+          <span id="speech-state" role="status"></span>
+          <button id="chat-send" type="submit" class="button primary">送出 <span aria-hidden="true">↑</span></button>
+        </div>
+      </form>
+      <p id="capture-hint" class="chat-privacy">貼上文字或截圖 · 語音由瀏覽器辨識</p>
+      <input id="capture-file" type="file" accept="image/png,image/jpeg,image/webp,.txt,.md,text/plain,text/markdown" hidden>
+    </section>
+    <section id="collection-view" class="collection-view" aria-label="記憶收藏" hidden>
+  <div class="library-title"><h3>記憶收藏</h3><button id="export-vault" class="text-button">匯出</button></div>
+  <label class="search-box"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="memory-search" type="search" maxlength="500" placeholder="尋找一段記憶…" aria-label="搜尋記憶"></label>
+  <div class="filter-row"><span id="collection-filter">所有空間</span><button id="show-archived" class="text-button" aria-pressed="false">查看收起</button></div>
+  <div id="memory-list" class="memory-list"><div class="empty-state"><span class="empty-orbit"></span><p>一座莊園，從一段記憶開始。</p><small>一個瞬間、一種感受，<br>或還沒有想清楚的事。</small></div></div>
+  <div class="local-note"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="10" width="12" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>記憶儲存在這部電腦</div></section></div>
+</aside>
+<section id="dispatch-hud" class="dispatch-hud" aria-label="管家行程" hidden>
+  <div class="dispatch-focused"><div><strong id="dispatch-name"></strong><span id="dispatch-progress"></span></div><button id="follow-steward" type="button" class="button ghost" aria-pressed="false">跟隨視角</button></div>
+  <p id="dispatch-summary" class="dispatch-summary"></p>
+  <div id="dispatch-activities" class="dispatch-activities" role="group" aria-label="各管家行程"></div>
+</section>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<dialog id="memory-dialog" class="dialog" aria-labelledby="form-heading"><form id="memory-form"><div class="dialog-heading"><div><div class="eyebrow">A NEW MEMORY</div><h2 id="form-heading">為記憶找個位置</h2></div><button type="button" class="icon-button close-dialog" aria-label="關閉">×</button></div><p class="dialog-intro">一個具體的畫面，會讓回憶更容易被找到。</p><label>記憶名稱<input id="memory-title" name="title" maxlength="160" required placeholder="例如：今天讓我微笑的一個瞬間"></label><label>留下什麼？<textarea id="memory-body" name="body" rows="4" required maxlength="20000" placeholder="記下發生的事、學到的內容，或想留給未來自己的話。"></textarea></label><div class="form-grid"><label>安放空間<select id="memory-room" name="room_id" aria-label="安放空間"></select></label><label>記憶地標<select id="memory-locus" name="locus_id" aria-label="記憶地標"></select></label></div><label>聯想畫面<input id="memory-cue" name="cue" maxlength="1000" placeholder="想像一個鮮明、有動作的畫面，放在這個地標上"></label><div class="form-grid"><label>標籤<input id="memory-tags" name="tags" placeholder="生活、靈感、工作"></label><label>來源<input id="memory-source" name="source" maxlength="512" placeholder="例如：今天的日記"></label></div><div id="form-error" role="alert" class="form-error"></div><div class="dialog-footer"><span>原始記錄與修改歷程會保留</span><button type="submit" class="button primary">安放這段記憶 ↗</button></div></form></dialog>
+<dialog id="detail-dialog" class="dialog detail-dialog" aria-labelledby="detail-heading"><div id="detail-content"></div></dialog>
+<dialog id="tour-dialog" class="dialog tour-dialog" aria-labelledby="tour-heading"><div class="dialog-heading"><div><div class="eyebrow">EVENING WALK</div><h2 id="tour-heading">今晚，沿著記憶走一走</h2></div><button type="button" class="icon-button close-dialog" aria-label="關閉">×</button></div><div id="tour-content"></div></dialog>
+<dialog id="meditation-dialog" class="meditation-dialog" aria-labelledby="meditation-heading">
+  <canvas id="meditation-water" aria-hidden="true"></canvas>
+  <div class="meditation-layout">
+    <header class="quiet-header">
+      <div class="quiet-brand"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 18c5-5 8 5 13 0s8 5 13 0M3 24c5-5 8 5 13 0s8 5 13 0"/><circle cx="16" cy="9" r="4"/></svg><div><strong>靜心室</strong><span id="meditation-room">憶境莊園 · 2F</span></div></div>
+      <div class="quiet-header-actions">
+        <button id="meditation-motion" type="button" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8c4-5 6 5 10 0s6 5 8 0M3 15c4-5 6 5 10 0s6 5 8 0"/></svg><span>流動畫面</span></button>
+        <button id="meditation-close" type="button"><span>返回莊園</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M17 7 7 17"/></svg></button>
+      </div>
+    </header>
+    <section class="quiet-intro">
+      <div class="quiet-eyebrow">A MOMENT, JUST FOR YOU</div>
+      <h2 id="meditation-heading">讓心事，<br>慢慢靠岸。</h2>
+      <p>看著水波。不必急著想起任何事。</p>
+    </section>
+    <nav class="quiet-scenes" aria-label="凝視風景">
+      <span class="quiet-scenes-label">選一個風景，停留一會兒</span>
+      <div class="quiet-scene-options">
+        <button type="button" data-quiet-scene="tide" aria-pressed="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7c4-4 6 4 10 0s6 4 8 0M3 12c4-4 6 4 10 0s6 4 8 0M3 17c4-4 6 4 10 0s6 4 8 0"/></svg>潮汐</button>
+        <button type="button" data-quiet-scene="ripple" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="14" rx="9" ry="5"/><ellipse cx="12" cy="14" rx="4" ry="2"/><path d="M12 3v4"/></svg>漣漪</button>
+        <button type="button" data-quiet-scene="light" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="10" r="4"/><path d="M12 2v1M4 10H3M21 10h-1M5 4l1 1M19 4l-1 1M6 18h12M9 22h6"/></svg>靜光</button>
+      </div>
+    </nav>
+    <div class="quiet-breath" aria-live="off">
+      <span id="breath-caption">此刻，沒有需要完成的事</span>
+      <strong id="breath-text">在這裡，停留一下</strong>
+      <span class="quiet-breath-line" aria-hidden="true"><i id="breath-line"></i></span>
+    </div>
+    <footer class="quiet-footer">
+      <div class="quiet-dock">
+        <div class="quiet-progress" aria-hidden="true"><i id="meditation-progress"></i></div>
+        <div class="quiet-duration"><span>留給自己</span><div class="quiet-duration-options" role="group" aria-label="靜心時間"><button type="button" data-minutes="3" aria-pressed="true">3 分鐘</button><button type="button" data-minutes="5" aria-pressed="false">5 分鐘</button><button type="button" data-minutes="10" aria-pressed="false">10 分鐘</button></div></div>
+        <div class="quiet-clock"><span>剩餘時間</span><strong id="meditation-time" role="timer" aria-live="off">03:00</strong></div>
+        <button id="meditation-start" type="button"><svg id="meditation-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 10 7-10 7z"/></svg><span>開始靜心</span></button>
+      </div>
+      <p class="quiet-note" id="meditation-status" role="status">不必配合波浪改變呼吸，舒服就好。</p>
+    </footer>
+  </div>
+</dialog>
+<dialog id="route-dialog" class="dialog" aria-labelledby="route-heading">
+  <div class="dialog-heading"><div><div class="eyebrow">MEMORY WALK</div><h2 id="route-heading">先熟悉一條路線</h2></div><button type="button" class="icon-button close-dialog" aria-label="關閉">×</button></div>
+  <p class="dialog-intro">跟管家走過同一條路，用固定順序記下不同的地標。之後把每段記憶想成一個會和地標互動的畫面，再試著只靠地標把它想回來。</p>
+  <label>選擇區域<select id="route-room" aria-label="選擇要熟悉的房間"></select></label>
+  <ol id="route-stops" class="route-stops"></ol>
+  <button id="route-start" type="button" class="button primary">跟管家走一遍 ↗</button>
+</dialog>
+<dialog id="inbox-dialog" class="dialog" aria-labelledby="inbox-heading">
+  <div class="dialog-heading"><div><div class="eyebrow">INBOX</div><h2 id="inbox-heading">莊園收件匣</h2></div><button type="button" class="icon-button close-dialog" aria-label="關閉">×</button></div>
+  <div id="inbox-content" aria-live="polite"></div>
+</dialog>
+<dialog id="capture-dialog" class="dialog" aria-labelledby="capture-heading">
+  <div class="dialog-heading"><div><div class="eyebrow">CAPTURE</div><h2 id="capture-heading">帶一段內容回莊園</h2></div><button type="button" class="icon-button close-dialog" aria-label="關閉">×</button></div>
+  <p class="dialog-intro">貼上對話或文字，或選擇一個 .txt、.md 或截圖。送出後原文會先保存在本機。AI 已連線時，管家就能讀取並安放可確認的記憶。</p>
+  <label>對話或文字<textarea id="capture-text" rows="6" maxlength="100000" placeholder="在這裡貼上想整理的原文"></textarea></label>
+  <div class="capture-actions"><button id="capture-browse" type="button" class="button ghost">選擇檔案</button><button id="capture-apply" type="button" class="button primary">附加到對話</button></div>
+</dialog>
+<dialog id="style-dialog" class="dialog style-dialog" aria-labelledby="style-heading" aria-describedby="style-intro">
+  <form id="style-form">
+    <header class="dialog-heading"><div><div class="eyebrow">SCENE STYLES</div><h2 id="style-heading">場景風格</h2></div></header>
+    <p id="style-intro">風格與燈光可即時預覽，儲存後會套用到整座莊園。</p>
+    <fieldset id="style-options" aria-label="選擇場景風格" disabled></fieldset>
+    <fieldset id="style-lighting" disabled>
+      <legend>莊園照明</legend>
+      <div class="style-lighting-label"><label for="lighting-level">燈光亮度</label><output id="lighting-value" for="lighting-level" aria-hidden="true">100%</output></div>
+      <p id="lighting-help">調整室內燈具與花園引路燈的亮度</p>
+      <div class="style-lighting-adjustment">
+        <input id="lighting-level" type="range" min="70" max="150" step="5" value="100" aria-describedby="lighting-help" aria-valuetext="100%">
+        <button id="lighting-reset" type="button" class="button ghost">恢復預設</button>
+      </div>
+    </fieldset>
+    <p id="style-status" role="status"></p>
+    <footer class="style-actions">
+      <button id="style-cancel" type="button" class="button ghost">取消</button>
+      <button id="style-save" type="submit" class="button primary" disabled>套用並儲存</button>
+    </footer>
+  </form>
+</dialog>
+<script type="module" src="/main.js"></script>
+</body></html>

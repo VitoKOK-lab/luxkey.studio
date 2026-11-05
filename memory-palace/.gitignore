@@ -1,0 +1,13 @@
+node_modules/
+__pycache__/
+*.pyc
+data/*
+!data/.gitkeep
+*.blend1
+.DS_Store
+logs/
+*.log
+config/ai.env
+runtime/
+.env
+dist/

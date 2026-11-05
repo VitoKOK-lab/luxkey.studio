@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f6f1e5">
+  <title>憶境莊園 · 材質與光</title>
+  <link rel="stylesheet" href="/renders.css">
+  <script type="module" src="/renders.js"></script>
+</head>
+<body>
+  <svg class="color-filters" aria-hidden="true" width="0" height="0"><defs>
+    <filter id="gallery-cyber" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncR type="table" tableValues=".04 .28 .72 .38 1"/>
+        <feFuncG type="table" tableValues=".02 .06 .25 .82 .98"/>
+        <feFuncB type="table" tableValues=".14 .42 .78 .96 1"/>
+      </feComponentTransfer>
+    </filter>
+    <filter id="gallery-cartoon" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+      <feColorMatrix type="saturate" values="1.6" result="color"/>
+      <feComponentTransfer in="color" result="flat">
+        <feFuncR type="discrete" tableValues=".08 .28 .48 .68 .85 1"/>
+        <feFuncG type="discrete" tableValues=".08 .28 .48 .68 .85 1"/>
+        <feFuncB type="discrete" tableValues=".08 .28 .48 .68 .85 1"/>
+      </feComponentTransfer>
+      <feConvolveMatrix in="SourceGraphic" order="3" kernelMatrix="0 -1 0 -1 4 -1 0 -1 0" preserveAlpha="true"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer result="ink">
+        <feFuncR type="linear" slope="-0.85" intercept="1"/>
+        <feFuncG type="linear" slope="-0.85" intercept="1"/>
+        <feFuncB type="linear" slope="-0.85" intercept="1"/>
+      </feComponentTransfer>
+      <feBlend in="flat" in2="ink" mode="multiply"/>
+    </filter>
+    <filter id="gallery-film" color-interpolation-filters="sRGB" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="18" stitchTiles="stitch" result="grain"/>
+      <feColorMatrix in="grain" type="saturate" values="0"/>
+      <feComponentTransfer result="film-grain"><feFuncA type="linear" slope=".055"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" in2="film-grain" mode="soft-light"/>
+    </filter>
+  </defs></svg>
+  <a class="skip-link" href="#gallery">跳至圖集內容</a>
+  <header class="masthead frame">
+    <a class="identity" href="/" aria-label="憶境莊園首頁">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M6 31V16l9-6v21M15 31V5l10 5v21M25 31V17l9 5v9M3 31h34M20 12v14M10 19v7M29 23v3"/></svg>
+      <span>憶境莊園<small lang="en">MNEMOSYNE ESTATE</small></span>
+    </a>
+    <a class="action return" href="/"><span aria-hidden="true">←</span> 返回 3D 莊園</a>
+  </header>
+
+  <main id="gallery" class="frame">
+    <section class="intro" aria-labelledby="gallery-title">
+      <div class="intro-text">
+        <p class="kicker" lang="en">ARCHITECTURAL GALLERY</p>
+        <h1 id="gallery-title">材質與光</h1>
+        <p class="intro-description">沿著柔和的光走進莊園。奶油白石材、淺木色與霧綠，讓每一段記憶都有一個可以安心停留的地方。</p>
+        <div class="gallery-style-control">
+          <label for="gallery-style">圖集色調</label>
+          <select id="gallery-style" aria-describedby="gallery-style-note">
+            <option value="original">柔和日光</option><option value="scifi">科幻</option>
+            <option value="mono">黑白</option><option value="cyberpunk">賽博龐克</option>
+            <option value="film">復古電影</option><option value="cartoon">美式卡通</option>
+          </select>
+          <p id="gallery-style-note">即時預覽圖片色調；點開原圖可查看原始 Blender 算圖。</p>
+        </div>
+        <nav class="jump-links" aria-label="圖集導覽">
+          <a class="action primary" href="#quality">細節樣板 <span aria-hidden="true">↓</span></a>
+          <a class="action" href="#rooms">瀏覽空間 <span aria-hidden="true">↓</span></a>
+          <a class="action" href="#studio">物件預覽 <span aria-hidden="true">↓</span></a>
+          <a class="action" href="#companions">機械夥伴 <span aria-hidden="true">↓</span></a>
+        </nav>
+      </div>
+      <div id="estate-render" class="hero-render">
+        <div class="image-surface hero-placeholder" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <section id="quality" class="collection" aria-labelledby="quality-title" hidden>
+      <div class="section-title"><p class="kicker" lang="en">CRAFT &amp; CHARACTER</p><h2 id="quality-title">近看，也值得停留</h2></div>
+      <p class="quality-description">從迎賓大廳與 NOA 開始：石材的拼縫、金屬的收邊、陶瓷外殼與關節。這兩件精修樣板已放進可漫遊的莊園，其他房間保留原有版本。</p>
+      <div id="quality-renders" class="quality-grid"></div>
+      <div class="quality-sources">
+        <a class="action" href="/assets/quality/hall-quality.blend" download>大廳 Blender 原檔 <span aria-hidden="true">↓</span></a>
+        <a class="action" href="/assets/quality/robot-noa.blend" download>NOA Blender 原檔 <span aria-hidden="true">↓</span></a>
+      </div>
+    </section>
+
+    <section id="rooms" class="collection" aria-labelledby="rooms-title">
+      <div class="section-title"><p class="kicker" lang="en">ROOM STUDIES</p><h2 id="rooms-title">莊園空間</h2></div>
+      <p id="gallery-status" class="status" role="status">正在載入渲染圖集…</p>
+      <button id="gallery-retry" class="action" type="button" hidden>重新載入</button>
+      <noscript><p class="status">請啟用 JavaScript 以瀏覽空間圖集。</p></noscript>
+      <div id="room-groups"></div>
+    </section>
+
+    <section id="studio" class="collection studio" aria-labelledby="studio-title">
+      <div class="section-title"><p class="kicker" lang="en">OBJECT STUDIES</p><h2 id="studio-title">佈置物件</h2></div>
+      <div class="studio-panel">
+        <div class="studio-text">
+          <p>布偶熊、植栽、水晶與月球燈，在同一張工作室預覽裡並排展示。</p>
+          <a class="action" href="/assets/accessories/accessory-preview.png">開啟工作室原圖 <span aria-hidden="true">↗</span></a>
+        </div>
+        <figure class="studio-image">
+          <img class="image-surface" id="accessory-image" src="/assets/accessories/accessory-preview.png" alt="布偶熊、植栽、水晶與月球燈的 Blender 工作室渲染" width="1800" height="1000" loading="lazy" decoding="async">
+          <p id="accessory-status" class="status" role="status" hidden>無法載入工作室預覽。</p>
+        </figure>
+      </div>
+    </section>
+    <section id="companions" class="collection studio" aria-labelledby="companions-title">
+      <div class="section-title"><p class="kicker" lang="en">YOUR COMPANIONS</p><h2 id="companions-title">一起在莊園裡生活</h2></div>
+      <div class="studio-panel">
+        <div class="studio-text">
+          <p>六位管家，三種陪伴。NOA 與 FERN 是機械狗，MUSE 與 SOLA 是機械貓，INDEX 與 VEGA 是機械貓頭鷹。牠們沿著熟悉的路線，陪你走進不同的記憶空間。</p>
+          <a class="action" href="/assets/stewards/robot-animals-preview.png">細看三種機械夥伴 <span aria-hidden="true">↗</span></a>
+        </div>
+        <figure class="studio-image">
+          <img class="image-surface" src="/assets/stewards/robot-animals-preview.png" alt="奶油白與淡金色的機械狗、機械貓和機械貓頭鷹，展示三種管家的 Blender 模型" width="1800" height="1000" loading="lazy" decoding="async">
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer frame"><span>憶境莊園 · 材質與光</span><a class="action" href="/">返回 3D 莊園 <span aria-hidden="true">↗</span></a></footer>
+</body>
+</html>
