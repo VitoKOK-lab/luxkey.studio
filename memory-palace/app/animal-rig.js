@@ -1,4 +1,4 @@
-import { MathUtils, Vector3 } from 'three';
+import { MathUtils, Vector3, Group, Mesh, SphereGeometry, CylinderGeometry, MeshStandardMaterial } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { createStewardContactShadow, styleStewardModel } from './steward-appearance.js';
 
@@ -58,6 +58,25 @@ export async function attachAnimalRig(group, { species, color, variant }, index)
   const shadow = createStewardContactShadow(species);
   group.add(model, shadow);
 
+  // Small retractable tools belong to the animal, not to the remembered furniture.
+  const activityProps = new Group();
+  activityProps.name = 'Steward activity props';
+  const charcoal = new MeshStandardMaterial({ color: 0x354c45, roughness: 0.72, metalness: 0.25 });
+  const accent = new MeshStandardMaterial({ color, roughness: 0.62, metalness: 0.12 });
+  const brush = new Group();
+  brush.name = 'Retractable cleaning brush';
+  const housing = new Mesh(new CylinderGeometry(0.17, 0.19, 0.055, 20), charcoal);
+  const pad = new Mesh(new CylinderGeometry(0.20, 0.20, 0.025, 24), accent);
+  housing.position.y = 0.055;
+  pad.position.y = 0.017;
+  brush.add(housing, pad);
+  const ball = new Mesh(new SphereGeometry(0.11, 20, 12), accent);
+  ball.name = 'Steward play ball';
+  for (const mesh of [housing, pad, ball]) mesh.raycast = () => {};
+  brush.visible = ball.visible = false;
+  activityProps.add(brush, ball);
+  group.add(activityProps);
+  let activityBlend = 0;
   let previousY = group.position.y;
   let gait = 0, phase = 0, focusYaw = 0, focusPitch = 0;
   const rotate = (pivot, axis, angle) => {
@@ -66,7 +85,7 @@ export async function attachAnimalRig(group, { species, color, variant }, index)
 
   return {
     eyeOffset,
-    update(delta, clock, step, target, reduced) {
+    update(delta, clock, step, target, reduced, behavior = null) {
       // The route interpolates through steps, where a flat shadow can float above the treads.
       shadow.visible = Math.abs(group.position.y - previousY) <= step * 0.05;
       previousY = group.position.y;
@@ -75,14 +94,28 @@ export async function attachAnimalRig(group, { species, color, variant }, index)
       const idle = reduced ? 0 : 1 - gait;
       const time = clock + index * 1.37;
       const sway = Math.sin(phase) * gait;
+      const playing = !reduced && behavior === 'play' && step < 0.001;
+      const cleaning = !reduced && behavior === 'clean' && step < 0.001;
+      activityBlend = reduced ? 0 : MathUtils.damp(activityBlend, playing || cleaning ? 1 : 0, 5, delta);
+      brush.visible = cleaning;
+      ball.visible = playing;
+      brush.position.set(Math.sin(time * 1.9) * 0.20, 0, 0.65);
+      pad.rotation.y = time * 2;
+      ball.position.set(Math.sin(time * 1.5) * 0.24, 0.112, 0.72 + Math.cos(time * 1.5) * 0.08);
+      ball.rotation.x = time * 1.5;
+      const playPose = playing ? activityBlend : 0;
+      const cleanPose = cleaning ? activityBlend : 0;
 
       if (body) body.node.position.y = bodyY + profile.lift * Math.sin(phase) ** 2 * gait;
-      rotate(body, 'z', sway * (species === 'owl' ? 0.075 : 0.025));
+      rotate(body, 'z', sway * (species === 'owl' ? 0.075 : 0.025) + playPose * Math.sin(time * 1.5) * 0.04);
+      rotate(body, 'x', cleanPose * 0.045);
       for (const { hip, knee, offset } of legs) {
         const cycle = phase + offset;
         rotate(hip, 'x', Math.cos(cycle) * gait * profile.swing);
         rotate(knee, 'x', Math.max(0, Math.sin(cycle)) * gait * profile.bend);
       }
+
+      if (playing && legs[0]) rotate(legs[0].hip, 'x', -Math.max(0, Math.sin(time * 1.5)) * 0.30 * playPose);
 
       let yaw = idle * Math.sin(time * 0.72) * (species === 'owl' ? 0.20 : 0.12);
       let pitch = idle * Math.sin(time * 0.94) * 0.035 + sway * 0.02;
@@ -93,6 +126,7 @@ export async function attachAnimalRig(group, { species, color, variant }, index)
         yaw = MathUtils.clamp(Math.atan2(Math.sin(angle), Math.cos(angle)), -0.40, 0.40);
         pitch = MathUtils.clamp(Math.atan2(group.position.y + eyeOffset.y - target[1], Math.hypot(dx, dz)), -0.20, 0.15);
       }
+      if (playing || cleaning) { yaw = Math.sin(time * 1.5) * 0.22 * activityBlend; pitch = 0.14 * activityBlend; }
       focusYaw = reduced ? 0 : MathUtils.damp(focusYaw, yaw, 6, delta);
       focusPitch = reduced ? 0 : MathUtils.damp(focusPitch, pitch, 6, delta);
       rotate(head, 'y', focusYaw);
@@ -103,7 +137,7 @@ export async function attachAnimalRig(group, { species, color, variant }, index)
         rotate(ear, 'x', idle * Math.sin(time * 1.6 + side) * 0.05);
       }
       for (const [side, wing] of wings.entries()) {
-        rotate(wing, 'z', sway * (side === 0 ? 0.07 : -0.07));
+        rotate(wing, 'z', (sway * 0.07 + playPose * (0.10 + 0.06 * Math.sin(time * 1.5))) * (side === 0 ? 1 : -1));
       }
       const blink = reduced ? 1 : 1 - 0.90 * Math.max(0, 1 - Math.abs(time % 5.1 - 0.09) / 0.09);
       for (const { node, height } of eyes) node.scale.y = height * blink;

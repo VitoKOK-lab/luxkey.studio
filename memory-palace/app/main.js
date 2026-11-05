@@ -528,7 +528,10 @@ document.querySelectorAll('dialog .close-dialog').forEach((control) => {
 });
 
 const followButton = $('follow-steward');
+const gatherButton = $('gather-stewards');
+const releaseButton = $('release-stewards');
 const activityButtons = new Map();
+let lastStewardStatus = null;
 function setFollow(active, sync = true, stewardId) {
   const followed = sync ? estate?.follow(active, stewardId) : active;
   followButton.setAttribute('aria-pressed', Boolean(followed));
@@ -540,8 +543,15 @@ function updateDispatch(status) {
     setFollow(false, false);
     return;
   }
+  lastStewardStatus = status;
   const following = ['third', 'steward'].includes(estate?.getViewMode());
-  $('dispatch-hud').hidden = !status.activeCount && !following;
+  const gathering = ['gathering', 'gathered'].includes(status.gatherState);
+  const gatheringLabel = status.gatherState === 'gathered' ? '已集合' : `集合中 · ${status.gatheredCount || 0} / ${status.activities?.length || 6} 位已到`;
+  $('steward-status').textContent = gathering ? gatheringLabel : status.activeCount ? `${status.activeCount} 位執行記憶行程` : '自由活動中';
+  gatherButton.setAttribute('aria-pressed', String(gathering));
+  releaseButton.disabled = !estate || !gathering;
+  $('dispatch-hud').hidden = !status.activeCount && !following && !gathering;
+  $('dispatch-hud').classList.toggle('compact', !status.activeCount && !following);
   if (following) $('view-room').value = status.room?.id || status.id;
   $('dispatch-name').textContent = `${status.name}${status.speciesName ? ' · ' + status.speciesName : ''}${status.room ? ' · ' + status.room.name : ''}${status.locus ? ' · ' + status.locus.name : ''}`;
   const label = {
@@ -549,11 +559,17 @@ function updateDispatch(status) {
     locus: { retrieve: '在地標取回記憶', encode: '想像記憶正在和眼前的地標互動', route: '記住地標的形狀和位置' }[status.kind],
     returning: '沿路返回',
     complete: '已走完路線，回到原位',
-    idle: '正在待命，可以安排一趟行程',
+    idle: '自在休息，可以安排一趟行程',
+    activity: { clean: '正在整理環境', play: '正在玩耍', wander: '散步中，停留看看四周' }[status.kind],
+    gathering: '正沿步道前來集合',
+    gathered: '已抵達集合點，陪你停留',
   }[status.phase];
-  $('dispatch-progress').textContent = ['complete', 'idle'].includes(status.phase) ? label :
-    `${label} · 剩餘路程 ${status.remaining} 公尺${status.queued ? ` · 待辦 ${status.queued} 趟` : ''}`;
-  $('dispatch-summary').textContent = (status.activeCount ? `${status.activeCount} 位管家執行中` : '目前沒有進行中的行程') +
+  const passive = ['wander', 'play', 'clean', 'gather'].includes(status.kind);
+  const progressLabel = passive && status.phase === 'outbound' ? '自在散步中' : passive && status.phase === 'returning' ? '沿步道回到原位' : label || '自由活動中';
+  $('dispatch-progress').textContent = ['complete', 'idle', 'activity', 'gathered'].includes(status.phase) ? progressLabel :
+    `${progressLabel} · 剩餘路程 ${status.remaining || 0} 公尺${status.queued ? ` · 待辦 ${status.queued} 趟` : ''}`;
+  $('dispatch-summary').textContent = (gathering ? `${gatheringLabel} · ` : '') +
+    (status.activeCount ? `${status.activeCount} 位管家執行記憶行程` : '目前沒有進行中的記憶行程') +
     (status.queuedCount ? ` · 另有 ${status.queuedCount} 趟待辦` : '');
   for (const activity of status.activities || []) {
     let control = activityButtons.get(activity.id);
@@ -563,15 +579,28 @@ function updateDispatch(status) {
       $('dispatch-activities').append(control);
       activityButtons.set(activity.id, control);
     }
-    const phase = { idle: '待命', complete: '已返回', outbound: '前往中', returning: '返回中',
-      locus: activity.kind === 'retrieve' ? '取回中' : activity.kind === 'encode' ? '安放中' : '停留中' }[activity.phase];
+    const phase = { idle: '休息中', complete: '已返回', outbound: ['wander', 'play', 'clean'].includes(activity.kind) ? '散步中' : '前往中', returning: '返回中',
+      activity: { clean: '整理中', play: '玩耍中', wander: '散步中' }[activity.kind], gathering: '前來集合', gathered: '已集合',
+      locus: activity.kind === 'retrieve' ? '取回中' : activity.kind === 'encode' ? '安放中' : '停留中' }[activity.phase] || '自由活動';
     control.querySelector('small').textContent = `${phase}${activity.queued ? ` · 待辦 ${activity.queued}` : ''}`;
     control.setAttribute('aria-label', `跟隨 ${activity.name} · ${phase}${activity.queued ? ` · 待辦 ${activity.queued} 趟` : ''}`);
     control.setAttribute('aria-pressed', String(following && status.id === activity.id));
     control.dataset.working = String(!['idle', 'complete'].includes(activity.phase));
   }
-  followButton.disabled = false;
+  followButton.disabled = !estate;
 }
+
+gatherButton.addEventListener('click', () => {
+  if (!estate) return;
+  const result = estate.gatherStewards();
+  if (result === false) { toast('這個位置目前無法集合，請走到步道或房間內再試。'); return; }
+  toast(estate.getViewMode() === 'human' ? '已呼喚六位管家到你附近；有記憶行程的管家會完成後前來。' : '已呼喚六位管家到前庭集合；有記憶行程的管家會完成後前來。');
+});
+releaseButton.addEventListener('click', () => {
+  if (!estate) return;
+  estate.releaseStewards();
+  toast('管家已恢復自由活動，有待辦的管家會先依序完成行程。');
+});
 
 function startWalk(room, loci, kind, done, autoFollow = true) {
   const disposition = estate?.dispatchTo(room, loci, kind, done);
@@ -628,6 +657,17 @@ const chatUI = installChat({
   $, el, button, api, toast, locationName, openDetail, walkMemory, syncVault,
   onView(preferChat) { if (!preferChat) void refreshCollection(); },
   localCommand(message) {
+    const command = message.replace(/[\s。！!，,]/gu, '');
+    if (/^(?:請)?(?:集合|大家集合|管家集合|全部集合|大家過來|過來集合)$/u.test(command)) {
+      if (!estate) toast('管家還在準備，請稍候。');
+      else gatherButton.click();
+      return true;
+    }
+    if (/^(?:請)?(?:自由活動|大家自由活動|解散|大家去玩|你們去玩)$/u.test(command)) {
+      if (!estate) toast('管家還在準備，請稍候。');
+      else { estate.releaseStewards(); toast('管家已恢復自由活動。'); }
+      return true;
+    }
     if (/^(?:請)?帶我(?:走(?:一遍)?路線|熟悉路線)[。！!]?$/u.test(message)) {
       openRoute();
       return true;
@@ -679,6 +719,7 @@ async function startEstate() {
       onSteward: updateDispatch,
       onViewMode(mode, stewardId) {
         $('view-mode').value = mode;
+        gatherButton.textContent = mode === 'human' ? '集合過來' : '集合到前庭';
         $('view-steward').hidden = !['third', 'steward'].includes(mode);
         if (stewardId) $('view-steward').value = stewardId;
         $('view-help').textContent = { overview: '選擇第一視角，走進房間', human: '眼高 160 cm · WASD／方向鍵走動 · 拖曳環顧', third: '穩定跟隨 · 拖曳環顧 ·「熟悉路線」讓管家帶路', steward: '管家的眼睛 · 柔和轉向 · 拖曳環顧' }[mode];
@@ -688,11 +729,14 @@ async function startEstate() {
           $('panel-toggle').textContent = '+';
         }
         setFollow(mode === 'third' || mode === 'steward', false);
+        if (lastStewardStatus) updateDispatch(lastStewardStatus);
       },
       onTalk(id) {
         chatUI.beginGuided(`我想和 ${districts[id]?.[1] || '管家'} 聊聊。請依你的分區，先問我一個容易回答的問題。`);
       },
     });
+    gatherButton.disabled = false;
+    if (lastStewardStatus) updateDispatch(lastStewardStatus);
     moveCamera(true);
     $('view-room').replaceChildren(...rooms.map((room) => new Option(room.name, room.id)));
     await installDecor({ getEstate: () => estate, manifest, api, toast, selectView });

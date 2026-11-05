@@ -19,6 +19,11 @@
   <select id="view-room" aria-label="進入房間"></select>
   <select id="view-steward" aria-label="選擇管家" hidden><option value="hall">NOA · 機械狗</option><option value="library">INDEX · 機械貓頭鷹</option><option value="gallery">MUSE · 機械貓</option><option value="garden">FERN · 機械狗</option><option value="observatory">VEGA · 機械貓頭鷹</option><option value="quiet-room">SOLA · 機械貓</option></select>
   <button id="talk-steward" type="button">和管家聊聊</button>
+  <div class="steward-actions" role="group" aria-label="管家活動">
+    <button id="gather-stewards" type="button" disabled>集合到前庭</button>
+    <button id="release-stewards" type="button" disabled>自由活動</button>
+    <span id="steward-status" role="status" aria-live="polite">管家準備中</span>
+  </div>
   <span id="view-help">選擇第一視角，走進房間</span>
 </section>
 <section class="welcome"><div class="eyebrow"><span></span> A PLACE TO REMEMBER</div><h1>每一段記憶，<br>都能安心安放。</h1><p>不必急著整理，先自在地待一會兒。</p><button id="hero-mic" class="button primary"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0m-7 7v3m-3 0h6"/></svg>開始說話</button></section>
@@ -63,7 +68,7 @@
   <div class="local-note"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="10" width="12" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>記憶儲存在這部電腦</div></section></div>
 </aside>
 <section id="dispatch-hud" class="dispatch-hud" aria-label="管家行程" hidden>
-  <div class="dispatch-focused"><div><strong id="dispatch-name"></strong><span id="dispatch-progress"></span></div><button id="follow-steward" type="button" class="button ghost" aria-pressed="false">跟隨視角</button></div>
+  <div class="dispatch-focused"><div><strong id="dispatch-name"></strong><span id="dispatch-progress"></span></div><button id="follow-steward" type="button" class="button ghost" aria-pressed="false" disabled>跟隨視角</button></div>
   <p id="dispatch-summary" class="dispatch-summary"></p>
   <div id="dispatch-activities" class="dispatch-activities" role="group" aria-label="各管家行程"></div>
 </section>

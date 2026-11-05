@@ -25,6 +25,7 @@
 - Preserve transcript/source, factual extraction, and imaginative mnemonic as distinct records. Use fixed ordered routes, distinct landmarks, active recall and route familiarization.
 - User explicitly authorized automatic placement of submitted conversation/captures. Whole-account transcript scraping, global agent configuration and scheduled surveillance remain outside this request. Cloudflare account storage is authorized; local-vault migration is not.
 - The current interface has four scene views: overview, human first person, follow-steward third person, and steward POV. Human navigation should support the complete fixed estate and preserve stable memory addresses.
+- 管家自由活動以 manifest 的既有路線行走、玩球或使用伸縮清潔刷；不呼叫 AI、不修改記憶。集合只選擇同樓層可到達且可容納六位的安全線段，保持相隔至少 1.05m，不直接連線穿牆。既有記憶任務完成後集合；集合時新交付的任務仍按該管家 FIFO 處理，完成後回到集合。減少動態效果時停止自主活動；鏡頭不因自主活動或集合被搶走。
 - 六位管家可同時行走。每位管家依派遣順序處理自己的待辦，回到原位才開始下一趟。行程面板提供六個可切換跟隨對象的狀態按鈕，並顯示執行中與待辦數量。背景行程的進度和完成事件不會切換跟隨對象。
 - 第三人稱只平滑跟隨管家的位移，觀看方向由使用者拖曳控制。管家第一人稱的自動水平轉向上限為每秒 25°，手動上限 45°，同時轉向上限 50°。開啟系統的「減少動態效果」時，第一人稱只在使用者拖曳時轉向。進出跟隨或切換管家時直接切換鏡頭，省去長距離飛移。
 - 「風格」調整建築表面的 3D 材質和場景燈光，保留原貼圖、玻璃透明度和個人擺件設定。場景維持無全畫面霧層。柔和日光、科幻和賽博龐克直接繪製場景，黑白、復古電影與美式卡通分別用 GPU 後製補上灰階、靜態顆粒與描邊。預覽可取消或儲存，以本機外觀設定 `render_style` 儲存 `original`、`scifi`、`mono`、`cyberpunk`、`film` 或 `cartoon`，既有版本 1 佈置預設為 `original`。圖集的「圖集色調」獨立預覽，保留原始 Blender 算圖連結。

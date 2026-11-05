@@ -379,6 +379,11 @@ export async function createEstate({ viewport, tooltip, manifest, describe, acti
     getViewMode: () => viewMode,
     enterRoom: (roomId, locusId) => setViewMode('human', { roomId, locusId }),
     dispatchTo: stewards.dispatchTo,
+    gatherStewards() {
+      const target = viewMode === 'human' ? [camera.position.x, camera.position.y - 1.6, camera.position.z] : undefined;
+      return stewards.gatherAll(target);
+    },
+    releaseStewards: () => stewards.releaseAll(),
     setRenderStyle,
     setLightingLevel: roomLighting.setLevel,
     applyDesign(design) {

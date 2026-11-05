@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { after, before, test } from 'node:test';
 import { Color, DefaultLoadingManager, Raycaster, Scene, Vector3 } from 'three';
+import { attachAnimalRig } from '../app/animal-rig.js';
 import { createStewards, roster } from '../app/stewards.js';
 
 const manifest = JSON.parse(await readFile(new URL('../assets/scene-manifest.json', import.meta.url)));
@@ -53,7 +54,7 @@ after(() => {
 async function setup() {
   const scene = new Scene();
   const updates = [];
-  const stewards = createStewards(scene, manifest, (status) => updates.push(status), { matches: false });
+  const stewards = createStewards(scene, manifest, (status) => updates.push(status), { matches: false }, { ambient: false });
   await stewards.ready;
   const groups = new Map(scene.children.map((group) => [group.userData.stewardId, group]));
   const homes = new Map([...groups].map(([id, group]) => [id, group.position.clone()]));
@@ -252,4 +253,27 @@ test('invalid room or locus paths do not schedule jobs or change status', async 
   assert.equal(updates.length, 0);
   assert.equal(stewards.snapshot().activeCount, 0);
   assert.equal(stewards.snapshot().queuedCount, 0);
+});
+
+
+test('leisure tools stop on interruption and reduced motion without moving the POV anchor', async () => {
+  const group = new Scene();
+  const rig = await attachAnimalRig(group, roster.hall, 0);
+  const eye = rig.eyeOffset.clone();
+  const brush = group.getObjectByName('Retractable cleaning brush');
+  const ball = group.getObjectByName('Steward play ball');
+  rig.update(0.1, 10, 0, null, false, 'clean');
+  assert.equal(brush.visible, true);
+  assert.equal(ball.visible, false);
+  const before = brush.position.clone();
+  rig.update(0.1, 10.5, 0, null, false, 'clean');
+  assert.ok(before.distanceTo(brush.position) > 0.01);
+  rig.update(0.1, 11, 0, null, false, 'play');
+  assert.equal(brush.visible, false);
+  assert.equal(ball.visible, true);
+  rig.update(0.1, 12, 0.1, null, false, null);
+  assert.equal(brush.visible || ball.visible, false);
+  rig.update(0.1, 13, 0, null, true, 'play');
+  assert.equal(brush.visible || ball.visible, false);
+  assert.ok(rig.eyeOffset.equals(eye));
 });

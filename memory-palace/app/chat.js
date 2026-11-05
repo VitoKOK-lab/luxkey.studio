@@ -1,7 +1,7 @@
 const imageTypes = new Set(['image/png', 'image/jpeg', 'image/webp']);
 const delay = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 const waitingStates = new Set(['awaiting_api', 'blocked']);
-const runningStates = new Set(['queued', 'running']);
+const runningStates = new Set(['queued', 'running', 'processing']);
 
 export function installChat({ $, el, button, api, toast, locationName, openDetail, walkMemory, syncVault, onView, localCommand }) {
   const form = $('chat-form');
