@@ -48,4 +48,4 @@ GitHub 適合放可複製的程式模板和場景素材。執行 `python3 script
 
 本機 Python 服務僅綁定 Mac loopback。另行部署的 Cloudflare Workers 版本以 HTTPS 提供手機／電腦登入，D1 以 user_id 隔離記憶、修訂、對話工作、附件及佈置。每個雲端帳號從空白開始，不讀取 Mac vault。
 
-登入採用 PBKDF2 密碼雜湊、隨機 session、HttpOnly／Secure／SameSite cookie、來源檢查與登入／寫入速率限制。登出撤銷當前 session。尚無密碼重設、離線合併、裝置間即時推播或本機與雲端雙向同步。雲端尚未連接 AI Agent；原文先保存在待處理收件匣。部署細節見 [Cloudflare 說明](../cloudflare/README.md)。
+登入採用 PBKDF2 密碼雜湊、隨機 session、HttpOnly／Secure／SameSite cookie、來源檢查與登入／寫入速率限制。登出撤銷當前 session。尚無密碼重設、離線合併、裝置間即時推播或本機與雲端雙向同步。雲端使用 Claude API 進行引導對話、擷取與回想，原文先入庫，再驗證模型輸出的來源引句與地標；未設定或失敗時保留供手動重試。部署細節見 [Cloudflare 說明](../cloudflare/README.md)。

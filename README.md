@@ -46,7 +46,7 @@ python3 scripts/launch.py
 
 啟動後開啟 http://127.0.0.1:8765/ 。需要 Python 3.10+ 與 Node.js；只有編輯模型時才需要 Blender。
 
-記憶莊園使用 Python／SQLite 本機服務，不能直接以 GitHub Pages 執行完整功能。此處保存程式、共用場景、算圖與 Blender 原檔，不含私人記憶、對話、附件或金鑰。Cloudflare 線上版已提供登入與每帳號雲端保存：[開啟憶境莊園](https://luxkey-memory-palace.vitokok.workers.dev/)。手機與電腦可使用同一帳號；既有 Mac 資料不會自動上傳，AI Agent 尚未接入。
+記憶莊園使用 Python／SQLite 本機服務，不能直接以 GitHub Pages 執行完整功能。此處保存程式、共用場景、算圖與 Blender 原檔，不含私人記憶、對話、附件或金鑰。Cloudflare 線上版已提供登入與每帳號雲端保存：[開啟憶境莊園](https://luxkey-memory-palace.vitokok.workers.dev/)。手機與電腦可使用同一帳號；既有 Mac 資料不會自動上傳，Claude 管家已接入，支援引導對話、記憶安放與回想。
 
 - [大廳與 NOA 精修資產](memory-palace/assets/quality/)
 - [大廳 Cycles 算圖](memory-palace/assets/renders/quality-hall.png)

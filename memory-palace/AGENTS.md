@@ -20,7 +20,8 @@
 - `data/` contains private local memory data; keep it out of Git and hosted builds.
 - Keep original versions. Archival is reversible; do not silently rewrite user memories.
 - Primary interaction is AI conversation and capture (speech, pasted conversations, text files, screenshots), not manual memory forms. Six stewards physically walk to memories.
-- The user will supply an AI Agent later. Default to an explicitly configured local command using `memory-palace.agent.v1`; HTTP API providers are optional transports. Until configured, retain inputs as awaiting-API inbox items; do not simulate intelligence with keyword rules or reuse another signed-in account.
+- Cloudflare uses the explicitly authorized Anthropic Claude API for all registered users, with per-user/global daily caps. Keep ANTHROPIC_API_KEY only in Worker secrets; do not auto-process old inbox entries or migrate the Mac vault.
+- For the independent local version, the user will supply an AI Agent later. Default to an explicitly configured local command using `memory-palace.agent.v1`; HTTP API providers are optional transports. Until configured, retain inputs as awaiting-API inbox items; do not simulate intelligence with keyword rules or reuse another signed-in account.
 - Preserve transcript/source, factual extraction, and imaginative mnemonic as distinct records. Use fixed ordered routes, distinct landmarks, active recall and route familiarization.
 - User explicitly authorized automatic placement of submitted conversation/captures. Whole-account transcript scraping, global agent configuration and scheduled surveillance remain outside this request. Cloudflare account storage is authorized; local-vault migration is not.
 - The current interface has four scene views: overview, human first person, follow-steward third person, and steward POV. Human navigation should support the complete fixed estate and preserve stable memory addresses.

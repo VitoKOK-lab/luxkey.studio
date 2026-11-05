@@ -1,4 +1,6 @@
 import manifest from './catalog.json' with { type: 'json' };
+import { claudeStatus } from './claude.js';
+import { processJob, recoverStaleJobs } from './ai-jobs.js';
 
 const { rooms, design_catalog: designCatalog, default_design: defaultDesign } = manifest;
 const loci = new Map(rooms.map(room => [room.id, room.loci.map(locus => locus.id)]));
@@ -208,7 +210,18 @@ export async function handleApi(request, env, user) {
       return data;
     }
     if (method === 'GET' && path === '/api/health') return json({ ok: true, mode: 'cloud' });
-    if (method === 'GET' && path === '/api/ai/status') return json({ configured: false, available: false, provider: 'unconfigured', model: null, message: '等待連接你的 AI Agent；提交內容會保留在你的雲端收件匣。', connection_verified: false, capabilities: { text: true, images: false } });
+    if (method === 'GET' && path === '/api/ai/status') {
+      const status = claudeStatus(env,user);
+      if (status.available) {
+        const success = await first("SELECT updated_at FROM cloud_jobs WHERE user_id=? AND status='completed' AND json_extract(result,'$.provider')='anthropic' AND json_extract(result,'$.model')=? ORDER BY updated_at DESC LIMIT 1",owner,status.model);
+        if (success) {
+          status.connection_verified = true;
+          status.last_success_at = success.updated_at;
+          status.message = 'Claude 管家已可使用 · 對話、截圖與相關記憶由 Anthropic 處理';
+        }
+      }
+      return json(status);
+    }
     if (method === 'GET' && path === '/api/memories') return json({ memories: await list(url.searchParams.get('search') ?? '', url.searchParams.get('room') ?? '', url.searchParams.get('status') ?? 'active', url.searchParams.get('due') === 'true') });
     if (method === 'GET' && path === '/api/stats') return json(await stats());
     if (method === 'GET' && path === '/api/design') return json({ design: await getDesign(), catalog: designCatalog });
@@ -252,26 +265,29 @@ export async function handleApi(request, env, user) {
       const hash = await fingerprint(input, image);
       // The fingerprint covers exact originals, including the separately stored image.
       const encoded = encode({ ...input, _fingerprint: hash });
-      const existing = await first('SELECT id,conversation_id,input FROM cloud_jobs WHERE user_id=? AND request_id=?', owner, requestId);
+      const existing = await first('SELECT id,conversation_id,input,status FROM cloud_jobs WHERE user_id=? AND request_id=?', owner, requestId);
       if (existing) {
         if (existing.conversation_id !== conversationId || JSON.parse(existing.input)._fingerprint !== hash) fail('這個請求識別碼已用於不同的訊息。');
-        return json({ job_id: existing.id }, 202);
+        return json({ job_id: existing.id, status: existing.status }, 202);
       }
       const id = uuid();
       const instant = now();
-      const writes = [stmt("INSERT INTO cloud_jobs(user_id,id,request_id,conversation_id,input,status,error,created_at,updated_at) VALUES (?,?,?,?,?,'awaiting_api',?,?,?)", owner, id, requestId, conversationId, encoded, waitingMessage, instant, instant)];
+      const ready = claudeStatus(env,user).available;
+      const status = ready ? 'queued' : 'awaiting_api';
+      const writes = [stmt("INSERT INTO cloud_jobs(user_id,id,request_id,conversation_id,input,status,error,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?)", owner, id, requestId, conversationId, encoded, status, ready ? null : waitingMessage, instant, instant)];
       if (image) for (let offset = 0, chunk = 0; offset < image.length; offset += 500000, chunk++) writes.push(stmt('INSERT INTO cloud_captures(user_id,job_id,chunk,content) VALUES (?,?,?,?)', owner, id, chunk, image.slice(offset, offset + 500000)));
       try { await db.batch(writes); }
       catch (error) {
         // A concurrent repeat can win the UNIQUE request key; return the same job.
-        const winner = await first('SELECT id,conversation_id,input FROM cloud_jobs WHERE user_id=? AND request_id=?', owner, requestId);
+        const winner = await first('SELECT id,conversation_id,input,status FROM cloud_jobs WHERE user_id=? AND request_id=?', owner, requestId);
         if (!winner) throw error;
         if (winner.conversation_id !== conversationId || JSON.parse(winner.input)._fingerprint !== hash) fail('這個請求識別碼已用於不同的訊息。');
-        return json({ job_id: winner.id }, 202);
+        return json({ job_id: winner.id, status: winner.status }, 202);
       }
-      return json({ job_id: id }, 202);
+      return json({ job_id: id, status }, 202);
     }
     if (method === 'GET' && path === '/api/chat/history') {
+      await recoverStaleJobs(env, user);
       const conversationId = url.searchParams.get('conversation_id') || 'palace';
       if (!identifier.test(conversationId)) fail('對話識別碼格式不正確。');
       const jobs = await all('SELECT * FROM cloud_jobs WHERE user_id=? AND conversation_id=? ORDER BY sequence DESC LIMIT 60', owner, conversationId);
@@ -287,8 +303,10 @@ export async function handleApi(request, env, user) {
       return json({ conversation_id: conversationId, messages });
     }
     if (method === 'GET' && path === '/api/inbox') {
+      await recoverStaleJobs(env, user);
       const jobs = await all("SELECT * FROM cloud_jobs WHERE user_id=? AND status IN ('awaiting_api','failed') ORDER BY sequence DESC LIMIT 100", owner);
-      const result = { pending: [], awaiting_api: [], failed: [] };
+      const pending = await all('SELECT candidate FROM cloud_ai_pending WHERE user_id=? ORDER BY created_at DESC LIMIT 100', owner);
+      const result = { pending: pending.map(row => JSON.parse(row.candidate)), awaiting_api: [], failed: [] };
       for (const job of jobs) {
         const input = JSON.parse(job.input);
         delete input._fingerprint;
@@ -296,11 +314,24 @@ export async function handleApi(request, env, user) {
       }
       return json(result);
     }
-    const jobMatch = /^\/api\/jobs\/([^/]+)(\/retry)?$/.exec(path);
+    const jobMatch = /^\/api\/jobs\/([^/]+)(\/(?:retry|process))?$/.exec(path);
     if (jobMatch && ['GET', 'POST'].includes(method)) {
+      await recoverStaleJobs(env, user);
       const job = await getJob(jobMatch[1]);
-      if (method === 'POST' && jobMatch[2]) fail('尚未連接 AI Agent；原始內容已保留，連接後才能重試。', 409);
-      if (method === 'GET' && !jobMatch[2]) return json({ job_id: job.id, conversation_id: job.conversation_id, status: job.status, ...(job.error ? { error: job.error } : {}), ...(job.result ? { result: JSON.parse(job.result) } : {}) });
+      if (method === 'POST' && jobMatch[2] === '/process') {
+        if (job.status !== 'queued') return json({job_id:job.id},202);
+        if (!claudeStatus(env,user).available) {
+          await stmt("UPDATE cloud_jobs SET status='awaiting_api',error=?,updated_at=? WHERE user_id=? AND id=? AND status='queued'",waitingMessage,now(),owner,job.id).run();
+        } else await processJob(env,user,job.id);
+        return json({job_id:job.id},202);
+      }
+      if (method === 'POST' && jobMatch[2] === '/retry') {
+        if (!claudeStatus(env, user).available) fail('Claude 尚未開放或設定；原始內容已保留。', 409);
+        if (!['failed', 'awaiting_api'].includes(job.status)) fail('只有等待連線或處理失敗的內容可以重試。', 409);
+        await processJob(env, user, job.id);
+        return json({ job_id: job.id }, 202);
+      }
+      if (method === 'GET' && !jobMatch[2]) return json({ job_id: job.id, conversation_id: job.conversation_id, status: job.status, requires_processing: job.status === 'queued', ...(job.error ? { error: job.error } : {}), ...(job.result ? { result: JSON.parse(job.result) } : {}) });
     }
     if (method === 'GET' && path === '/api/butler') {
       const query = text(url.searchParams.get('query') ?? '', '管家問題', 500);
@@ -313,7 +344,7 @@ export async function handleApi(request, env, user) {
         titles.get(key).push({ id: memory.id, title: memory.title });
       }
       const duplicates = [...titles.values()].filter(group => group.length > 1);
-      const message = query ? `找到 ${memories.length} 段符合搜尋文字的記憶。` : summary.active === 0 ? '歡迎回家。你的雲端莊園目前是空的，提交的內容會先保留在收件匣，等待連接 AI Agent。' : `目前有 ${summary.due} 段記憶等待回訪。`;
+      const message = query ? `找到 ${memories.length} 段符合搜尋文字的記憶。` : summary.active === 0 ? (claudeStatus(env,user).available ? '歡迎回家。跟管家聊聊今天的一個片刻，讓記憶找到自己的位置。' : '歡迎回家。你的雲端莊園目前是空的，提交的內容會先保留在收件匣，等待連接 AI Agent。') : `目前有 ${summary.due} 段記憶等待回訪。`;
       return json({ mode: 'cloud', message, memories, duplicates, suggested_room: 'hall', stats: summary });
     }
     if (method === 'GET' && path === '/api/export') {

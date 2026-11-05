@@ -84,7 +84,7 @@ python3 scripts/package_template.py
 
 [開啟憶境莊園](https://luxkey-memory-palace.vitokok.workers.dev/) → 建立帳號。帳號使用 3～40 個英數字、底線或連字號，密碼 12～128 字元；目前未提供密碼重設，請妥善保存。
 
-線上記憶、對話收件匣及佈置存在 Cloudflare D1，依帳號隔離。既有 Mac 私人記憶不會自動遷移。AI Agent 尚未接入，提交內容會保留等待處理；尚未提供離線同步或裝置間即時推播。部署方式見 [Cloudflare 說明](cloudflare/README.md)。
+線上記憶、對話收件匣及佈置存在 Cloudflare D1，依帳號隔離。既有 Mac 私人記憶不會自動遷移。雲端版可透過 Claude 引導對話、整理並安放記憶，所有登入使用者共用管理員的 API 額度，設有每日次數限制；尚未提供離線同步或裝置間即時推播。部署方式見 [Cloudflare 說明](cloudflare/README.md)。
 
 ## 建築與算圖圖庫
 

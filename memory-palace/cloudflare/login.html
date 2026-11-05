@@ -32,7 +32,7 @@
         </div>
         <form id="auth-form" aria-describedby="form-description form-message">
           <label for="username">帳號名稱</label>
-          <input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="40" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{2,39}" aria-describedby="username-help" placeholder="例如：my_palace">
+          <input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="40" required pattern="[A-Za-z0-9][A-Za-z0-9_\-]{2,39}" aria-describedby="username-help" placeholder="例如：my_palace">
           <p class="field-help" id="username-help">3～40 個英文字母、數字、底線或連字號；不分大小寫。</p>
           <div class="password-label"><label for="password">密碼</label><button type="button" class="show-password" id="show-password" aria-controls="password" aria-pressed="false">顯示密碼</button></div>
           <input id="password" name="password" type="password" autocomplete="current-password" minlength="12" maxlength="128" required aria-describedby="password-help">
@@ -43,7 +43,7 @@
         </form>
         <div class="privacy-note">
           <span class="privacy-mark" aria-hidden="true">◇</span>
-          <div><strong>每個帳號，各自珍藏。</strong><p>你的雲端記憶僅自己的帳號可查看。這裡從空白開始，既有 Mac 本機資料不會自動上傳或同步。</p><p>AI 管家尚未接入，新的輸入會先保留為待處理內容。</p></div>
+          <div><strong>每個帳號，各自珍藏。</strong><p>你的雲端記憶僅自己的帳號可查看。這裡從空白開始，既有 Mac 本機資料不會自動上傳或同步。</p><p>啟用 Claude 後，你提交的對話、截圖與相關記憶會交由 Anthropic 處理。未連線或處理失敗時，原文仍會保留。</p></div>
         </div>
       </div>
       <footer>憶境莊園 <span aria-hidden="true">·</span> 讓回憶有家可回</footer>

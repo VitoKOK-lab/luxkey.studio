@@ -6,6 +6,12 @@
   "compatibility_date": "2026-04-01",
   "workers_dev": true,
   "preview_urls": false,
+  "vars": {
+    "PALACE_CLAUDE_MODEL": "claude-sonnet-4-6",
+    "PALACE_AI_ALLOWED_USERS": "*",
+    "PALACE_AI_DAILY_LIMIT": "30",
+    "PALACE_AI_GLOBAL_DAILY_LIMIT": "300"
+  },
   "observability": { "enabled": false },
   "assets": {
     "directory": "dist/cloudflare/public",

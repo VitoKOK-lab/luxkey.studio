@@ -85,6 +85,7 @@ export function installChat({ $, el, button, api, toast, locationName, openDetai
       const label = status.message || (status.available ? 'Agent 已設定' : '等待連接你的 AI Agent');
       $('provider-status').textContent = label;
       $('provider-status').dataset.available = status.available ? 'true' : 'false';
+      $('guided-hint').textContent = status.available ? '管家會順著你的回答，一次問一個問題。想跳過或暫時不收錄，也可以直接說。' : '接上你的 AI Agent 後，管家會順著你的回答，一次問一個問題。';
     } catch {
       status = { available: false };
       $('provider-status').textContent = '無法讀取 AI 連線狀態';
@@ -152,6 +153,7 @@ export function installChat({ $, el, button, api, toast, locationName, openDetai
       item.append(undo);
     }
     if (!restoring) {
+      void refreshStatus();
       syncVault();
       speak(result.reply);
       const first = retrieved[0] || memories[0];
@@ -188,6 +190,11 @@ export function installChat({ $, el, button, api, toast, locationName, openDetai
         let job;
         try {
           job = await api(`/jobs/${jobId}`);
+          if (job.status === 'queued' && job.requires_processing) {
+            progress.querySelector('.chat-meta').textContent = '管家正在整理，請稍候…';
+            await api(`/jobs/${jobId}/process`, 'POST', {});
+            continue;
+          }
           errors = 0;
         } catch (error) {
           if (++errors >= 4) {
@@ -248,8 +255,10 @@ export function installChat({ $, el, button, api, toast, locationName, openDetai
   async function post(payload, retryItem) {
     if (send.disabled) return;
     setBusy(true);
+    const sending = receipt('處理中', '正在交付內容，管家會接著回覆。');
     try {
       const accepted = await api('/chat', 'POST', payload);
+      sending.remove();
       conversation = accepted.conversation_id || conversation;
       if (!retryItem) {
         addUser(payload);
@@ -267,6 +276,7 @@ export function installChat({ $, el, button, api, toast, locationName, openDetai
       void watch(accepted.job_id);
     } catch (error) {
       setBusy(false);
+      sending.remove();
       if (retryItem) {
         retryItem.querySelector('.chat-copy').textContent = errorText(error);
         return;

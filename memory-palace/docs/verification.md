@@ -2,6 +2,13 @@
 
 更新於 2026-11-05（Asia/Taipei）
 
+## Claude 雲端管家
+
+- 71 項 Node 測試與 37 項 Python 測試通過，包含真實 SQLite 的工作競爭、逾期 fencing、重送去重、帳號／整站額度、來源核對、空位競爭及帳號隔離。
+- 正式 Cloudflare Worker 已用合成測試帳號實際呼叫 Claude Sonnet 4.6，完成化學知識安放、來源原文保存，以及下一輪對話取回同一記憶。沒有使用 Mac 私人資料。瀏覽器確認 Claude 可用狀態與記憶卡片，點選取回會派出 INDEX 前往知識書房，再沿路返回。
+- 修正 Workers 不支援 redirect:error 的相容性問題，改用 manual 並拒絕所有轉址，避免金鑰轉送。對截圖與格式驗證使用模擬 API 測試；尚未實測真人手機麥克風。
+- 使用者明確授權所有登入帳號共用 API；每帳號每日 30 次、整站每日 300 次（UTC）限制，金鑰只在 Cloudflare Secret。既有待處理項目不會自動批次傳給 Claude。
+
 ## Cloudflare 登入與雲端保存
 
 - 45 項 Node 測試、37 項 Python 測試通過；Wrangler dry-run 與正式部署成功。

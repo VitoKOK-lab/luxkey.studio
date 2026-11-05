@@ -10,6 +10,7 @@ class D1 {
     this.db = new DatabaseSync(':memory:');
     this.db.exec('PRAGMA foreign_keys=ON');
     this.db.exec(readFileSync(new URL('../cloudflare/migrations/0002-vault.sql', import.meta.url), 'utf8'));
+    this.db.exec(readFileSync(new URL('../cloudflare/migrations/0004-ai.sql', import.meta.url), 'utf8'));
   }
   prepare(sql) {
     const db = this.db;
