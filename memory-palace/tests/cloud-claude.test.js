@@ -26,7 +26,7 @@ test('Claude is disabled unless a valid session username is explicitly allowed a
 
 test('Messages API uses fixed endpoint, bounded output, schema, server key and sanitized data', async () => {
   let calls = 0;
-  const result = await runClaude(env, {...input(), ignored_secret: 'never-send', messages: [{role: 'user', content: '今天散步了'}, {role: 'assistant', content: '很適合回顧'}], catalog: [{id: 'hall', name: '迎賓大廳', district_id: 'hall', loci: [{id: 'hall-ledger', label: '管家的接待簿', order: 1, available: true}]}]}, {fetchImpl: async (url, init) => {
+  const result = await runClaude(env, {...input(), ignored_secret: 'never-send', messages: [{role: 'user', content: '今天散步了'}, {role: 'assistant', content: '很適合回顧'}], catalog: [{id: 'hall', name: '迎賓大廳', district_id: 'hall', purpose: '稱呼與溝通偏好', loci: [{id: 'hall-ledger', label: '管家的接待簿', order: 1, available: true}]}]}, {fetchImpl: async (url, init) => {
     calls++;
     assert.equal(url, 'https://api.anthropic.com/v1/messages');
     assert.equal(init.redirect, 'manual');
@@ -43,7 +43,7 @@ test('Messages API uses fixed endpoint, bounded output, schema, server key and s
     const data = JSON.parse(body.messages[0].content[0].text);
     assert.equal(data.messages.length, 2);
     assert.equal(data.message, '想聊聊今天');
-    assert.deepEqual(data.catalog[0], {id: 'hall', name: '迎賓大廳', district_id: 'hall', loci: [{id: 'hall-ledger', label: '管家的接待簿', order: 1, available: true}]});
+    assert.deepEqual(data.catalog[0], {id: 'hall', name: '迎賓大廳', district_id: 'hall', purpose: '稱呼與溝通偏好', loci: [{id: 'hall-ledger', label: '管家的接待簿', order: 1, available: true}]});
     assert.doesNotMatch(init.body, /server-secret|private-user-id|never-send/);
     return response();
   }});
