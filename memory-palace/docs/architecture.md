@@ -40,14 +40,12 @@ Agent 收到本次訊息、擷取內容、有限對話歷史、相關記憶和�
 
 ## 模板分享與儲存
 
-GitHub 適合放可複製的程式模板和場景素材。執行 `python3 scripts/package_template.py` 可建立 `dist/MemoryPalace-template.zip`；加入 `--include-design` 可將目前佈置做為新安裝的外觀預設值。模板快照採允許清單封裝程式及場景資產，不包含私人 SQLite 資料庫、對話、截圖、個人記憶或 API 金鑰。封裝命令可在本機產生 ZIP，尚未發布 GitHub 專案或部署網站。
+GitHub 適合放可複製的程式模板和場景素材。執行 `python3 scripts/package_template.py` 可建立 `dist/MemoryPalace-template.zip`；加入 `--include-design` 可將目前佈置做為新安裝的外觀預設值。模板快照採允許清單封裝程式及場景資產，不包含私人 SQLite 資料庫、對話、截圖、個人記憶或 API 金鑰。封裝命令可在本機產生 ZIP，已發布至 GitHub，並另有 Cloudflare Workers 雲端版。
 
 私人日記目前存在本機 SQLite。GitHub Pages 可展示靜態內容，但不能執行本機 Python 服務或替日記保管 API 金鑰，因此適合做模板／展示頁，不是目前日記的儲存位置。程式模板與私人資料可各自選擇本機或 GitHub 儲存，使用時需維持兩者分離。
 
 ## 手機與多人使用路線
 
-目前介面有響應式手機版面，但服務只綁定同一部 Mac 的本機網址；手機尚不能透過網路連到它。手機日記、手機回想，以及帳號登入都屬於後續工作。
+本機 Python 服務僅綁定 Mac loopback。另行部署的 Cloudflare Workers 版本以 HTTPS 提供手機／電腦登入，D1 以 user_id 隔離記憶、修訂、對話工作、附件及佈置。每個雲端帳號從空白開始，不讀取 Mac vault。
 
-多人登入的未來版本需要加入 HTTPS、登入方式（例如 Passkey 或 OIDC）、安全的 session cookie，以及每位使用者的資料所有權檢查。記憶、對話工作、上傳附件和匯出都必須依登入使用者隔離。資料可以採每位使用者一個資料庫，或在共用資料庫中為每筆資料保存並驗證 owner ID；這些登入和隔離機制目前尚未實作。
-
-離線輸入與日後同步也列在後續路線。同步設計要明確處理兩台裝置離線期間的新增、修改和衝突，再決定資料如何合併；目前沒有網路同步功能。
+登入採用 PBKDF2 密碼雜湊、隨機 session、HttpOnly／Secure／SameSite cookie、來源檢查與登入／寫入速率限制。登出撤銷當前 session。尚無密碼重設、離線合併、裝置間即時推播或本機與雲端雙向同步。雲端尚未連接 AI Agent；原文先保存在待處理收件匣。部署細節見 [Cloudflare 說明](../cloudflare/README.md)。

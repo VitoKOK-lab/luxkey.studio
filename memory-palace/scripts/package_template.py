@@ -16,9 +16,11 @@ ROOT_FILES = {
     'README.md', 'AGENTS.md', '.gitignore', 'server.py', 'palace_store.py',
     'design_store.py', 'ai_butler.py', 'ai_provider.py', 'package.json',
     'package-lock.json', 'LICENSE', 'NOTICE', '開啟憶境莊園.command',
+    'wrangler.jsonc',
 }
 SCRIPT_FILES = {
     'backup.py', 'launch.py', 'mcp_server.py', 'ocr.swift', 'package_template.py', 'palace.py',
+    'build_cloudflare.py',
 }
 ASSET_FILES = {
     'scene-manifest.json', 'memory-palace.blend', 'memory-palace.glb',
@@ -64,6 +66,10 @@ def allowed_paths(root: Path):
         if base.is_dir():
             candidates.update(path.relative_to(root).as_posix() for path in base.rglob('*')
                               if path.is_file() and path.suffix.lower() in CODE_SUFFIXES)
+    cloud = root / 'cloudflare'
+    if cloud.is_dir():
+        candidates.update(path.relative_to(root).as_posix() for path in cloud.rglob('*')
+                          if path.is_file() and path.suffix.lower() in {'.js', '.json', '.html', '.css', '.md', '.sql'})
     candidates.update(f'assets/{name}' for name in ASSET_FILES if (root / 'assets' / name).is_file())
     three = root / 'node_modules' / 'three'
     if three.is_dir():

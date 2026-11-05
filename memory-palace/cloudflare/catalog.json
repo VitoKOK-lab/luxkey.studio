@@ -1,0 +1,1307 @@
+{
+  "design_catalog": {
+    "architecture_id": "glass-estate-v2",
+    "themes": [
+      {
+        "id": "lagoon",
+        "name": "湖光青綠"
+      },
+      {
+        "id": "moon",
+        "name": "月夜銀藍"
+      },
+      {
+        "id": "sunrise",
+        "name": "晨曦暖金"
+      }
+    ],
+    "items": [
+      {
+        "id": "plush-bear",
+        "name": "絨毛熊"
+      },
+      {
+        "id": "moon-lamp",
+        "name": "月光燈"
+      },
+      {
+        "id": "plant",
+        "name": "綠植"
+      },
+      {
+        "id": "crystal",
+        "name": "水晶"
+      }
+    ],
+    "render_styles": [
+      {
+        "id": "original",
+        "name": "柔和日光",
+        "description": "原有的象牙石、淺木與柔和日光"
+      },
+      {
+        "id": "scifi",
+        "name": "科幻",
+        "description": "珍珠白板材、石墨金屬與冰青燈條"
+      },
+      {
+        "id": "mono",
+        "name": "黑白",
+        "description": "銀灰金屬、石墨木作與鮮明黑白層次"
+      },
+      {
+        "id": "cyberpunk",
+        "name": "賽博龐克",
+        "description": "深藍石墨表面，搭配青色與桃紅霓虹"
+      },
+      {
+        "id": "film",
+        "name": "復古電影",
+        "description": "深胡桃木、暖黃銅與細微膠片顆粒"
+      },
+      {
+        "id": "cartoon",
+        "name": "美式卡通",
+        "description": "鮮明的藍橙配色、霧面材質與細緻描邊"
+      }
+    ],
+    "rooms": [
+      {
+        "id": "hall",
+        "name": "迎賓大廳"
+      },
+      {
+        "id": "library",
+        "name": "知識書房"
+      },
+      {
+        "id": "gallery",
+        "name": "生命畫廊"
+      },
+      {
+        "id": "quiet-room",
+        "name": "靜心室"
+      },
+      {
+        "id": "observatory",
+        "name": "星象閣"
+      },
+      {
+        "id": "garden",
+        "name": "月光花園"
+      },
+      {
+        "id": "archive",
+        "name": "檔案庫"
+      },
+      {
+        "id": "workshop",
+        "name": "創作工坊"
+      },
+      {
+        "id": "cartography-room",
+        "name": "地圖室"
+      },
+      {
+        "id": "portrait-hall",
+        "name": "肖像廳"
+      },
+      {
+        "id": "music-room",
+        "name": "樂室"
+      },
+      {
+        "id": "planetarium",
+        "name": "星象劇場"
+      },
+      {
+        "id": "atrium",
+        "name": "玻璃中庭"
+      },
+      {
+        "id": "banquet-room",
+        "name": "宴會廳"
+      },
+      {
+        "id": "tea-room",
+        "name": "茶室"
+      },
+      {
+        "id": "reflection-suite",
+        "name": "冥想套房"
+      },
+      {
+        "id": "roof-terrace",
+        "name": "觀景屋頂露台"
+      },
+      {
+        "id": "glasshouse",
+        "name": "高空植物溫室"
+      },
+      {
+        "id": "arrival-court",
+        "name": "迎賓前庭"
+      },
+      {
+        "id": "sculpture-court",
+        "name": "雕塑庭"
+      },
+      {
+        "id": "orchard",
+        "name": "果樹園"
+      },
+      {
+        "id": "water-garden",
+        "name": "水鏡花園"
+      },
+      {
+        "id": "stone-garden",
+        "name": "枯山水庭"
+      },
+      {
+        "id": "skybridge",
+        "name": "空中玻璃長橋"
+      }
+    ],
+    "schema_version": 1
+  },
+  "default_design": {
+    "schema_version": 1,
+    "architecture_id": "glass-estate-v2",
+    "name": "憶境莊園",
+    "theme": "lagoon",
+    "render_style": "original",
+    "lighting_level": 1.0,
+    "decorations": []
+  },
+  "rooms": [
+    {
+      "id": "hall",
+      "name": "迎賓大廳",
+      "district_id": "hall",
+      "loci": [
+        {
+          "id": "hall-ledger",
+          "label": "管家的接待簿",
+          "order": 1
+        },
+        {
+          "id": "hall-lantern",
+          "label": "入口的燈盞",
+          "order": 2
+        },
+        {
+          "id": "hall-emblem",
+          "label": "大廳的圓形徽記",
+          "order": 3
+        },
+        {
+          "id": "hall-console",
+          "label": "青色接待終端",
+          "order": 4
+        },
+        {
+          "id": "hall-pendant",
+          "label": "大廳的黃銅吊燈",
+          "order": 5
+        },
+        {
+          "id": "hall-planter",
+          "label": "白陶入口植栽",
+          "order": 6
+        },
+        {
+          "id": "hall-sofa",
+          "label": "奶油色迎賓沙發",
+          "order": 7
+        },
+        {
+          "id": "hall-table",
+          "label": "來賓的圓形矮桌",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "library",
+      "name": "知識書房",
+      "district_id": "library",
+      "loci": [
+        {
+          "id": "library-book",
+          "label": "書桌上的書",
+          "order": 1
+        },
+        {
+          "id": "library-shelf",
+          "label": "西側書架",
+          "order": 2
+        },
+        {
+          "id": "library-chair",
+          "label": "閱讀扶手椅",
+          "order": 3
+        },
+        {
+          "id": "library-second-chair",
+          "label": "靠窗的第二張椅子",
+          "order": 4
+        },
+        {
+          "id": "library-brass-lamp",
+          "label": "帶轉軸的黃銅閱讀燈",
+          "order": 5
+        },
+        {
+          "id": "library-atlas",
+          "label": "低桌上的年代圖冊",
+          "order": 6
+        },
+        {
+          "id": "library-index",
+          "label": "珍本索引櫃",
+          "order": 7
+        },
+        {
+          "id": "library-globe",
+          "label": "書房西窗地球儀",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "gallery",
+      "name": "生命畫廊",
+      "district_id": "gallery",
+      "loci": [
+        {
+          "id": "gallery-frame",
+          "label": "第一幅畫框",
+          "order": 1
+        },
+        {
+          "id": "gallery-bench",
+          "label": "畫廊長椅",
+          "order": 2
+        },
+        {
+          "id": "gallery-balcony",
+          "label": "回望陽台",
+          "order": 3
+        },
+        {
+          "id": "gallery-second-frame",
+          "label": "第二幅亞麻畫布",
+          "order": 4
+        },
+        {
+          "id": "gallery-third-frame",
+          "label": "深色第三幅畫布",
+          "order": 5
+        },
+        {
+          "id": "gallery-orbits",
+          "label": "玄武岩基座的環形藝術品",
+          "order": 6
+        },
+        {
+          "id": "gallery-model",
+          "label": "透明展盒中的原型",
+          "order": 7
+        },
+        {
+          "id": "gallery-easel",
+          "label": "西窗留白畫架",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "quiet-room",
+      "name": "靜心室",
+      "district_id": "quiet-room",
+      "loci": [
+        {
+          "id": "quiet-cushion",
+          "label": "靜坐軟墊",
+          "order": 1
+        },
+        {
+          "id": "quiet-bowl",
+          "label": "桌上的缽",
+          "order": 2
+        },
+        {
+          "id": "quiet-window",
+          "label": "安靜的窗邊",
+          "order": 3
+        },
+        {
+          "id": "quiet-room-second-cushion",
+          "label": "另一張青色靜坐墊",
+          "order": 4
+        },
+        {
+          "id": "quiet-room-candles",
+          "label": "三支霧面白蠟燭",
+          "order": 5
+        },
+        {
+          "id": "quiet-room-tea-platform",
+          "label": "深色橡木茶臺",
+          "order": 6
+        },
+        {
+          "id": "quiet-room-fern",
+          "label": "東側的白盆葉蕨",
+          "order": 7
+        },
+        {
+          "id": "quiet-room-paper-screen",
+          "label": "手抄紙隔屏",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "observatory",
+      "name": "星象閣",
+      "district_id": "observatory",
+      "loci": [
+        {
+          "id": "observatory-globe",
+          "label": "中央的星儀",
+          "order": 1
+        },
+        {
+          "id": "observatory-telescope",
+          "label": "遠望的望遠鏡",
+          "order": 2
+        },
+        {
+          "id": "observatory-desk",
+          "label": "未來的書桌",
+          "order": 3
+        },
+        {
+          "id": "observatory-star-map",
+          "label": "地面的刻星圓圖",
+          "order": 4
+        },
+        {
+          "id": "observatory-terminal",
+          "label": "未來書桌的青色螢幕",
+          "order": 5
+        },
+        {
+          "id": "observatory-sample",
+          "label": "銀灰色岩石樣本",
+          "order": 6
+        },
+        {
+          "id": "observatory-celestial-chart",
+          "label": "西窗赤經赤緯圖",
+          "order": 7
+        },
+        {
+          "id": "observatory-clock",
+          "label": "黃銅天文時鐘",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "garden",
+      "name": "月光花園",
+      "district_id": "garden",
+      "loci": [
+        {
+          "id": "garden-fountain",
+          "label": "花園噴泉",
+          "order": 1
+        },
+        {
+          "id": "garden-bench",
+          "label": "花園長椅",
+          "order": 2
+        },
+        {
+          "id": "garden-rose",
+          "label": "玫瑰花圃",
+          "order": 3
+        },
+        {
+          "id": "garden-pool",
+          "label": "倒映莊園的水鏡",
+          "order": 4
+        },
+        {
+          "id": "garden-east-bench",
+          "label": "東側橡木長椅",
+          "order": 5
+        },
+        {
+          "id": "garden-cypress",
+          "label": "西廊的直立絲柏",
+          "order": 6
+        },
+        {
+          "id": "garden-bollard",
+          "label": "倒影池畔的暖光柱",
+          "order": 7
+        },
+        {
+          "id": "garden-olive",
+          "label": "入口花圃的橄欖樹冠",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "archive",
+      "name": "檔案庫",
+      "district_id": "library",
+      "loci": [
+        {
+          "id": "archive-catalogue",
+          "label": "黃銅卡片目錄",
+          "order": 1
+        },
+        {
+          "id": "archive-tube",
+          "label": "藍色卷宗筒",
+          "order": 2
+        },
+        {
+          "id": "archive-press",
+          "label": "浮雕封印機",
+          "order": 3
+        },
+        {
+          "id": "archive-folio",
+          "label": "展開的索引冊",
+          "order": 4
+        },
+        {
+          "id": "archive-cabinet",
+          "label": "高身玻璃檔案櫃",
+          "order": 5
+        },
+        {
+          "id": "archive-case",
+          "label": "黑色防火匣",
+          "order": 6
+        },
+        {
+          "id": "archive-clock",
+          "label": "紅銅檔案時鐘",
+          "order": 7
+        },
+        {
+          "id": "archive-scanner",
+          "label": "平板文稿掃描臺",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "workshop",
+      "name": "創作工坊",
+      "district_id": "library",
+      "loci": [
+        {
+          "id": "workshop-vise",
+          "label": "工作桌的夾鉗",
+          "order": 1
+        },
+        {
+          "id": "workshop-tools",
+          "label": "帶孔工具牆",
+          "order": 2
+        },
+        {
+          "id": "workshop-models",
+          "label": "白色原型機",
+          "order": 3
+        },
+        {
+          "id": "workshop-parts",
+          "label": "分格零件櫃",
+          "order": 4
+        },
+        {
+          "id": "workshop-lamp",
+          "label": "鉸接設計燈",
+          "order": 5
+        },
+        {
+          "id": "workshop-printer",
+          "label": "透明原型列印機",
+          "order": 6
+        },
+        {
+          "id": "workshop-roll",
+          "label": "架上的設計捲紙",
+          "order": 7
+        },
+        {
+          "id": "workshop-stool",
+          "label": "高腳木凳",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "cartography-room",
+      "name": "地圖室",
+      "district_id": "library",
+      "loci": [
+        {
+          "id": "cartography-room-chart",
+          "label": "海岸等高線圖",
+          "order": 1
+        },
+        {
+          "id": "cartography-room-compass",
+          "label": "羅盤桌",
+          "order": 2
+        },
+        {
+          "id": "cartography-room-atlas",
+          "label": "攤開的地圖集",
+          "order": 3
+        },
+        {
+          "id": "cartography-room-cabinets",
+          "label": "平放圖紙的抽屜櫃",
+          "order": 4
+        },
+        {
+          "id": "cartography-room-grid",
+          "label": "透明經緯網",
+          "order": 5
+        },
+        {
+          "id": "cartography-room-globe",
+          "label": "赤道上的地球儀",
+          "order": 6
+        },
+        {
+          "id": "cartography-room-survey",
+          "label": "黃銅測量腳架",
+          "order": 7
+        },
+        {
+          "id": "cartography-room-roll",
+          "label": "立起的地圖捲",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "portrait-hall",
+      "name": "肖像廳",
+      "district_id": "gallery",
+      "loci": [
+        {
+          "id": "portrait-hall-pair",
+          "label": "一對雙人肖像",
+          "order": 1
+        },
+        {
+          "id": "portrait-hall-oval",
+          "label": "橢圓肖像",
+          "order": 2
+        },
+        {
+          "id": "portrait-hall-pedestal",
+          "label": "石柱上的半身像",
+          "order": 3
+        },
+        {
+          "id": "portrait-hall-seat",
+          "label": "紫灰色長椅",
+          "order": 4
+        },
+        {
+          "id": "portrait-hall-triptych",
+          "label": "三聯畫",
+          "order": 5
+        },
+        {
+          "id": "portrait-hall-relief",
+          "label": "銅製人像浮雕",
+          "order": 6
+        },
+        {
+          "id": "portrait-hall-easel",
+          "label": "未完成的畫架",
+          "order": 7
+        },
+        {
+          "id": "portrait-hall-case",
+          "label": "舊相機展示櫃",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "music-room",
+      "name": "樂室",
+      "district_id": "gallery",
+      "loci": [
+        {
+          "id": "music-room-piano",
+          "label": "黑色平台鋼琴",
+          "order": 1
+        },
+        {
+          "id": "music-room-stand",
+          "label": "譜架上的樂譜",
+          "order": 2
+        },
+        {
+          "id": "music-room-drum",
+          "label": "紅銅定音鼓",
+          "order": 3
+        },
+        {
+          "id": "music-room-speaker",
+          "label": "一對落地音箱",
+          "order": 4
+        },
+        {
+          "id": "music-room-harp",
+          "label": "靠牆的三角豎琴",
+          "order": 5
+        },
+        {
+          "id": "music-room-record",
+          "label": "唱盤與黑膠",
+          "order": 6
+        },
+        {
+          "id": "music-room-curtain",
+          "label": "藍色吸音帷幕",
+          "order": 7
+        },
+        {
+          "id": "music-room-bench",
+          "label": "皮面琴凳",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "planetarium",
+      "name": "星象劇場",
+      "district_id": "observatory",
+      "loci": [
+        {
+          "id": "planetarium-projector",
+          "label": "星圖投影球",
+          "order": 1
+        },
+        {
+          "id": "planetarium-constellation",
+          "label": "牆面的獵戶座",
+          "order": 2
+        },
+        {
+          "id": "planetarium-meteor",
+          "label": "玻璃箱裡的隕石",
+          "order": 3
+        },
+        {
+          "id": "planetarium-orbit",
+          "label": "行星軌道裝置",
+          "order": 4
+        },
+        {
+          "id": "planetarium-seat",
+          "label": "深藍觀星躺椅",
+          "order": 5
+        },
+        {
+          "id": "planetarium-console",
+          "label": "調光控制臺",
+          "order": 6
+        },
+        {
+          "id": "planetarium-satellite",
+          "label": "三足衛星模型",
+          "order": 7
+        },
+        {
+          "id": "planetarium-clock",
+          "label": "日月週期盤",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "atrium",
+      "name": "玻璃中庭",
+      "district_id": "hall",
+      "loci": [
+        {
+          "id": "atrium-tree",
+          "label": "白盆中庭橄欖",
+          "order": 1
+        },
+        {
+          "id": "atrium-lamp",
+          "label": "紙罩落地燈",
+          "order": 2
+        },
+        {
+          "id": "atrium-desk",
+          "label": "接待側桌",
+          "order": 3
+        },
+        {
+          "id": "atrium-bell",
+          "label": "迎賓銅鐘",
+          "order": 4
+        },
+        {
+          "id": "atrium-directory",
+          "label": "立式空間索引",
+          "order": 5
+        },
+        {
+          "id": "atrium-sculpture",
+          "label": "交疊圓環雕塑",
+          "order": 6
+        },
+        {
+          "id": "atrium-seat",
+          "label": "奶油色等候椅",
+          "order": 7
+        },
+        {
+          "id": "atrium-clock",
+          "label": "入口掛鐘",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "banquet-room",
+      "name": "宴會廳",
+      "district_id": "hall",
+      "loci": [
+        {
+          "id": "banquet-room-table",
+          "label": "長餐桌與燭座",
+          "order": 1
+        },
+        {
+          "id": "banquet-room-sideboard",
+          "label": "橡木餐邊櫃",
+          "order": 2
+        },
+        {
+          "id": "banquet-room-tray",
+          "label": "銀色高腳托盤",
+          "order": 3
+        },
+        {
+          "id": "banquet-room-cupboard",
+          "label": "瓷盤陳列櫃",
+          "order": 4
+        },
+        {
+          "id": "banquet-room-tea",
+          "label": "熱茶服務車",
+          "order": 5
+        },
+        {
+          "id": "banquet-room-ice",
+          "label": "冰桶與高腳架",
+          "order": 6
+        },
+        {
+          "id": "banquet-room-chair",
+          "label": "主桌扶手椅",
+          "order": 7
+        },
+        {
+          "id": "banquet-room-lantern",
+          "label": "細柄落地燈",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "tea-room",
+      "name": "茶室",
+      "district_id": "quiet-room",
+      "loci": [
+        {
+          "id": "tea-room-tray",
+          "label": "黑陶壺與茶盤",
+          "order": 1
+        },
+        {
+          "id": "tea-room-bowl",
+          "label": "琥珀色茶碗",
+          "order": 2
+        },
+        {
+          "id": "tea-room-bamboo",
+          "label": "竹屏風",
+          "order": 3
+        },
+        {
+          "id": "tea-room-cushion",
+          "label": "方形靛藍坐墊",
+          "order": 4
+        },
+        {
+          "id": "tea-room-scroll",
+          "label": "竹軸書法卷",
+          "order": 5
+        },
+        {
+          "id": "tea-room-incense",
+          "label": "灰石香爐",
+          "order": 6
+        },
+        {
+          "id": "tea-room-kettle",
+          "label": "三腳煮水架",
+          "order": 7
+        },
+        {
+          "id": "tea-room-bonsai",
+          "label": "盆栽小松",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "reflection-suite",
+      "name": "冥想套房",
+      "district_id": "quiet-room",
+      "loci": [
+        {
+          "id": "reflection-suite-mirror",
+          "label": "細框立式反射鏡",
+          "order": 1
+        },
+        {
+          "id": "reflection-suite-low-table",
+          "label": "圓角矮桌",
+          "order": 2
+        },
+        {
+          "id": "reflection-suite-cushion",
+          "label": "編織靜坐墊",
+          "order": 3
+        },
+        {
+          "id": "reflection-suite-stone",
+          "label": "單面拋光玄武岩",
+          "order": 4
+        },
+        {
+          "id": "reflection-suite-screen",
+          "label": "透光的紙隔屏",
+          "order": 5
+        },
+        {
+          "id": "reflection-suite-lamp",
+          "label": "暖色閱讀燈",
+          "order": 6
+        },
+        {
+          "id": "reflection-suite-branch",
+          "label": "白陶瓶中的枝條",
+          "order": 7
+        },
+        {
+          "id": "reflection-suite-bed",
+          "label": "窗邊躺椅",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "roof-terrace",
+      "name": "觀景屋頂露台",
+      "district_id": "observatory",
+      "loci": [
+        {
+          "id": "roof-terrace-scope",
+          "label": "雙筒觀景望遠鏡",
+          "order": 1
+        },
+        {
+          "id": "roof-terrace-sundial",
+          "label": "斜針日晷",
+          "order": 2
+        },
+        {
+          "id": "roof-terrace-lounger",
+          "label": "屋頂躺椅",
+          "order": 3
+        },
+        {
+          "id": "roof-terrace-weather",
+          "label": "旋轉氣象標",
+          "order": 4
+        },
+        {
+          "id": "roof-terrace-light",
+          "label": "青銅露台燈",
+          "order": 5
+        },
+        {
+          "id": "roof-terrace-planter",
+          "label": "紫花大陶盆",
+          "order": 6
+        },
+        {
+          "id": "roof-terrace-rail",
+          "label": "東向山景說明牌",
+          "order": 7
+        },
+        {
+          "id": "roof-terrace-seat",
+          "label": "環形觀景椅",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "glasshouse",
+      "name": "高空植物溫室",
+      "district_id": "garden",
+      "loci": [
+        {
+          "id": "glasshouse-fern",
+          "label": "陶鉢裡的巨大蕨葉",
+          "order": 1
+        },
+        {
+          "id": "glasshouse-tray",
+          "label": "高腳育苗盤",
+          "order": 2
+        },
+        {
+          "id": "glasshouse-orchid",
+          "label": "白蘭標本架",
+          "order": 3
+        },
+        {
+          "id": "glasshouse-can",
+          "label": "長嘴澆水壺",
+          "order": 4
+        },
+        {
+          "id": "glasshouse-climate",
+          "label": "溫室氣候監控面板",
+          "order": 5
+        },
+        {
+          "id": "glasshouse-citrus",
+          "label": "結橘子的盆栽",
+          "order": 6
+        },
+        {
+          "id": "glasshouse-cart",
+          "label": "園藝推車",
+          "order": 7
+        },
+        {
+          "id": "glasshouse-bench",
+          "label": "斜面移植工作臺",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "arrival-court",
+      "name": "迎賓前庭",
+      "district_id": "hall",
+      "loci": [
+        {
+          "id": "arrival-court-obelisk",
+          "label": "玄武岩迎賓方尖碑",
+          "order": 1
+        },
+        {
+          "id": "arrival-court-plaque",
+          "label": "銅製莊園銘牌",
+          "order": 2
+        },
+        {
+          "id": "arrival-court-bowl",
+          "label": "圓形雨水鉢",
+          "order": 3
+        },
+        {
+          "id": "arrival-court-beacon",
+          "label": "藍光引路燈",
+          "order": 4
+        },
+        {
+          "id": "arrival-court-arc",
+          "label": "接待弧形長凳",
+          "order": 5
+        },
+        {
+          "id": "arrival-court-chimes",
+          "label": "垂吊的風鈴",
+          "order": 6
+        },
+        {
+          "id": "arrival-court-seat",
+          "label": "靠入口的迎賓椅",
+          "order": 7
+        },
+        {
+          "id": "arrival-court-mark",
+          "label": "白色方向羅盤",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "sculpture-court",
+      "name": "雕塑庭",
+      "district_id": "gallery",
+      "loci": [
+        {
+          "id": "sculpture-court-ring",
+          "label": "交叉金屬圓環",
+          "order": 1
+        },
+        {
+          "id": "sculpture-court-head",
+          "label": "霧面石膏頭像",
+          "order": 2
+        },
+        {
+          "id": "sculpture-court-spire",
+          "label": "深色三角碑",
+          "order": 3
+        },
+        {
+          "id": "sculpture-court-disc",
+          "label": "斜立的鏡面圓盤",
+          "order": 4
+        },
+        {
+          "id": "sculpture-court-wire",
+          "label": "鋼線幾何三角",
+          "order": 5
+        },
+        {
+          "id": "sculpture-court-eye",
+          "label": "橢圓岩孔",
+          "order": 6
+        },
+        {
+          "id": "sculpture-court-pedestal",
+          "label": "展覽銘牌",
+          "order": 7
+        },
+        {
+          "id": "sculpture-court-seat",
+          "label": "玫瑰灰石長凳",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "orchard",
+      "name": "果樹園",
+      "district_id": "garden",
+      "loci": [
+        {
+          "id": "orchard-citrus",
+          "label": "盆栽橘樹",
+          "order": 1
+        },
+        {
+          "id": "orchard-basket",
+          "label": "矮凳上的果籃",
+          "order": 2
+        },
+        {
+          "id": "orchard-tree",
+          "label": "孤植多枝橄欖樹",
+          "order": 3
+        },
+        {
+          "id": "orchard-rack",
+          "label": "果實分級木架",
+          "order": 4
+        },
+        {
+          "id": "orchard-bird",
+          "label": "三腳餵鳥架",
+          "order": 5
+        },
+        {
+          "id": "orchard-gate",
+          "label": "木格果園入口",
+          "order": 6
+        },
+        {
+          "id": "orchard-cart",
+          "label": "採果推車",
+          "order": 7
+        },
+        {
+          "id": "orchard-seat",
+          "label": "蘋果色休憩長凳",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "water-garden",
+      "name": "水鏡花園",
+      "district_id": "garden",
+      "loci": [
+        {
+          "id": "water-garden-weir",
+          "label": "青銅細瀑牆",
+          "order": 1
+        },
+        {
+          "id": "water-garden-lotus",
+          "label": "蓮花浮盆",
+          "order": 2
+        },
+        {
+          "id": "water-garden-lantern",
+          "label": "水邊方燈",
+          "order": 3
+        },
+        {
+          "id": "water-garden-stone",
+          "label": "池面立石",
+          "order": 4
+        },
+        {
+          "id": "water-garden-gauge",
+          "label": "水位圓盤",
+          "order": 5
+        },
+        {
+          "id": "water-garden-bench",
+          "label": "倒影長凳",
+          "order": 6
+        },
+        {
+          "id": "water-garden-reed",
+          "label": "細葉蘆葦叢",
+          "order": 7
+        },
+        {
+          "id": "water-garden-ripple",
+          "label": "漣漪圓環",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "stone-garden",
+      "name": "枯山水庭",
+      "district_id": "quiet-room",
+      "loci": [
+        {
+          "id": "stone-garden-spire",
+          "label": "中央直立禪石",
+          "order": 1
+        },
+        {
+          "id": "stone-garden-stone",
+          "label": "磨圓的坐禪石",
+          "order": 2
+        },
+        {
+          "id": "stone-garden-rake",
+          "label": "木製整砂耙",
+          "order": 3
+        },
+        {
+          "id": "stone-garden-bench",
+          "label": "低矮觀砂長椅",
+          "order": 4
+        },
+        {
+          "id": "stone-garden-basin",
+          "label": "陶製洗手鉢",
+          "order": 5
+        },
+        {
+          "id": "stone-garden-bamboo",
+          "label": "矮竹籬",
+          "order": 6
+        },
+        {
+          "id": "stone-garden-disc",
+          "label": "砂面石紋圓盤",
+          "order": 7
+        },
+        {
+          "id": "stone-garden-light",
+          "label": "方形石燈",
+          "order": 8
+        }
+      ]
+    },
+    {
+      "id": "skybridge",
+      "name": "空中玻璃長橋",
+      "district_id": "observatory",
+      "loci": [
+        {
+          "id": "skybridge-beacon",
+          "label": "西端琥珀指引燈",
+          "order": 1
+        },
+        {
+          "id": "skybridge-compass",
+          "label": "長橋方向羅盤",
+          "order": 2
+        },
+        {
+          "id": "skybridge-lens",
+          "label": "庭園景觀鏡頭",
+          "order": 3
+        },
+        {
+          "id": "skybridge-bridge-map",
+          "label": "三翼平面配置圖",
+          "order": 4
+        },
+        {
+          "id": "skybridge-seat",
+          "label": "中央日光休息椅",
+          "order": 5
+        },
+        {
+          "id": "skybridge-glass",
+          "label": "琥珀層壓樣本",
+          "order": 6
+        },
+        {
+          "id": "skybridge-orbit",
+          "label": "東端金屬環標",
+          "order": 7
+        },
+        {
+          "id": "skybridge-station",
+          "label": "橋頭觀測鐘",
+          "order": 8
+        }
+      ]
+    }
+  ]
+}

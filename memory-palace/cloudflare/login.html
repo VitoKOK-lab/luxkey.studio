@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f3eb">
+  <title>回到你的莊園 · 憶境莊園</title>
+  <link rel="stylesheet" href="/auth/login.css">
+  <script type="module" src="/auth/login.js"></script>
+</head>
+<body>
+  <main class="welcome">
+    <section class="introduction" aria-labelledby="welcome-title">
+      <a class="brand" href="/login" aria-label="憶境莊園首頁"><span class="brand-mark" aria-hidden="true">憶</span><span>憶境莊園<small>MEMORY PALACE</small></span></a>
+      <div class="welcome-copy">
+        <p class="eyebrow">為回憶，留一個位置</p>
+        <h1 id="welcome-title">回到你的<br>一方天地。</h1>
+        <p class="lede">把值得記住的片刻，安放在專屬的莊園裡。無論用手機或電腦，都能回來看看。</p>
+      </div>
+      <div class="palace" aria-hidden="true"><div class="sun"></div><div class="garden-line"></div><div class="house"><div class="house-roof"></div><div class="house-floor floor-top"></div><div class="house-floor floor-middle"></div><div class="house-floor floor-bottom"></div></div><div class="tree tree-one"></div><div class="tree tree-two"></div><span class="palace-caption">YOUR OWN QUIET PLACE</span></div>
+      <p class="intro-footer">讓每一次回訪，都有熟悉的方向。</p>
+    </section>
+
+    <section class="entry" aria-labelledby="form-title">
+      <div class="entry-card">
+        <p class="eyebrow">你的私人莊園</p>
+        <h2 id="form-title">歡迎回來</h2>
+        <p class="form-description" id="form-description">登入帳號，接著收藏你的生活。</p>
+        <div class="mode-switch" role="group" aria-label="帳號操作">
+          <button type="button" id="login-mode" aria-pressed="true">登入</button>
+          <button type="button" id="register-mode" aria-pressed="false">建立帳號</button>
+        </div>
+        <form id="auth-form" aria-describedby="form-description form-message">
+          <label for="username">帳號名稱</label>
+          <input id="username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" minlength="3" maxlength="40" required pattern="[A-Za-z0-9][A-Za-z0-9_-]{2,39}" aria-describedby="username-help" placeholder="例如：my_palace">
+          <p class="field-help" id="username-help">3～40 個英文字母、數字、底線或連字號；不分大小寫。</p>
+          <div class="password-label"><label for="password">密碼</label><button type="button" class="show-password" id="show-password" aria-controls="password" aria-pressed="false">顯示密碼</button></div>
+          <input id="password" name="password" type="password" autocomplete="current-password" minlength="12" maxlength="128" required aria-describedby="password-help">
+          <p class="field-help" id="password-help">12～128 個字元，建議使用容易記住的長密語。</p>
+          <p id="register-note" class="register-note" hidden>請妥善保存帳號與密碼。目前尚未提供忘記密碼或帳號找回。</p>
+          <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+          <button type="submit" class="submit" id="submit-button"><span id="submit-text">進入莊園</span><span aria-hidden="true">↗</span></button>
+        </form>
+        <div class="privacy-note">
+          <span class="privacy-mark" aria-hidden="true">◇</span>
+          <div><strong>每個帳號，各自珍藏。</strong><p>你的雲端記憶僅自己的帳號可查看。這裡從空白開始，既有 Mac 本機資料不會自動上傳或同步。</p><p>AI 管家尚未接入，新的輸入會先保留為待處理內容。</p></div>
+        </div>
+      </div>
+      <footer>憶境莊園 <span aria-hidden="true">·</span> 讓回憶有家可回</footer>
+    </section>
+  </main>
+</body>
+</html>

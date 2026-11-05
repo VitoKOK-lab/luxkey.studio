@@ -11,3 +11,6 @@ config/ai.env
 runtime/
 .env
 dist/
+.wrangler/
+.dev.vars
+.dev.vars.*

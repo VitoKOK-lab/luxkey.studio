@@ -78,7 +78,13 @@ python3 scripts/package_template.py
 
 命令會建立 `dist/MemoryPalace-template.zip`，封裝允許清單內的程式與場景檔，不含私人資料庫或 API 金鑰。若想把目前外觀作為模板預設值，可加 `--include-design`；ZIP 可自行保存或放到 GitHub 分享。本專案已保存於 GitHub 的 `VitoKOK-lab/luxkey.studio/memory-palace`；GitHub 儲存不等於應用已部署到公開網站。
 
-更多資料邊界與未來多人路線見[模組與資料架構](docs/architecture.md)。目前沒有帳號登入；介面雖採響應式版面，本機服務仍只在這部 Mac 上使用。手機連線、登入與跨裝置同步尚未實作。
+更多資料邊界與未來多人路線見[模組與資料架構](docs/architecture.md)。Cloudflare 線上版已提供帳號登入與每帳號雲端保存；手機和電腦以同一帳號登入即可讀取。Mac 本機版仍獨立保存，不會自動上傳既有資料。
+
+## Cloudflare 線上版
+
+[開啟憶境莊園](https://luxkey-memory-palace.vitokok.workers.dev/) → 建立帳號。帳號使用 3～40 個英數字、底線或連字號，密碼 12～128 字元；目前未提供密碼重設，請妥善保存。
+
+線上記憶、對話收件匣及佈置存在 Cloudflare D1，依帳號隔離。既有 Mac 私人記憶不會自動遷移。AI Agent 尚未接入，提交內容會保留等待處理；尚未提供離線同步或裝置間即時推播。部署方式見 [Cloudflare 說明](cloudflare/README.md)。
 
 ## 建築與算圖圖庫
 
@@ -92,7 +98,7 @@ python3 scripts/package_template.py
 
 ## Agent 橋接
 
-可用你指定的本機 Agent 命令處理莊園對話；設定方式見 [Agent 協定](docs/agent-protocol.md)。CLI 與 MCP 另可供支援的客戶端連接本機資料庫，見 [Agent 橋接](docs/agent-bridge.md)。未自動修改全域 Agent 設定，也沒有雲端同步。外部客戶端是否實際連接，取決於各自設定。
+可用你指定的本機 Agent 命令處理莊園對話；設定方式見 [Agent 協定](docs/agent-protocol.md)。CLI 與 MCP 另可供支援的客戶端連接本機資料庫，見 [Agent 橋接](docs/agent-bridge.md)。未自動修改全域 Agent 設定；本機 Agent 尚未橋接至雲端版。外部客戶端是否實際連接，取決於各自設定。
 
 ## 場景與程式
 

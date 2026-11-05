@@ -1,0 +1,23 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cloudflare/workers-sdk/main/packages/wrangler/config-schema.json",
+  "name": "luxkey-memory-palace",
+  "main": "cloudflare/worker.js",
+  "account_id": "2a16f0429f04692cfca55961f11b656c",
+  "compatibility_date": "2026-04-01",
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": { "enabled": false },
+  "assets": {
+    "directory": "dist/cloudflare/public",
+    "binding": "ASSETS",
+    "html_handling": "none",
+    "not_found_handling": "none",
+    "run_worker_first": true
+  },
+  "d1_databases": [{
+    "binding": "DB",
+    "database_name": "luxkey-memory-palace",
+    "database_id": "632d3067-94b0-4337-8e36-db6ddbc5c114",
+    "migrations_dir": "cloudflare/migrations"
+  }]
+}
