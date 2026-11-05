@@ -1,6 +1,7 @@
 import { installChat } from './chat.js';
 import { installDecor } from './decor.js';
 import { installMeditation } from './meditation.js';
+import { CHARACTER_CATALOG } from './character-catalog.js';
 
 const $ = (id) => document.getElementById(id);
 const roomInfo = {
@@ -19,6 +20,39 @@ const districts = {
   observatory: ['遠景區', 'VEGA', '未來與計畫', '#91b6f9'],
   'quiet-room': ['靜心區', 'SOLA', '情緒與沉澱', '#d5cbf7'],
 };
+const characterSpecies = { hall: 'dog', library: 'owl', gallery: 'cat', garden: 'dog', observatory: 'owl', 'quiet-room': 'cat' };
+const characterPreferenceKey = 'memory-palace.character-appearance.v1';
+let characterPreferences = {};
+try { characterPreferences = JSON.parse(localStorage.getItem(characterPreferenceKey) || '{}'); } catch { characterPreferences = {}; }
+const characterSteward = $('character-steward');
+const characterModel = $('character-model');
+for (const [id, district] of Object.entries(districts)) characterSteward.add(new Option(`${district[1]} · ${district[0]}`, id));
+function refreshCharacterChoices() {
+  const id = characterSteward.value;
+  const available = CHARACTER_CATALOG.filter((entry) => ['any', 'human', characterSpecies[id]].includes(entry.species));
+  characterModel.replaceChildren(new Option('原本的機械夥伴', 'original'), ...available.map((entry) => new Option(entry.label, entry.id)));
+  characterModel.value = characterPreferences[id] || 'original';
+  if (!characterModel.value) characterModel.value = 'original';
+  showCharacterCredit();
+}
+function showCharacterCredit() {
+  const selected = CHARACTER_CATALOG.find((entry) => entry.id === characterModel.value);
+  $('character-credit').textContent = selected ? `${selected.creator} · ${selected.license} · 模型會保留作者署名。` : '由憶境莊園製作的原始管家模型。';
+}
+characterSteward.addEventListener('change', refreshCharacterChoices);
+characterModel.addEventListener('change', showCharacterCredit);
+$('character-open').addEventListener('click', () => { refreshCharacterChoices(); $('character-dialog').showModal(); });
+$('character-apply').addEventListener('click', async () => {
+  const id = characterSteward.value, appearance = characterModel.value;
+  $('character-apply').disabled = true;
+  $('character-status').textContent = '正在載入角色…';
+  const success = await estate?.setStewardAppearance(id, appearance);
+  $('character-apply').disabled = false;
+  if (!success) { $('character-status').textContent = '這個模型無法載入，已保留原本的管家。'; return; }
+  characterPreferences[id] = appearance;
+  try { localStorage.setItem(characterPreferenceKey, JSON.stringify(characterPreferences)); } catch { /* appearance remains active in this tab */ }
+  $('character-status').textContent = '外觀已套用。';
+});
 let rooms = Object.entries(roomInfo).map(([id, [name, floor, description, loci]]) => ({
   id, name, floor, description, loci: loci.map(([suffix, name]) => ({
     id: `${id === 'quiet-room' ? 'quiet' : id}-${suffix}`, name,
@@ -736,6 +770,10 @@ async function startEstate() {
       },
     });
     gatherButton.disabled = false;
+    $('character-open').disabled = false;
+    for (const [id, appearance] of Object.entries(characterPreferences)) {
+      if (Object.hasOwn(characterSpecies, id) && appearance !== 'original') estate.setStewardAppearance(id, appearance);
+    }
     if (lastStewardStatus) updateDispatch(lastStewardStatus);
     moveCamera(true);
     $('view-room').replaceChildren(...rooms.map((room) => new Option(room.name, room.id)));

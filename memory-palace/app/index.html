@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f1e5"><title>憶境莊園 · 你的記憶，有一個家</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/decor.css"><link rel="stylesheet" href="/navigation.css"><link rel="stylesheet" href="/style-controls.css"><link rel="stylesheet" href="/meditation.css"><script type="importmap">{"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}</script></head>
+<html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f6f1e5"><title>憶境莊園 · 你的記憶，有一個家</title><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="/decor.css"><link rel="stylesheet" href="/navigation.css"><link rel="stylesheet" href="/style-controls.css"><link rel="stylesheet" href="/meditation.css"><link rel="stylesheet" href="/characters.css"><script type="importmap">{"imports":{"three":"/vendor/three/build/three.module.js","three/addons/":"/vendor/three/examples/jsm/"}}</script></head>
 <body class="conversation-app">
 <div id="viewport" aria-label="可旋轉與縮放的三維記憶莊園"></div>
 <div id="loading" class="loading"><div class="loader-mark"></div><span>正在為你點亮莊園</span><small id="loading-status">載入三維空間</small></div>
@@ -19,6 +19,7 @@
   <select id="view-room" aria-label="進入房間"></select>
   <select id="view-steward" aria-label="選擇管家" hidden><option value="hall">NOA · 機械狗</option><option value="library">INDEX · 機械貓頭鷹</option><option value="gallery">MUSE · 機械貓</option><option value="garden">FERN · 機械狗</option><option value="observatory">VEGA · 機械貓頭鷹</option><option value="quiet-room">SOLA · 機械貓</option></select>
   <button id="talk-steward" type="button">和管家聊聊</button>
+  <button id="character-open" type="button" disabled>角色外觀</button>
   <div class="steward-actions" role="group" aria-label="管家活動">
     <button id="gather-stewards" type="button" disabled>集合到前庭</button>
     <button id="release-stewards" type="button" disabled>自由活動</button>
@@ -131,6 +132,15 @@
   <p class="dialog-intro">貼上對話或文字，或選擇一個 .txt、.md 或截圖。送出後原文會先保存在本機。AI 已連線時，管家就能讀取並安放可確認的記憶。</p>
   <label>對話或文字<textarea id="capture-text" rows="6" maxlength="100000" placeholder="在這裡貼上想整理的原文"></textarea></label>
   <div class="capture-actions"><button id="capture-browse" type="button" class="button ghost">選擇檔案</button><button id="capture-apply" type="button" class="button primary">附加到對話</button></div>
+</dialog>
+<dialog id="character-dialog" class="dialog character-dialog" aria-labelledby="character-heading">
+  <div class="dialog-heading"><div><div class="eyebrow">CHARACTERS</div><h2 id="character-heading">管家角色外觀</h2></div><button type="button" class="icon-button close-dialog" aria-label="關閉">×</button></div>
+  <p class="dialog-intro">選一位管家，再選他的外觀。原本的機械夥伴隨時可以切回。</p>
+  <label>管家<select id="character-steward"></select></label>
+  <label>外觀<select id="character-model"></select></label>
+  <p id="character-credit"></p>
+  <p id="character-status" role="status"></p>
+  <button id="character-apply" type="button" class="button primary">套用外觀</button>
 </dialog>
 <dialog id="style-dialog" class="dialog style-dialog" aria-labelledby="style-heading" aria-describedby="style-intro">
   <form id="style-form">

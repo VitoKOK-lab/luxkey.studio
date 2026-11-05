@@ -1,0 +1,7 @@
+.character-dialog { max-width: min(420px, calc(100vw - 28px)); }
+.character-dialog label { display: grid; gap: 7px; margin: 15px 0; color: var(--text); font-size: 12px; }
+.character-dialog select { min-height: 44px; padding: 8px 10px; border: 1px solid var(--line-control); border-radius: 6px; background: var(--surface); color: var(--text); }
+#character-credit { color: var(--muted); font-size: 11px; line-height: 1.6; min-height: 2.5em; }
+#character-status { color: var(--text); font-size: 11px; min-height: 1.5em; }
+#character-open { min-height: 44px; padding: 0 10px; border: 1px solid var(--line-control); border-radius: 6px; background: var(--panel); font-size: 12px; }
+#character-open:hover { background: var(--surface-green); }

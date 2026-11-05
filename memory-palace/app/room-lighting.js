@@ -151,7 +151,7 @@ function applyColor(light, fixture, style) {
   light.color.copy(fixture.color);
   if (fixture.role !== 'accent') return;
   if (style === 'scifi') light.color.lerp(COOL_ACCENT, 0.42);
-  if (style === 'cyberpunk') light.color.lerp(fixture.alternateAccent ? ROSE_ACCENT : CYAN_ACCENT, 0.54);
+  if (style === 'cyberpunk') light.color.lerp(fixture.alternateAccent ? ROSE_ACCENT : CYAN_ACCENT, 0.78);
 }
 
 function clearSlot(slot) {
@@ -210,7 +210,8 @@ function updatePool({ desired, slots, shadowSlot }, level, style, floor, viewMod
   }
   for (const slot of slots) {
     if (slot.fixture) slot.light.intensity = slot.fixture.intensity *
-      (FIXTURE_GAIN[slot.fixture.role] ?? 1) * slot.weight * level;
+      (FIXTURE_GAIN[slot.fixture.role] ?? 1) *
+      (style === 'cyberpunk' && slot.fixture.role === 'accent' ? 1.22 : 1) * slot.weight * level;
   }
 }
 

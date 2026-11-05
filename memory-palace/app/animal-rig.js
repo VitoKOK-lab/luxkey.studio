@@ -1,6 +1,8 @@
-import { MathUtils, Vector3, Group, Mesh, SphereGeometry, CylinderGeometry, MeshStandardMaterial } from 'three';
+import { MathUtils, Vector3, Group, Mesh, SphereGeometry, CylinderGeometry, MeshStandardMaterial, AnimationMixer, Box3 } from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { clone as cloneSkeleton } from 'three/addons/utils/SkeletonUtils.js';
 import { createStewardContactShadow, styleStewardModel } from './steward-appearance.js';
+import { characterById } from './character-catalog.js';
 
 const profiles = {
   dog: { stride: 1.45, swing: 0.48, bend: 0.60, lift: 0.023, phases: [0, Math.PI, Math.PI, 0] },
@@ -10,6 +12,7 @@ const profiles = {
 
 const loader = new GLTFLoader();
 const prototypes = new Map();
+const externalPrototypes = new Map();
 const variants = { noa: '/assets/quality/robot-noa.glb' };
 
 function loadPrototype(species, variant) {
@@ -77,6 +80,54 @@ export async function attachAnimalRig(group, { species, color, variant }, index)
   activityProps.add(brush, ball);
   group.add(activityProps);
   let activityBlend = 0;
+  const externalMount = new Group();
+  group.add(externalMount);
+  let external = null;
+  let appearanceVersion = 0;
+  async function setAppearance(id) {
+    const version = ++appearanceVersion;
+    const entry = characterById(id);
+    if (!entry || ![species, 'any', 'human'].includes(entry.species)) {
+      externalMount.clear();
+      external = null;
+      model.visible = true;
+      return !id || id === 'original';
+    }
+    if (!externalPrototypes.has(entry.url)) {
+      externalPrototypes.set(entry.url, loader.loadAsync(entry.url).catch((error) => {
+        externalPrototypes.delete(entry.url);
+        throw error;
+      }));
+    }
+    try {
+      const source = await externalPrototypes.get(entry.url);
+      if (version !== appearanceVersion) return false;
+      const scene = cloneSkeleton(source.scene);
+      const box = new Box3().setFromObject(scene);
+      const size = box.getSize(new Vector3());
+      if (!Number.isFinite(size.y) || size.y < 0.01) return false;
+      const targetHeight = entry.species === 'dog' ? 1.05 : 1.45;
+      const scale = targetHeight / size.y;
+      scene.scale.multiplyScalar(scale);
+      scene.position.set(-(box.min.x + box.max.x) * scale / 2,
+        -box.min.y * scale, -(box.min.z + box.max.z) * scale / 2);
+      const mixer = new AnimationMixer(scene);
+      const clips = Object.fromEntries(source.animations.map((clip) => [clip.name, clip]));
+      externalMount.clear();
+      externalMount.add(scene);
+      external = { mixer, clips, entry, action: null, name: null };
+      model.visible = false;
+      return true;
+    } catch (error) {
+      if (version === appearanceVersion) {
+        externalMount.clear();
+        external = null;
+        model.visible = true;
+      }
+      console.warn('Could not load character appearance:', entry.id, error);
+      return false;
+    }
+  }
   let previousY = group.position.y;
   let gait = 0, phase = 0, focusYaw = 0, focusPitch = 0;
   const rotate = (pivot, axis, angle) => {
@@ -85,7 +136,21 @@ export async function attachAnimalRig(group, { species, color, variant }, index)
 
   return {
     eyeOffset,
+    setAppearance,
     update(delta, clock, step, target, reduced, behavior = null) {
+      if (external) {
+        const { mixer, clips, entry } = external;
+        const requested = reduced ? 'idle' : step > 0.001 ? 'walk' : behavior === 'play' ? 'play' : behavior === 'clean' ? 'clean' : 'idle';
+        const name = entry.animation?.[requested] || entry.animation?.idle;
+        if (name !== external.name && clips[name]) {
+          const next = mixer.clipAction(clips[name]);
+          next.reset().fadeIn(0.25).play();
+          external.action?.fadeOut(0.25);
+          external.action = next;
+          external.name = name;
+        }
+        mixer.update(delta);
+      }
       // The route interpolates through steps, where a flat shadow can float above the treads.
       shadow.visible = Math.abs(group.position.y - previousY) <= step * 0.05;
       previousY = group.position.y;

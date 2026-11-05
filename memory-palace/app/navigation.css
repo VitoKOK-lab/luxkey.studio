@@ -114,3 +114,18 @@ body.decorating .perspective-bar{display:none}
 @media (prefers-reduced-motion: reduce) {
   .perspective-bar .steward-actions button{transition:none}
 }
+
+/* The night facade sits behind unboxed editorial copy. Keep that text legible
+   without laying a veil over the 3D architecture or changing light UI panels. */
+body:has(#viewport[data-render-style="cyberpunk"]) .welcome h1,
+body:has(#viewport[data-render-style="cyberpunk"]) .welcome p,
+body:has(#viewport[data-render-style="cyberpunk"]) .welcome .eyebrow,
+body:has(#viewport[data-render-style="cyberpunk"]) .scene-caption>strong {
+  color:#f4ecdf;
+}
+body:has(#viewport[data-render-style="cyberpunk"]) .welcome .eyebrow>span{background:#edc893}
+body:has(#viewport[data-render-style="cyberpunk"]) .room-nav .nav-title,
+body:has(#viewport[data-render-style="cyberpunk"]) .room-nav .nav-title span,
+body:has(#viewport[data-render-style="cyberpunk"]) .room-button:not(.active){color:#314239}
+body:has(#viewport[data-render-style="cyberpunk"]) .room-button:not(.active) .room-floor,
+body:has(#viewport[data-render-style="cyberpunk"]) .room-button:not(.active) .room-count{color:#677970}

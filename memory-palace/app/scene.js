@@ -9,6 +9,7 @@ import { createRenderStyle } from './render-style.js';
 import { createFollowCamera } from './follow-camera.js';
 import { createRoomLighting } from './room-lighting.js';
 import { loadHallQuality, prepareEstateModels, sliceEstateParts } from './quality-model.js';
+import { createNightWindows } from './night-windows.js';
 
 export async function createEstate({ viewport, tooltip, manifest, describe, activate, onSteward, onViewMode, onTalk, isObscured = () => false }) {
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -69,6 +70,7 @@ export async function createEstate({ viewport, tooltip, manifest, describe, acti
   const { renderModels, slices, occluders, hallInstalled } = prepareEstateModels(model, hallCandidate, anisotropy);
   viewport.dataset.hallQuality = hallInstalled ? 'detail' : 'standard';
   for (const renderModel of renderModels) renderStyle.registerModel(renderModel);
+  const nightWindows = createNightWindows(renderModels);
   scene.add(...renderModels);
   const roomLighting = createRoomLighting({ scene, manifest: lightingManifest, shadows: true });
   const furnishings = createFurnishings(scene, manifest);
@@ -370,6 +372,7 @@ export async function createEstate({ viewport, tooltip, manifest, describe, acti
   });
   function setRenderStyle(id) {
     if (!renderStyle.setStyle(id)) return false;
+    nightWindows.setStyle(id);
     roomLighting.setStyle(id);
     return true;
   }
@@ -379,6 +382,7 @@ export async function createEstate({ viewport, tooltip, manifest, describe, acti
     getViewMode: () => viewMode,
     enterRoom: (roomId, locusId) => setViewMode('human', { roomId, locusId }),
     dispatchTo: stewards.dispatchTo,
+    setStewardAppearance: (id, appearance) => stewards.setAppearance(id, appearance),
     gatherStewards() {
       const target = viewMode === 'human' ? [camera.position.x, camera.position.y - 1.6, camera.position.z] : undefined;
       return stewards.gatherAll(target);

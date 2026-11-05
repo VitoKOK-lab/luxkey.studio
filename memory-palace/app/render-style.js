@@ -36,9 +36,11 @@ const LOOKS = {
     background: '#bcbcbc',
   },
   cyberpunk: {
-    key: 0xf5ede2, keyIntensity: 1.02, rim: 0xa6ccfa, rimIntensity: 0.46,
-    sky: 0xc8d5ec, ground: 0x77828f, fill: 0.48, environment: 0.36, exposure: 0.85, interiorExposure: 0.72,
-    background: '#344052',
+    // A cool sky and warm architectural key reveal the silhouette, while the
+    // authored fixtures supply the color and pools of light inside the estate.
+    key: 0xffdfb4, keyIntensity: 0.82, rim: 0x8fb7ed, rimIntensity: 0.57,
+    sky: 0x8299b4, ground: 0x334058, fill: 0.34, environment: 0.25, exposure: 0.81, interiorExposure: 0.72,
+    background: '#171d2d',
   },
   film: {
     effect: 2, key: 0xffe8c5, keyIntensity: 1.42, rim: 0xf5e8d5, rimIntensity: 0.34,

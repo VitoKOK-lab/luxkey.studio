@@ -364,6 +364,12 @@ export function createStewards(scene, manifest, onUpdate, reduced, options = {})
   return {
     ready,
     dispatchTo,
+    async setAppearance(id, appearance) {
+      const bot = bots.find((item) => item.id === id);
+      if (!bot) return false;
+      await ready;
+      return bot.rig.setAppearance(appearance);
+    },
     gatherAll(target) {
       if (target !== undefined && (!Array.isArray(target) || target.length !== 3 || !target.every(Number.isFinite))) return false;
       const point = Array.isArray(target) && target.length === 3 && target.every(Number.isFinite) ? asVector(target) : null;

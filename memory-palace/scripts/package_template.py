@@ -34,6 +34,8 @@ ASSET_FILES = {
     'stewards/robot-dog.glb', 'stewards/robot-cat.glb', 'stewards/robot-owl.glb',
     'stewards/robot-animals.blend', 'stewards/robot-animals-preview.png',
     'stewards/live-preview.jpg',
+    'characters/quaternius-shiba.glb', 'characters/robot-expressive.glb',
+    'characters/quaternius-license.txt', 'characters/robot-expressive-license.txt',
     'quality/hall-quality.blend', 'quality/hall-quality.glb',
     'quality/robot-noa.blend', 'quality/robot-noa.glb',
     'quality/hall-live.jpg', 'quality/noa-live.jpg',
