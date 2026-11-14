@@ -19,7 +19,15 @@ function login() {
   location.replace('/login');
 }
 
+function guest() {
+  sessionStatus.textContent = '訪客參觀 · 私人記憶需登入';
+  logout.textContent = '登入';
+  logout.disabled = false;
+  logout.setAttribute('aria-label', '登入雲端私人空間');
+}
+
 logout.addEventListener('click', async () => {
+  if (logout.textContent === '登入') { login(); return; }
   logout.disabled = true;
   try {
     const response = await fetch('/auth/logout', {
@@ -37,13 +45,13 @@ logout.addEventListener('click', async () => {
 try {
   const response = await fetch('/auth/session', { credentials: 'same-origin', cache: 'no-store' });
   if (response.status === 401) {
-    login();
+    guest();
   } else {
     if (!response.ok) throw new Error('暫時無法讀取登入狀態。');
     const session = await response.json();
     const user = session.user;
     if (!user) {
-      login();
+      guest();
     } else {
       sessionStatus.textContent = user.username || user.name || user.email || '私人帳戶';
       sessionStatus.title = sessionStatus.textContent;

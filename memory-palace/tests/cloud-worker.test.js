@@ -7,14 +7,14 @@ import {createWorker} from '../cloudflare/worker.js';
 const request=(path,options={})=>new Request('https://palace.example'+path,options);
 const assets={fetch:async req=>new Response(new URL(req.url).pathname)};
 
-test('private pages and API fail closed while shared world assets remain public',async()=>{
+test('public estate tour opens directly while private API stays closed',async()=>{
   let apiCalls=0;
   const worker=createWorker({userFor:async()=>null,api:async()=>{apiCalls++;return new Response('private');}});
   const env={ASSETS:assets};
   for(const path of ['/','/index.html','/renders.html']) {
     const r=await worker.fetch(request(path),env);
-    assert.equal(r.status,302);assert.equal(r.headers.get('Location'),'/login');
-    assert.equal(r.headers.get('Cache-Control'),'no-store');
+    assert.equal(r.status,200);
+    assert.equal(await r.text(),path==='/'?'/index.html':path);
   }
   assert.equal((await worker.fetch(request('/api/export'),env)).status,401);
   assert.equal(apiCalls,0);

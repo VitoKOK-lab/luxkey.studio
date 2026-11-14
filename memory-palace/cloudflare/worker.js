@@ -1,7 +1,7 @@
 import { getUser, handleAuth } from './auth.js';
 import { handleApi } from './api.js';
 
-const privatePages = new Set(['/', '/index.html', '/renders.html']);
+const publicPages = new Set(['/', '/index.html', '/renders.html']);
 const safeMethods = new Set(['GET', 'HEAD']);
 const policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' blob:; font-src 'self'; media-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'";
 const json = (error, status) => new Response(JSON.stringify({error}), {
@@ -47,27 +47,24 @@ export function createWorker({userFor=getUser, auth=handleAuth, api=handleApi}={
     const path=url.pathname;
     const isApi=path==='/api' || path.startsWith('/api/');
     const isAuth=path==='/auth' || path.startsWith('/auth/') && !['/auth/login.js','/auth/login.css'].includes(path);
-    const sensitive=isApi || isAuth || privatePages.has(path) || ['/login','/login.html'].includes(path);
+    const sensitive=isApi || isAuth || ['/login','/login.html'].includes(path);
     try {
       let response;
       if ((isApi || isAuth) && !originAllowed(request)) return secured(json('請從憶境莊園頁面操作。',403),true);
       if (isAuth) response=await auth(request,env);
-      else if (isApi || privatePages.has(path)) {
+      else if (isApi) {
         const user=await userFor(request,env);
-        if (!user) response=isApi ? json('請先登入你的記憶莊園。',401) : new Response(null,{status:302,headers:{Location:'/login'}});
-        else if (isApi) {
+        if (!user) response=json('請登入後使用私人記憶。',401);
+        else {
           if (!safeMethods.has(request.method) && !await writeAllowed(env.DB,user.id)) {
             response=json('操作較頻繁，請稍候一分鐘再試。',429);
             response.headers.set('Retry-After','60');
           } else response=await api(request,env,user);
-        } else if (!safeMethods.has(request.method)) response=json('不支援這個操作。',405);
-        else {
-          if (path==='/') url.pathname='/index.html';
-          response=await env.ASSETS.fetch(new Request(url,request));
         }
       } else if (!safeMethods.has(request.method)) response=json('不支援這個操作。',405);
       else {
         if (path==='/login') url.pathname='/login.html';
+        if (publicPages.has(path) && path==='/') url.pathname='/index.html';
         response=await env.ASSETS.fetch(new Request(url,request));
       }
       return secured(response,sensitive);
