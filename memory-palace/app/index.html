@@ -13,8 +13,9 @@
     <button id="meditate-open" class="button ghost" aria-label="靜心模式"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.2A8.4 8.4 0 0 1 9.8 4 8.4 8.4 0 1 0 20 14.2Z"/></svg><span>靜心模式</span></button>
     <button id="route-open" class="button ghost" aria-label="熟悉路線"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.5 6H16a3 3 0 0 1 0 6H8a3 3 0 0 0 0 6h7.5"/></svg><span>熟悉路線</span></button>
   </div>
+  <div class="mobile-scene-actions"><button id="mobile-tools-toggle" type="button" aria-expanded="false" aria-controls="mobile-scene-menu">操作</button><button id="mobile-chat-toggle" type="button" aria-expanded="false" aria-controls="butler-panel">管家</button></div>
 </header>
-<section class="perspective-bar" aria-label="進入莊園">
+<section class="perspective-bar" id="mobile-scene-menu" aria-label="進入莊園">
   <select id="view-mode" aria-label="觀看視角"><option value="overview">莊園總覽</option><option value="human">我自己 · 第一視角</option><option value="third">看著管家 · 第三視角</option><option value="steward">管家的眼睛</option></select>
   <select id="view-room" aria-label="進入房間"></select>
   <select id="view-steward" aria-label="選擇管家" hidden><option value="hall">NOA · 機械狗</option><option value="library">INDEX · 機械貓頭鷹</option><option value="gallery">MUSE · 機械貓</option><option value="garden">FERN · 機械狗</option><option value="observatory">VEGA · 機械貓頭鷹</option><option value="quiet-room">SOLA · 機械貓</option></select>
@@ -33,7 +34,7 @@
 <div class="scene-caption"><span class="caption-line"></span><div><strong id="current-room">莊園全景</strong><span id="current-room-desc">三層生活空間 · 玻璃與光的記憶容器</span></div></div>
 <div class="scene-controls" aria-label="視角控制"><button id="overview" class="control active" title="回到全景"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 12l9 5 9-5M3 16l9 5 9-5"/></svg><span>全景</span></button><span class="control-divider"></span><button class="control floor" data-floor="0">1F</button><button class="control floor" data-floor="1">2F</button><button class="control floor" data-floor="2">3F</button><span class="control-divider"></span><button id="cutaway" class="control" aria-pressed="false">剖面</button></div>
 <p id="scene-hint" class="gesture-hint">拖曳旋轉 · 滾輪縮放 · 點選亮點探索地標</p>
-<aside class="butler-panel" aria-label="記憶管家">
+<aside class="butler-panel" id="butler-panel" aria-label="記憶管家">
   <div class="butler-head"><div class="dog-avatar"><svg viewBox="0 0 64 64" fill="none" aria-hidden="true"><path d="m15 22-6-9 2 23 9 7h25l8-8 1-22-7 9" fill="#dfebe7"/><path d="M17 21h29l5 16-10 12H24L13 37Z" fill="#d0dedb"/><rect x="19" y="27" width="26" height="12" rx="5" fill="#182b31"/><path d="M24 33h4m9 0h4" stroke="#7ee3d5" stroke-width="3" stroke-linecap="round"/><path d="m29 43 3 2 3-2" stroke="#52636a" stroke-width="2"/></svg><i></i></div><div><h2>NOA <span>記憶管家</span></h2><p id="provider-status" role="status">檢查 AI 連線中…</p></div><button id="panel-toggle" class="icon-button" aria-controls="butler-body" aria-label="收起或展開管家" aria-expanded="true">−</button></div>
   <div class="butler-body" id="butler-body">
     <nav class="butler-tabs" aria-label="管家介面">

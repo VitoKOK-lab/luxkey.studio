@@ -815,6 +815,34 @@ mobileRooms.id = 'mobile-rooms-toggle';
 mobileRooms.setAttribute('aria-controls', 'room-list');
 mobileRooms.setAttribute('aria-expanded', 'false');
 document.querySelector('.scene-controls').prepend(mobileRooms);
+const mobileToolsToggle = $('mobile-tools-toggle');
+const mobileChatToggle = $('mobile-chat-toggle');
+function closeMobileTools() {
+  document.body.classList.remove('mobile-tools-open');
+  mobileToolsToggle.setAttribute('aria-expanded', 'false');
+}
+mobileToolsToggle.addEventListener('click', () => {
+  const open = document.body.classList.toggle('mobile-tools-open');
+  mobileToolsToggle.setAttribute('aria-expanded', String(open));
+  document.body.classList.remove('mobile-chat-open');
+  mobileChatToggle.setAttribute('aria-expanded', 'false');
+});
+mobileChatToggle.addEventListener('click', () => {
+  const open = document.body.classList.toggle('mobile-chat-open');
+  mobileChatToggle.setAttribute('aria-expanded', String(open));
+  closeMobileTools();
+  if (open) {
+    document.querySelector('.butler-panel').classList.remove('collapsed');
+    $('panel-toggle').setAttribute('aria-expanded', 'true');
+    $('panel-toggle').textContent = '−';
+  }
+});
+for (const id of ['view-mode', 'view-room', 'view-steward']) {
+  $(id).addEventListener('change', closeMobileTools);
+}
+document.querySelector('.perspective-bar').addEventListener('click', (event) => {
+  if (event.target.closest('button')) closeMobileTools();
+});
 updateClock();
 setInterval(updateClock, 15000);
 syncVault();

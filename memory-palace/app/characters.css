@@ -5,3 +5,21 @@
 #character-status { color: var(--text); font-size: 11px; min-height: 1.5em; }
 #character-open { min-height: 44px; padding: 0 10px; border: 1px solid var(--line-control); border-radius: 6px; background: var(--panel); font-size: 12px; }
 #character-open:hover { background: var(--surface-green); }
+.mobile-scene-actions{display:none}
+@media(max-width:900px){
+  .conversation-app .topbar{height:58px;padding:0 12px;gap:8px;background:var(--panel)}
+  .conversation-app .topbar .brand{flex:1;overflow:hidden}
+  .conversation-app .topbar .brand>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .conversation-app .top-actions{display:none;position:fixed;top:65px;left:12px;right:12px;z-index:12;padding:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 28px var(--shadow-strong);flex-wrap:wrap;justify-content:center}
+  .conversation-app.mobile-tools-open .top-actions{display:flex}
+  .mobile-scene-actions{display:flex;gap:6px;flex-shrink:0}
+  .mobile-scene-actions button{min-width:48px;min-height:44px;padding:0 10px;border:1px solid var(--line-control);border-radius:8px;background:var(--panel);font-size:12px}
+  .mobile-scene-actions button[aria-expanded="true"]{background:var(--surface-green);border-color:var(--accent)}
+  .conversation-app .perspective-bar,.conversation-app .scene-controls,.conversation-app .butler-panel,.conversation-app .dispatch-hud{display:none}
+  .conversation-app.mobile-tools-open .perspective-bar{display:flex;top:122px;left:12px;right:12px;max-width:none;max-height:min(58dvh,430px);overflow-y:auto;padding:10px;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 12px 28px var(--shadow-strong)}
+  .conversation-app.mobile-tools-open .scene-controls{display:flex;left:12px;right:12px;bottom:12px;transform:none;justify-content:center;width:auto}
+  .conversation-app.mobile-chat-open .butler-panel{display:flex;top:auto;left:12px;right:12px;bottom:12px;width:auto;height:min(55dvh,460px);min-height:0;max-height:none}
+  .conversation-app.mobile-chat-open .butler-panel.collapsed{height:auto}
+  .conversation-app.mobile-chat-open .dispatch-hud{display:block;bottom:calc(min(55dvh,460px) + 20px)}
+  .conversation-app .welcome,.conversation-app .room-nav,.conversation-app .scene-caption,.conversation-app .gesture-hint{display:none}
+}
